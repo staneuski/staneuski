@@ -1,0 +1,6 @@
+ENTRY "$WRKDIR" URL "/m/work/t212/unix/work/stashes1"
+ENTRY "triton:$WRKDIR" URL "/sftp://triton.aalto.fi/scratch/work/stashes1"
+ENTRY "taltta:~/" URL "/tmp/sftp://taltta/m/home/home4/42/stashes1/unix"
+ENTRY "taltta:$WRKDIR" URL "/sftp://taltta/m/work/t212/unix/work/stashes1"
+ENTRY "diesel:~/" URL "/sftp:/sh://diesel/home/stashes1"
+ENTRY "vera1:~/" URL "/tmp/sh://vera1/sh://vera1/cephyr/users/stasta/Vera"
