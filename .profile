@@ -16,7 +16,7 @@ alias lra='ls -ltrha'
 alias np='nano PKGBUILD'
 alias rm='rm -i'
 alias sudoenv='sudo env PATH=$PATH'
-alias tmuxkillall="tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I{} tmux kill-session -t {}"
+alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 alias vdir='vdir --color=auto'
 
 if [[ $TERM == xterm-kitty ]]; then
