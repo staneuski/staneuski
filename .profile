@@ -1,62 +1,16 @@
-# Profile for both shells (as for bash and for zsh)
+# Profile for bash and zsh
 
-alias :q='exit'
-# alias bat='bat --theme=GitHub'  # requires bat
-alias conf-git='/usr/bin/git --git-dir=$HOME/.local/etc/conf-git --work-tree=$HOME'
-alias cp='cp -i'
-alias dir='dir --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep --color=auto'
-alias l='ls -Ca'
-alias la='ls -A -F'
-alias ll='ls -alFh'
-alias lr='ls -ltrh'
-alias lra='ls -ltrha'
-alias np='nano PKGBUILD'
-alias rm='rm -i'
-alias sudoenv='sudo env PATH=$PATH'
-alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
-alias vdir='vdir --color=auto'
-
-if [[ $TERM == xterm-kitty ]]; then
-  alias ssh='kitty +kitten ssh'
-fi
-
-if [[ $(uname) == "Darwin" ]]; then
-  alias ls='ls -G'
-  alias rsync='rsync --exclude=.DS_Store'
-
-  alias mdls-pdf='mdls -name kMDItemTitle \
-                       -name kMDItemAuthors \
-                       -name kMDItemDescription \
-                       -name kMDItemCreator \
-                       -name kMDItemKeywords'
-  alias sstp-flat392='sudo /usr/local/sbin/sstpc flat392.keenetic.link \
-                      --user=stas --password=9652918444 \
-                      --log-level 4 --log-stderr --cert-warn --tls-ext \
-                      usepeerdns require-mschap-v2 noauth noipdefault defaultroute refuse-eap noccp'
-elif [[ $(uname) == "Linux" ]]; then
-  alias ls='ls --group-directories-first --color=auto'
-  alias open='xdg-open &>/dev/null'
-  alias xsetkeyr='xset r rate 182 42'
-
-  export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
-
-  export PATH="$PATH:$HOME/.local/bin"
-fi
-
-safeSource () {
-  if [ -f $1 ]; then
-    . $1
-  fi
+# ----- functions ---------------------
+function append_pathenv() {
+  [[ -d $1 ]] && PATH="${PATH}:${1}"
 }
-
-safeSource $HOME/.local/prefs.sh
+function include() {
+  [[ -f $1 ]] && source $1
+}
 
 # un - archive extractor
 # usage: un <file>
-un () {
+function un () {
   if [ -f $1 ]; then
     case $1 in
       *.7z)        7z x $1      ;;
@@ -72,37 +26,59 @@ un () {
       *.txz)       tar xJf $1   ;;
       *.Z)         uncompress $1;;
       *.zip)       unzip $1     ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
+      *)           echo "'$1' cannot be extracted via un()" ;;
     esac
   else
     echo "'$1' is not a valid file"
   fi
 }
 
-# Move file or directory with creating a full path (if not exists)
-# usage: mkmv <source> <target>
-function mkmv () {
-  dir="$2" # Include a / at the end to indicate directory (not filename)
-  tmp="$2"; tmp="${tmp: -1}"
-  [ "$tmp" != "/" ] && dir="$(dirname "$2")"
-  [ -a "$dir" ] || mkdir -p "$dir" && mv "$@"
-}
 
-function truegrad () {
-  # Published: https://github.com/termstandard/colors
+# ----- exports -----------------------
+append_pathenv $HOME/.bin
+append_pathenv $HOME/.local/bin
 
-  awk 'BEGIN{
-    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;
-    for (colnum = 0; colnum<77; colnum++) {
-      r = 255-(colnum*255/76);
-      g = (colnum*510/76);
-      b = (colnum*255/76);
-      if (g>255) g = 510-g;
-      printf "\033[48;2;%d;%d;%dm", r,g,b;
-      printf "\033[38;2;%d;%d;%dm", 255-r,255-g,255-b;
-      printf "%s\033[0m", substr(s,colnum+1,1);
-    }
-    printf "\n";
-  }'
-}
+[[ $(uname) == "Linux" ]] && \
+export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"' # set terminal tab title
 
+export PATH
+
+
+# ----- aliases -----------------------
+alias :q="exit"
+alias conf-git="/usr/bin/git --git-dir=${HOME}/.local/etc/conf-git --work-tree=${HOME}"
+alias cp="cp -i"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias grep="grep --color=auto"
+alias l="ls -Ca"
+alias la="ls -A -F"
+alias ll="ls -alFh"
+alias lr="ls -ltrh"
+alias lra="ls -ltrha"
+alias np="nano PKGBUILD"
+alias rm="rm -i"
+
+if [[ $TERM == xterm-kitty ]]; then
+  alias ssh="kitty +kitten ssh"
+fi
+
+if [[ $(uname) == "Linux" ]]; then
+  alias bat="bat --style='grid,numbers,header'"
+  alias dir="dir --color=auto"
+  alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
+  alias sudoenv="sudo env PATH=${PATH}"
+  alias vdir="vdir --color=auto"
+
+elif [[ $(uname) == "Darwin" ]]; then
+  alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
+  alias ls="ls -G"
+  alias rsync="rsync --exclude=.DS_Store"
+  alias mdls-pdf="mdls -name kMDItemTitle \
+                       -name kMDItemAuthors \
+                       -name kMDItemDescription \
+                       -name kMDItemCreator \
+                       -name kMDItemKeywords"
+fi
+
+include $HOME/.local/prefs.sh # source machine specific settings
