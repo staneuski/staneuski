@@ -1,6 +1,6 @@
 # bash specific settings
 
-include $HOME/.profile
+. $HOME/.profile
 include $HOME/.bash_powerline
 
 # enable color support of ls and also add handy aliases

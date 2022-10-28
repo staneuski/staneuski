@@ -1,6 +1,6 @@
 # zsh specific settings
 
-include $HOME/.profile
+. $HOME/.profile
 include $HOME/.zsh_powerline
 
 
