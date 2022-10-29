@@ -2,15 +2,19 @@
 
 # ----- functions ---------------------
 function append_pathenv() {
-  [[ -d $1 ]] && PATH="${PATH}:${1}"
+  if [ -d $1 ]; then
+    PATH="${PATH}:${1}"
+  fi
 }
 function include() {
-  [[ -f $1 ]] && source $1
+  if [ -f $1 ]; then
+    source $1
+  fi
 }
 
 # un - archive extractor
 # usage: un <file>
-function un () {
+function un() {
   if [ -f $1 ]; then
     case $1 in
       *.7z)        7z x $1      ;;
@@ -33,6 +37,10 @@ function un () {
   fi
 }
 
+function swap() {
+    local tmp_file=/tmp/$$.tmp
+    mv "${1}" $tmp_file && mv "${2}" "${1}" && mv $tmp_file "${2}"
+}
 
 # ----- exports -----------------------
 append_pathenv $HOME/.bin
