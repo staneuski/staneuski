@@ -84,9 +84,11 @@ editor_stop_format_chars=-+*\\,.;:&>
 mcview_eof=
 skin=modarin256-defbg
 
+shadows=true
+
 [Layout]
 output_lines=0
-left_panel_size=73
+left_panel_size=58
 top_panel_size=21
 message_visible=false
 keybar_visible=true
