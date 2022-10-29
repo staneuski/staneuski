@@ -1,6 +1,7 @@
-# Maari computers specific settings
+# vim:fileencoding=utf-8:foldmethod=marker
+# Triton cluster (RedHad OS) specific settings
 
-# ----- functions ---------------------
+#: Functions {{{
 function of () {
   if [ -z ${2+x} ]; then
     module load openfoam-org/$1-openmpi-metis
@@ -18,9 +19,4 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 }
-
-
-# ----- exports -----------------------
-
-
-# ----- aliases -----------------------
+#: }}}

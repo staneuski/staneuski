@@ -1,3 +1,4 @@
+": Vim Plug {{{
 call plug#begin('~/.vim/plugged')
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -6,14 +7,33 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-Plug 'doums/darcula'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'rakr/vim-one'
-Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+" Plug 'itchyny/lightline.vim'
+
+": Syntax {{{
+" Plug 'vim-python/python-syntax'
+Plug 'suan/vim-instant-markdown', {'rtp': 'after'} " Markdown preview
+Plug 'luochen1990/rainbow' " rainbow brackets
 Plug 'lervag/vim-foam'
+": }}}
 
+": Colors {{{
+" Plug 'doums/darcula'
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'rakr/vim-one'
+" Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+": }}}"
 call plug#end()
+": }}}
 
+
+": General {{{
+autocmd VimResized * wincmd = " auto resize
+
+set cmdheight=2 
+set clipboard=unnamedplus " copy/paste between vim and other programs
+set number " show line numbers
+
+": Reproduce neovim settings
 if !has('nvim')
   set autoindent
   set autoread
@@ -31,33 +51,58 @@ if !has('nvim')
   set mouse=a
   set nrformats=hex
   set sessionoptions-=options
-  set smarttab
   set tabpagemax=50
   set tags=./tags;,tags
   set ttyfast
   set viminfo+=!
   set wildmenu
 endif
- 
+": }}}
+
+
+": netrw {{{
+let g:netrw_altv=1
+let g:netrw_banner=0 " hide the banner - `I` to show inside Netrw 
+let g:netrw_liststyle=3
+let g:netrw_keepdir=0 " https://groups.google.com/g/vim_use/c/6yqU3RX2CWA
+": }}}
+
+
+": Design {{{
+set t_Co=256 " support 256 colors
 " execute 'colorscheme ' . (6 < strftime("%H") && strftime("%H") < 19 ? 'one' : 'darcula')
 colorscheme one
+" let g:lightline = {'colorscheme': 'one'}
 
-autocmd BufNewFile,BufRead *.pvsm set syntax=xml
+": Syntax mappings {{{
+": OpenFOAM
 autocmd BufNewFile,BufRead *.orig,*Dict,*Properties,*Fn,fv* set syntax=cpp
-autocmd VimResized * wincmd =
+autocmd BufNewFile,BufRead *.pvsm* set syntax=xml
+": }}}
+": }}}
 
-set cmdheight=2 
-set nu
-set expandtab
-set tabstop=4
+
+": Text, tab & indent {{{
 set cursorline
+set expandtab " use spaces
+set smarttab
+set shiftwidth=4
+set tabstop=4
+": }}}
+
+
+": Customisations {{{
+": Commands {{{
 if v:version > 800
   " set termwinsize=10x0
   command Bterm botright terminal
   command Tterm tab terminal
 endif
+": }}}
 
-let g:netrw_altv=1
-let g:netrw_banner=0 " hide the banner - `I` to show inside Netrw 
-let g:netrw_liststyle=3
-let g:netrw_keepdir=0 " https://groups.google.com/g/vim_use/c/6yqU3RX2CWA
+": Mappings {{{
+" Change 2 split windows from vert to horiz or horiz to vert
+map <Leader>th <C-w>t<C-w>H
+map <Leader>tk <C-w>t<C-w>K
+": }}}
+": }}}

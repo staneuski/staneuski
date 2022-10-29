@@ -1,8 +1,9 @@
-# t21202-lr017 machine specific settings
+# vim:fileencoding=utf-8:foldmethod=marker
+# t21202-lr017 machine (Aalto Linux) specific settings
 
 include /l/GTI/gtenv.sh
 
-# ----- functions ---------------------
+#: Functions {{{
 function of () {
   if [ -f /opt/openfoam$1/etc/bashrc ] && [ -z ${2+x} ]; then
     . /opt/openfoam$1/etc/bashrc
@@ -23,9 +24,6 @@ function of () {
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 }
 
-
-# ----- exports -----------------------
+#: Exports {{{
 export WRKDIR=/m/work/t212/unix/work/$USER
-
-
-# ----- aliases -----------------------
+#: }}}

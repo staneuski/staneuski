@@ -1,8 +1,7 @@
-# duke machinei (macOS) specific settings 
+# vim:fileencoding=utf-8:foldmethod=marker
+# Duke machine (macOS) specific settings 
 
-WRKDIR=${HOME}/Developer
-
-# ----- functions ---------------------
+#: Functions {{{
 function of () {
   # if [ $1 -eq 2112 ]; then
   #   /Applications/OpenFOAM-v2112.app/Contents/MacOS/openfoam; exit;
@@ -19,10 +18,18 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 }
+#: }}}
 
-
-# ----- exports -----------------------
+#: Exports {{{
 export WRKDIR=$HOME/Developer
+#: }}}
 
-
-# ----- aliases -----------------------
+#: Aliases {{{
+alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
+alias rsync="rsync --exclude=.DS_Store"
+alias mdls-pdf="mdls -name kMDItemTitle \
+                     -name kMDItemAuthors \
+                     -name kMDItemDescription \
+                     -name kMDItemCreator \
+                     -name kMDItemKeywords"
+#: }}}

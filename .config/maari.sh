@@ -1,6 +1,7 @@
-# Maari computers specific settings
+# vim:fileencoding=utf-8:foldmethod=marker
+# Maari computers (Aalto Linux) specific settings
 
-# ----- functions ---------------------
+#: Functions {{{
 function of () {
   if [ $1 == "1906" ] && [ -z ${2+x} ]; then
     module load triton-modules/1.0 openfoam/$1-openmpi-metis
@@ -19,10 +20,8 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 }
+#: }}}
 
-
-# ----- exports -----------------------
+#: Exports {{{
 export WRKDIR=/m/work/t212/unix/work/$USER
-
-
-# ----- aliases -----------------------
+#: }}}
