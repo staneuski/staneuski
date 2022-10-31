@@ -70,9 +70,9 @@ alias fgrep="fgrep --color=auto"
 
 #: Aliases by availiable commands {{{
 #: bat
-[[ $(command -v batcat > /dev/null) ]] && \
+command -v batcat > /dev/null && \
 alias bat="batcat"
-if [[ $(command -v bat > /dev/null) ]]; then
+if command -v bat > /dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'" # use bat as manpager
   if [[ $(uname) == "Linux" ]]; then # v0.12.1 (@ Ubuntu 20.04) returns an error in a git repo
     alias bat="bat --style='grid,numbers,header'"
