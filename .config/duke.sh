@@ -18,6 +18,7 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 }
+of dev Debug &> /dev/null
 #: }}}
 
 #: Exports {{{

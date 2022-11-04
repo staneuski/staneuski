@@ -23,6 +23,8 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 }
+of dev Debug &> /dev/null
+#: }}}
 
 #: Exports {{{
 export WRKDIR=/m/work/t212/unix/work/$USER
