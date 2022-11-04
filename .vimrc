@@ -17,10 +17,8 @@ Plug 'lervag/vim-foam'
 ": }}}
 
 ": Colors {{{
-" Plug 'doums/darcula'
-" Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'doums/darcula'
 Plug 'rakr/vim-one'
-" Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
 ": }}}"
 call plug#end()
 ": }}}
