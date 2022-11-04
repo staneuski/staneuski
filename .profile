@@ -79,7 +79,6 @@ if command -v bat > /dev/null; then
   elif [[ $(uname) == "Darwin" ]]; then # Switch between Dark and Light mode on macOS https://github.com/sharkdp/bat#dark-mode
     alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
   fi
-  alias cat="bat"
 fi
 
 #: exa
