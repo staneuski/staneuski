@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# case <allrun> <env>
+
+allrun=$(realpath $1)
+env=$2
+partition=$3
+nodes=$4
+
+function getLatestTime () {
+    local casedir=$1
+
+    [[ -d $casedir/processor0 ]] && \
+        latest_time=$(foamListTimes -case $casedir -processor -latestTime) || \
+        latest_time=$(foamListTimes -case $casedir -latestTime)
+
+    [[ ${latest_time} ]] || latest_time=$(foamListTimes -case $casedir -latestTime -withZero)
+
+    echo $latest_time
+}
+
+casedir=$(dirname $allrun)
+suffix=.${casedir#*.}
+solver=$(foamDictionary -entry application -value $casedir/system/controlDict)
+
+ntasks=$(foamDictionary $casedir/system/decomposeParDict -entry numberOfSubdomains -value)
+starttime=$(getLatestTime $casedir)
+
+header="#SBATCH --ntasks=${ntasks}\n#SBATCH --output=log.slurm\n#SBATCH --open-mode=append\n#SBATCH --mail-user=stanislau.stasheuski@aalto.fi\n#SBATCH --mail-type=FAIL,END\n#SBATCH --job-name=\"${suffix}:${solver}\"\n#SBATCH --chdir=${casedir}\n"
+modules="\nif [ X\$SLURM_STEP_ID = X -a X\$SLURM_PROCID = X0 ]; then\n    printf \"=======================================\nSLURM_JOB_ID         = \$SLURM_JOB_ID\nSLURM_JOB_NAME       = \$SLURM_JOB_NAME\nSLURM_NTASKS         = \$SLURM_NTASKS\nSLURM_TASKS_PER_NODE = \$SLURM_TASKS_PER_NODE\nSLURM_JOB_NUM_NODES  = \$SLURM_JOB_NUM_NODES\nSLURM_JOB_NODELIST   = \$SLURM_JOB_NODELIST\nSLURM_MEM_PER_NODE   = \$SLURM_MEM_PER_NODE\nSLURM_CPUS_PER_TASK  = \$SLURM_CPUS_PER_TASK\nSLURM_MEM_PER_CPU    = \$SLURM_MEM_PER_CPU\nSLURM_SUBMIT_DIR     = \$SLURM_SUBMIT_DIR\n=======================================\n\nLoading modules\n\"\n    module purge\n\n    module list\n\n    echo \"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"\nfi\n"
+
+sed "s|#!/bin/sh|#!/bin/bash|g;s!cd \${0%/\*} || exit 1!$header$modules!g" $allrun > $casedir/Allslurm && \
+sed -i "/RunFunctions/a . \${HOME}/.OpenFOAM/srunParallel" $casedir/Allslurm && \
+sed -i "/module purge/r ${env}" $casedir/Allslurm
+

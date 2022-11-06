@@ -22,5 +22,10 @@ function of () {
 #: }}}
 
 #: Exports {{{
-export WRKDIR="/scratch/project_2004997/${USER}/"
+export PRJ_ID=2004997
+export WRKDIR="/scratch/project_${PRJ_ID}/${USER}/"
+#: }}}
+
+#: Aliases {{{
+alias sbatch="sbatch --account=project_${PRJ_ID}"
 #: }}}
