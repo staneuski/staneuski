@@ -3,6 +3,9 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+;; Render whitespace
+(global-whitespace-mode +1)
+
 ;; Full screen on start up
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
