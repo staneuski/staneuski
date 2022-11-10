@@ -20,3 +20,7 @@ function of () {
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 }
 #: }}}
+
+#: Aliases {{{
+alias ls='ls --color --group-directories-first'
+#: }}}

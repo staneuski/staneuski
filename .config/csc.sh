@@ -27,5 +27,6 @@ export WRKDIR="/scratch/project_${PRJ_ID}/${USER}/"
 #: }}}
 
 #: Aliases {{{
+alias ls='ls --color --group-directories-first'
 alias sbatch="sbatch --account=project_${PRJ_ID}"
 #: }}}
