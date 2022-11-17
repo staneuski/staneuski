@@ -1,4 +1,5 @@
 [
+    // osx: ln -sf ~/.config/Code/User/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
     {
         "key": "ctrl+alt+`",
         "command": "workbench.action.toggleMaximizedPanel"
