@@ -27,7 +27,8 @@ export WRKDIR=$HOME/Developer
 
 #: Aliases {{{
 alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
-alias rsync="rsync --exclude=.DS_Store"
+alias rsync="rsync --exclude={'.DS_Store','._*'}"
+alias tar="tar --exclude=.DS_Store --exclude='._*'"
 alias mdls-pdf="mdls -name kMDItemTitle \
                      -name kMDItemAuthors \
                      -name kMDItemDescription \
