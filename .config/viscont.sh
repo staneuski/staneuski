@@ -29,3 +29,7 @@ of dev Debug &> /dev/null
 #: Exports {{{
 export WRKDIR=/m/work/t212/unix/work/$USER
 #: }}}
+
+#: Aliases {{{
+alias ls='ls --color --group-directories-first'
+#: }}}
