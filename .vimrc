@@ -68,9 +68,15 @@ let g:netrw_keepdir=0 " https://groups.google.com/g/vim_use/c/6yqU3RX2CWA
 
 ": Design {{{
 set t_Co=256 " support 256 colors
+set termguicolors
 " execute 'colorscheme ' . (6 < strftime("%H") && strftime("%H") < 19 ? 'one' : 'darcula')
 colorscheme one
-" let g:lightline = {'colorscheme': 'one'}
+
+" https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
 
 ": Syntax mappings {{{
 ": OpenFOAM
