@@ -37,12 +37,6 @@ export FOAM_RUN=$WRKDIR/OpenFOAM
 
 # Custom OpenFOAM functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
-foamSetUserBins()
-{
-    export FOAM_USER_APPBIN=~/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
-    export FOAM_USER_LIBBIN=~/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
-}
-
 foamGetLatestTime()
 {
     local casedir=$1
