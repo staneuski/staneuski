@@ -45,6 +45,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Notes/")
+(setq calendar-week-start-day 1)
 
 ;; (use-package org-roam
 ;;   :ensure t
