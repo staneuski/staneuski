@@ -31,7 +31,7 @@ function of () {
 
 #: Exports {{{
 export PRJ_ID=2004997
-export WRKDIR="/scratch/project_${PRJ_ID}/${USER}/"
+export WRKDIR="/scratch/project_${PRJ_ID}/${USER}"
 #: }}}
 
 #: Aliases {{{
