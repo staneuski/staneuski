@@ -22,8 +22,8 @@ function of () {
     return 1
   fi
 
-  export FOAM_USER_APPBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
-  export FOAM_USER_LIBBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
+  # export FOAM_USER_APPBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
+  # export FOAM_USER_LIBBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
 
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
@@ -31,5 +31,12 @@ function of () {
 #: }}}
 
 #: Exports {{{
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export WRKDIR=/m/work/t212/unix/work/$USER
+#: }}}
+
+#: Aliases {{{
+alias ls='ls --color --group-directories-first'
+alias bat=batcat
+alias bat="batcat --style='grid,numbers,header'"
 #: }}}

@@ -69,18 +69,6 @@ alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
 
 #: Aliases by availiable commands {{{
-#: bat
-command -v batcat > /dev/null && \
-alias bat="batcat"
-if command -v bat > /dev/null; then
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'" # use bat as manpager
-  if [[ $(uname) == "Linux" ]]; then # v0.12.1 (@ Ubuntu 20.04) returns an error in a git repo
-    alias bat="bat --style='grid,numbers,header'"
-  elif [[ $(uname) == "Darwin" ]]; then # Switch between Dark and Light mode on macOS https://github.com/sharkdp/bat#dark-mode
-    alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
-  fi
-fi
-
 #: exa
 if command -v exa > /dev/null; then
   alias exa="exa --color=always --group-directories-first"
