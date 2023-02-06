@@ -1,6 +1,6 @@
 ENTRY "duke.local:$WRKDIR" URL "~/Developer"
 
-ENTRY "aalto.local:$WRKDIR" URL "/m/work/t212/unix/work/stashes1"
+ENTRY "viscont.local:$WRKDIR" URL "/m/work/t212/unix/work/stashes1"
 ENTRY "lyta:$WRKDIR" URL "/tmp/sh://lyta/m/work/t212/unix/work/stashes1"
 ENTRY "lyta:~/" URL "/tmp/sh://lyta/m/home/home4/42/stashes1/unix"
 
@@ -9,8 +9,9 @@ ENTRY "triton:$WRKDIR" URL "/tmp/sh://triton/scratch/work/stashes1"
 ENTRY "triton:~/" URL "/tmp/sh://triton/users/stashes1"
 
 ENTRY "csc.local:$WRKDIR" URL "/scratch/project_2004997/stashes1"
-ENTRY "csc:$WRKDIR" URL "/tmp/sh://puhti/scratch/project_2004997/stashes1"
+EENTRY "mahti:$WRKDIR" URL "/tmp/sh://mahti/scratch/project_2004997/stashes1"
 ENTRY "mahti:~/" URL "/tmp/sh://mahti/users/stashes1"
+NTRY "puhti:$WRKDIR" URL "/tmp/sh://puhti/scratch/project_2004997/stashes1"
 ENTRY "puhti:~/" URL "/tmp/sh://puhti/users/stashes1"
 
 ENTRY "diesel:~/" URL "/tmp/sh://diesel/home/stashes1"
