@@ -32,8 +32,7 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 export WM_COMPILE_OPTION=Opt # Opt | Debug
-export FOAM_RUN=$WRKDIR/OpenFOAM
-
+export WM_PROJECT_USER_DIR=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION
 
 # Custom OpenFOAM functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~

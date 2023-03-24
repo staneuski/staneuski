@@ -1,6 +1,11 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # mahti and puhti CSC clusters (RedHad OS) specific settings
 
+#: Exports {{{
+export PRJ_ID=2004997
+export WRKDIR="/scratch/project_${PRJ_ID}/${USER}"
+#: }}}
+
 #: Functions {{{
 function of () {
   if [ -z ${2+x} ]; then
@@ -21,17 +26,11 @@ function of () {
     return 1
   fi
 
-  export FOAM_USER_APPBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
-  export FOAM_USER_LIBBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
-
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
-}
-#: }}}
 
-#: Exports {{{
-export PRJ_ID=2004997
-export WRKDIR="/scratch/project_${PRJ_ID}/${USER}"
+  export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
+}
 #: }}}
 
 #: Aliases {{{

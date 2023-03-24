@@ -1,6 +1,11 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # Maari computers (Aalto Linux) specific settings
 
+#: Exports {{{
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export WRKDIR=/m/work/t212/unix/work/$USER
+#: }}}
+
 #: Functions {{{
 function of () {
   if [ $1 == "1906" ] && [ -z ${2+x} ]; then
@@ -22,17 +27,11 @@ function of () {
     return 1
   fi
 
-  # export FOAM_USER_APPBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/bin
-  # export FOAM_USER_LIBBIN=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION/platforms/$WM_OPTIONS/lib
-
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
-}
-#: }}}
 
-#: Exports {{{
-# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export WRKDIR=/m/work/t212/unix/work/$USER
+  export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
+}
 #: }}}
 
 #: Aliases {{{
