@@ -28,3 +28,15 @@ shopt -s hostcomplete
 shopt -s nocaseglob
 shopt -u progcomp
 #: }}}
+
+export GRIDPRO=/Users/stas/.local/opt//GridPro
+export PYTHONPATH=/Users/stas/.local/opt//GridPro/lib:$PYTHONPATH
+
+export PATH=$GRIDPRO/bin:$PATH
+export PATH=$GRIDPRO/lc_mngr:$PATH
+
+export GRIDPRO=/Users/stas/.local/opt/GridPro
+export PYTHONPATH=/Users/stas/.local/opt/GridPro/lib:$PYTHONPATH
+
+export PATH=$GRIDPRO/bin:$PATH
+export PATH=$GRIDPRO/lc_mngr:$PATH
