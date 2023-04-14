@@ -32,8 +32,8 @@ function of () {
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
 
   module load python-data
-  export PYTHONUSERBASE=/projappl/project_${PRJ_ID}/$USER-pyenv
-  export PYTHONPATH=/projappl/project_${PRJ_ID}/$USER-pyenv/lib/python3.*/site-packages/ && \
+  export PYTHONUSERBASE=/projappl/project_${PRJ_ID}/$USER/.pyenv
+  export PYTHONPATH=$PYTHONUSERBASE/lib/python3.*/site-packages/ && \
   append_pathenv $PYTHONUSERBASE/bin
 }
 #: }}}
