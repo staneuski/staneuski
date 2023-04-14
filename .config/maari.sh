@@ -27,10 +27,11 @@ function of () {
     return 1
   fi
 
-  export FOAM_RUN="${WRKDIR}/Files/OpenFOAM/cases"
-
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
+
+  export FOAM_RUN="${WRKDIR}/Files/OpenFOAM/cases"
+}
 
 #: Aliases {{{
 alias ls='ls --color --group-directories-first'

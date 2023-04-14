@@ -21,10 +21,10 @@ function of () {
     return 1
   fi
 
-  export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
-
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
+
+  export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
 }
 #: }}}
 

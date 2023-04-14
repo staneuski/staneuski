@@ -18,8 +18,6 @@ function of () {
     return 1
   fi
 
-  export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"
-
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 

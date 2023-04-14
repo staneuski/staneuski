@@ -14,7 +14,7 @@ function of () {
         s|WM_COMPILE_OPTION=Opt|WM_COMPILE_OPTION=${2}|g;
         s|WM_COMPILE_OPTION=Debug|WM_COMPILE_OPTION=${2}|g
     " $HOME/.OpenFOAM/prefs.sh
-    
+
     . $HOME/.local/opt/OpenFOAM-$1/etc/bashrc
 
     sed -i "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
@@ -23,8 +23,6 @@ function of () {
     echo OpenFOAM-$1 was not found.
     return 1
   fi
-
-  export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"
 
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
