@@ -52,6 +52,9 @@ append_pathenv $HOME/.local/bin
 [[ $(uname) == "Linux" ]] && \
 export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"' # set terminal tab title
 export PATH
+
+[[ -z ${TMPDIR+x} ]] && \
+export TMPDIR=/tmp/$USER.$(uptime -s | md5sum | head -c 6) && mkdir -p $TMPDIR
 #: }}}
 
 #: Aliases {{{
