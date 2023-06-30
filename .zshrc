@@ -2,8 +2,11 @@
 # zsh specific settings
 
 . $HOME/.profile
-# . $HOME/.zsh_powerline
-eval "$(starship init zsh)"
+if command -v starship > /dev/null; then
+  eval "$(starship init zsh)"
+else
+  . $HOME/.zsh_powerline
+fi
 
 #: Exports {{{
 HISTSIZE=1000000

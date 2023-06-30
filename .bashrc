@@ -2,8 +2,12 @@
 # bash specific settings
 
 . $HOME/.profile
-# include $HOME/.bash_powerline
-eval "$(starship init bash)"
+if command -v starship > /dev/null; then
+  eval "$(starship init bash)"
+else
+  include $HOME/.bash_powerline
+fi
+  
 
 #: enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
