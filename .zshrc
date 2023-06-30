@@ -2,7 +2,8 @@
 # zsh specific settings
 
 . $HOME/.profile
-. $HOME/.zsh_powerline
+# . $HOME/.zsh_powerline
+eval "$(starship init zsh)"
 
 #: Exports {{{
 HISTSIZE=1000000
