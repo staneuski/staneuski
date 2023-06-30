@@ -46,7 +46,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Notes/")
 (setq calendar-week-start-day 1)
-
 ;; (use-package org-roam
 ;;   :ensure t
 ;;   :custom
@@ -89,3 +88,5 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setq flycheck-clang-language-standard "c++20")
+(setq flycheck-gcc-language-standard "c++20")
