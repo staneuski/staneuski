@@ -1,0 +1,43 @@
+//: OS Specific {{{
+//: macOS
+(?d)._*
+(?d).DS_Store
+//: }}}
+
+//: Software specific {{{
+//: C++
+(?d)a.out
+(?d)*.o
+(?d)*.dylib
+(?d)*.dSYM
+(?d).cache
+(?d)CMakeFiles
+(?d)build
+
+//: Clouds
+(?d)*.cloud
+
+//: NodeJS
+(?d)node_modules
+
+//: OpenFOAM
+(?d)darwin*Clang*
+(?d)linux*Clang*
+(?d)linux*Gcc*
+(?d)dynamicCode
+(?d)lnInclude
+
+//: VIM
+(?d).*.swp
+
+//: Python
+(?d).ipynb_checkpoints
+(?d)*.egg-info
+(?d)__pycache__
+(?d)venv
+//: }}}
+
+//: Temporal files {{{
+(?d)~*
+(?d)*.sttmp
+//: }}}
