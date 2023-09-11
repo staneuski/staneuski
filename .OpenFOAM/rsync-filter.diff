@@ -1,6 +1,6 @@
 - .*
-- **/geometry
-- **/polyMesh
+- ***/geometry/**
+- ***/polyMesh/**
 - *.gz
 + /0.orig/***
 + /0/***
