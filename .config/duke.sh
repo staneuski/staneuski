@@ -21,7 +21,7 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 
-  export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"  
+  export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"
 }
 #: }}}
 
@@ -33,7 +33,7 @@ export WRKDIR=$HOME/Developer
 #: Aliases {{{
 alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
 alias rsync="rsync --exclude={'.DS_Store','._*'}"
-alias tar="tar --exclude=.DS_Store --exclude='._*'"
+alias tar="COPYFILE_DISABLE=1 tar"
 alias mdls-pdf="mdls -name kMDItemTitle \
                      -name kMDItemAuthors \
                      -name kMDItemDescription \
