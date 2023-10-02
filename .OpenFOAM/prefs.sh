@@ -29,6 +29,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export WM_MPLIB=SYSTEMOPENMPI
     export WM_LABEL_SIZE=32
     export WM_NCOMPPROCS=$(sysctl -n hw.ncpu)
+    export WM_PROJECT_SITE=$HOME/Developer/Projects/foamio/addons
 fi
 
 export WM_COMPILE_OPTION=Opt # Opt | Debug
