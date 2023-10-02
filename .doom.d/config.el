@@ -4,7 +4,7 @@
 ;; sync' after modifying this file!
 
 ;; Render whitespace
-;; (global-whitespace-mode +1)
+(global-whitespace-mode +1)
 
 ;; Full screen on start up
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -44,17 +44,6 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/Notes/")
-(setq calendar-week-start-day 1)
-;; (use-package org-roam
-;;   :ensure t
-;;   :custom
-;;   (org-roam-directory (file-truename "~/Documents/Notes/roam"))
-;;   :bind (("C-c n l" . org-roam-buffer-toggle)
-;;          ("C-c n f" . org-roam-node-find)
-;;          ("C-c n g" . org-roam-graph)
-;;          ("C-c n i" . org-roam-node-insert)
-;;          ("C-c n c" . org-roam-capture)))
 
 ;; Whenever You reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
