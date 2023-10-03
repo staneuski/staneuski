@@ -31,7 +31,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export WM_NCOMPPROCS=$(sysctl -n hw.ncpu)
     export WM_PROJECT_SITE=$HOME/Developer/Projects/foamio/addons
 else
-    export WM_PROJECT_SITE=$HOME/.local/share/foamio
+    export WM_PROJECT_SITE=$HOME/.local/share/foamio/addons
 fi
 
 export WM_COMPILE_OPTION=Opt # Opt | Debug
