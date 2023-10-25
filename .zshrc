@@ -11,7 +11,7 @@ fi
 #: Exports {{{
 HISTSIZE=1000000
 SAVEHIST=1000000
-HISTORY_IGNORE="l|la|lra|lr|ll|ls|[bf]g|exit|pwd|clear|of\ [0-9]"
+HISTORY_IGNORE="l|la|lra|lr|ll|ls|[bf]g|exit|pwd|clear"
 #: }}}
 
 #: Bindkeys {{{
