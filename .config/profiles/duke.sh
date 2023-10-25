@@ -11,7 +11,8 @@ function of () {
 
     source $HOME/.local/opt/OpenFOAM-$1/etc/bashrc > /dev/null
 
-    sed -i '' "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
+    sed -i '' "
+      s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
     " $HOME/.OpenFOAM/prefs.sh
   else
     echo OpenFOAM-$1 was not found.
@@ -21,6 +22,7 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 
+  export WM_PROJECT_SITE="${HOME}/Developer/Projects/foamio/addons"
   export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"
 }
 #: }}}
@@ -32,6 +34,7 @@ export WRKDIR=$HOME/Developer
 
 #: Aliases {{{
 alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
+alias cattysh="caffeinate -ims kitty +kitten ssh"
 alias rsync="rsync --exclude={'.DS_Store','._*'}"
 alias tar="COPYFILE_DISABLE=1 tar"
 alias mdls-pdf="mdls -name kMDItemTitle \

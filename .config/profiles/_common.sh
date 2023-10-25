@@ -39,27 +39,30 @@ function un() {
 }
 
 function swap() {
-    local tmp_file=/tmp/$$.tmp
-    mv "${1}" $tmp_file && mv "${2}" "${1}" && mv $tmp_file "${2}"
+  local tmp_file=/tmp/$$.tmp
+  mv "${1}" $tmp_file && mv "${2}" "${1}" && mv $tmp_file "${2}"
 }
 #: }}}
-
 
 #: Exports {{{
 append_pathenv $HOME/.bin
 append_pathenv $HOME/.local/bin
-
-[[ $(uname) == "Linux" ]] && \
-export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"' # set terminal tab title
 export PATH
 
-[[ -z ${TMPDIR+x} ]] && \
-export TMPDIR=/tmp/$USER.$(uptime -s | md5sum | head -c 6) && mkdir -p $TMPDIR
+[[ $(uname) == "Linux" ]] && \
+  export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"' # set terminal tab title
+
+# [[ -z ${TMPBOX+x} ]] && \
+#   export TMPBOX=$(mktemp /tmp/$USER.XXXXXX)
 #: }}}
 
 #: Aliases {{{
 alias :q="exit"
 alias conf-git="/usr/bin/git --git-dir=${HOME}/.local/etc/conf-git --work-tree=${HOME}"
+
+if [[ $(uname) == "Linux" ]]; then
+  alias sudoenv="sudo env PATH=${PATH}"
+fi
 
 #: Confirm before overwrite
 alias cp="cp -i"
@@ -98,13 +101,17 @@ fi
 
 #: kitty
 if [[ $TERM == xterm-kitty ]]; then
-  alias ssh="kitty +kitten ssh"
+  alias kssh="kitty +kitten ssh"
 fi
 
-if [[ $(uname) == "Linux" ]]; then
+#: slurm
+if command -v squeue > /dev/null; then
   alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
-  alias sudoenv="sudo env PATH=${PATH}"
 fi
+
+#: nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 #: }}}
 #: }}}
 

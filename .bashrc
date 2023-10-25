@@ -1,13 +1,10 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # bash specific settings
 
-. $HOME/.profile
+. $HOME/.config/profiles/_common.sh
 if command -v starship > /dev/null; then
   eval "$(starship init bash)"
-else
-  include $HOME/.bash_powerline
 fi
-  
 
 #: enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

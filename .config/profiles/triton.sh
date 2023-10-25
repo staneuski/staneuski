@@ -24,6 +24,7 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 
+  export WM_PROJECT_SITE="${HOME}/.local/share/foamio/foamio/addons"
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
 }
 #: }}}
