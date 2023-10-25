@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # bash specific settings
 
-. $HOME/.config/profiles/_common.sh
+. .profile
 if command -v starship > /dev/null; then
   eval "$(starship init bash)"
 fi

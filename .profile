@@ -45,7 +45,6 @@ function swap() {
 #: }}}
 
 #: Exports {{{
-append_pathenv $HOME/.bin
 append_pathenv $HOME/.local/bin
 export PATH
 
@@ -108,11 +107,6 @@ fi
 if command -v squeue > /dev/null; then
   alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 fi
-
-#: nvm
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-#: }}}
 #: }}}
 
 include $HOME/.local/prefs.sh # source machine specific settings
