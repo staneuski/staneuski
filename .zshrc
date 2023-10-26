@@ -1,15 +1,17 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # zsh specific settings
 
-. $HOME/.config/profiles/_common.sh
+. $HOME/.profile
 if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
+else
+  . $HOME/.zsh_powerline
 fi
 
 #: Exports {{{
 HISTSIZE=1000000
 SAVEHIST=1000000
-HISTORY_IGNORE="l|la|lra|lr|ll|ls|[bf]g|exit|pwd|clear"
+HISTORY_IGNORE="l|la|lra|lr|ll|ls|[bf]g|exit|pwd|clear|of\ [0-9]"
 #: }}}
 
 #: Bindkeys {{{
