@@ -1,4 +1,11 @@
 ": vim interface {{{
+": https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI.="\e[5 q" "SI = INSERT mode
+if v:version > 800
+  let &t_SR.="\e[4 q" "SR = REPLACE mode
+endif
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
 ": Turn on the Wild menu
 set wildmenu
 
@@ -97,7 +104,14 @@ set tabstop=4
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+set ai " auto indent
+set si " smart indent
+set wrap " wrap lines
+": }}}
+
+": netrw settings {{{
+let g:netrw_altv=1
+let g:netrw_banner=0 " hide the banner - `I` to show inside Netrw 
+let g:netrw_liststyle=3
+let g:netrw_keepdir=0 " https://groups.google.com/g/vim_use/c/6yqU3RX2CWA
 ": }}}
