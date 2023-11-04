@@ -36,13 +36,7 @@ function of () {
 export WRKDIR=/m/work/t212/unix/work/$USER
 
 export GRIDPRO=/l/Applications/GridPro/GridPro
-export PYTHONPATH=/l/Applications/GridPro/GridPro/lib:$PYTHONPATH
-
-export PATH=$GRIDPRO/bin:$PATH
-export PATH=$GRIDPRO/lc_mngr:$PATH
-
-export GRIDPRO=/l/Applications/GridPro/GridPro
-export PYTHONPATH=/l/Applications/GridPro/GridPro/lib:$PYTHONPATH
+export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
 
 export PATH=$GRIDPRO/bin:$PATH
 export PATH=$GRIDPRO/lc_mngr:$PATH

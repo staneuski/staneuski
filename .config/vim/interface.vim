@@ -1,4 +1,7 @@
 ": vim interface {{{
+": Mouse support
+set mouse=a
+
 ": https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
 let &t_SI.="\e[5 q" "SI = INSERT mode
 if v:version > 800
