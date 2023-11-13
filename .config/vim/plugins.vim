@@ -9,6 +9,9 @@ endif
 ": Theme
 Plug 'sainnhe/edge'
 
+": Syntax support
+Plug 'axvr/org.vim'
+
 ": Preserve cursor after reopen
 Plug 'farmergreg/vim-lastplace'
 
