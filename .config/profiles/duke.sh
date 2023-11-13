@@ -42,4 +42,5 @@ alias mdls-pdf="mdls -name kMDItemTitle \
                      -name kMDItemDescription \
                      -name kMDItemCreator \
                      -name kMDItemKeywords"
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC' 
 #: }}}

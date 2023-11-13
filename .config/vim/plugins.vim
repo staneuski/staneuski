@@ -7,6 +7,6 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 ": Theme
-Plug 'rakr/vim-one'
+Plug 'sainnhe/edge'
 call plug#end()
 ": }}}

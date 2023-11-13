@@ -4,10 +4,5 @@ function! ChangeBackground()
   else
     set background=light  " for the light version of the theme
   endif
-  colorscheme gruvbox
-
-  try
-    execute "AirlineRefresh"
-  catch
-  endtry
+  colorscheme edge
 endfunction
