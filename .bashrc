@@ -4,6 +4,8 @@
 . $HOME/.profile
 if command -v starship > /dev/null; then
   eval "$(starship init bash)"
+else
+  . $HOME/.bash_powerline
 fi
 
 #: enable color support of ls and also add handy aliases

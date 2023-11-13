@@ -4,8 +4,6 @@
 . $HOME/.profile
 if command -v starship > /dev/null; then
   eval "$(starship init zsh)"
-else
-  . $HOME/.zsh_powerline
 fi
 
 #: Exports {{{
