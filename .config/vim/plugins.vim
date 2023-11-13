@@ -8,5 +8,9 @@ endif
 
 ": Theme
 Plug 'sainnhe/edge'
+
+": Preserve cursor after reopen
+Plug 'farmergreg/vim-lastplace'
+
 call plug#end()
 ": }}}

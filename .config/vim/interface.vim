@@ -1,10 +1,11 @@
 ": vim interface {{{
+
+": https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
 ": Mouse support
 set mouse=a
 set ttymouse=sgr
 set balloonevalterm
 
-": https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
 let &t_SI.="\e[5 q" "SI = INSERT mode
 if v:version > 800
   let &t_SR.="\e[4 q" "SR = REPLACE mode
@@ -54,6 +55,25 @@ let &t_RT = "\e[23;2t"
 " using a color theme with a background color in terminals such as
 " kitty that do not support background color erase.
 let &t_ut=''
+": }}}
+
+": Preserve neovim defaults
+if !has('nvim')
+  set autoindent
+  set autoread
+  set complete-=i
+  set display=lastline
+  set formatoptions=tcqj
+  set history=10000
+  set langnoremap
+  set laststatus=2
+  set listchars=tab:>\ ,trail:-,nbsp:+
+  set nrformats=hex
+  set sessionoptions-=options
+  set tabpagemax=50
+  set tags=./tags;,tags
+  set viminfo+=!
+endif
 
 ": Turn on the Wild menu
 set wildmenu
@@ -84,6 +104,9 @@ set whichwrap+=<,>,h,l
 
 ": When searching try to be smart about cases
 set smartcase
+
+": Highlight current line
+set cursorline
 
 ": Highlight search results
 set hlsearch
