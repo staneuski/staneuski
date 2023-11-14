@@ -29,6 +29,14 @@ function of () {
 }
 #: }}}
 
+#: Exports {{{
+export GRIDPRO=/scratch/eng/t21206-cfd/opt/GridPro
+export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
+
+export PATH=$GRIDPRO/bin:$PATH
+export PATH=$GRIDPRO/lc_mngr:$PATH
+#: }}}
+
 #: Aliases {{{
 alias ls='ls --color --group-directories-first'
 #: }}}
