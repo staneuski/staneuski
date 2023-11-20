@@ -31,6 +31,8 @@ function of () {
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 
   export FOAM_RUN="${WRKDIR}/Files/OpenFOAM/cases"
+  export WM_PROJECT_SITE="${HOME}/.local/etc/froth"
+  append_pathenv ${WM_PROJECT_SITE}/bin
 }
 
 #: Aliases {{{

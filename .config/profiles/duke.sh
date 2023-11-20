@@ -1,6 +1,14 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # Duke machine (macOS) specific settings 
 
+#: Exports {{{
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+#: Directories
+export LOGSEQ="${HOME}/Library/Mobile Documents/iCloud~com~logseq~logseq/Documents"
+export WRKDIR=$HOME/Developer
+#: }}}
+
 #: Functions {{{
 function of () {
   if [ -f $HOME/.local/opt/OpenFOAM-$1/etc/bashrc ] && [ ! -z ${2+x} ]; then
@@ -22,14 +30,10 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 
-  export WM_PROJECT_SITE="${HOME}/Developer/Projects/foamio/addons"
   export FOAM_RUN="${HOME}/Files/OpenFOAM/cases"
+  export WM_PROJECT_SITE="${HOME}/Developer/Projects/froth"
+  export PATH="${PATH}:${WM_PROJECT_SITE}/bin"
 }
-#: }}}
-
-#: Exports {{{
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export WRKDIR=$HOME/Developer
 #: }}}
 
 #: Aliases {{{

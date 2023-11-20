@@ -2,7 +2,9 @@
 # mahti and puhti CSC clusters (RedHad OS) specific settings
 
 #: Exports {{{
+#: Directories
 export PRJ_ID=2004997
+export PROJAPPL="/projappl/project_${PRJ_ID}/${USER}"
 export WRKDIR="/scratch/project_${PRJ_ID}/${USER}"
 #: }}}
 
@@ -29,11 +31,12 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 
-  export WM_PROJECT_SITE="/projappl/project_2004997/${USER}/foamio/addons"
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
+  export WM_PROJECT_SITE=${PROJAPPL}/froth
+  append_pathenv $WM_PROJECT_DIR/bin
 
   module load python-data
-  export PYTHONUSERBASE=/projappl/project_${PRJ_ID}/$USER/.pyenv
+  export PYTHONUSERBASE=${PROJAPPL}/.pyenv
   export PYTHONPATH=$PYTHONUSERBASE/lib/python3.*/site-packages/ && \
   append_pathenv $PYTHONUSERBASE/bin
 }

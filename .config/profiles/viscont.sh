@@ -1,7 +1,19 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # t21202-lr017 machine (Aalto Linux) specific settings
 
+#: Exports {{{
+#: Directories
+export WRKDIR=/m/work/t212/unix/work/$USER
+
+#: GridPro
+export GRIDPRO=/l/Applications/GridPro/GridPro
+export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
+append_pathenv $GRIDPRO/bin
+append_pathenv $GRIDPRO/lc_mngr
+
+#: GT-Suite
 include /l/GTI/gtenv.sh
+#: }}}
 
 #: Functions {{{
 function of () {
@@ -27,19 +39,10 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 
-  export WM_PROJECT_SITE="${HOME}/.local/share/foamio/addons"
   export FOAM_RUN=$HOME/Files/OpenFOAM
+  export WM_PROJECT_SITE=${HOME}/Developer/Projects/froth
+  append_pathenv $PYTHONUSERBASE/bin
 }
-#: }}}
-
-#: Exports {{{
-export WRKDIR=/m/work/t212/unix/work/$USER
-
-export GRIDPRO=/l/Applications/GridPro/GridPro
-export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
-
-export PATH=$GRIDPRO/bin:$PATH
-export PATH=$GRIDPRO/lc_mngr:$PATH
 #: }}}
 
 #: Aliases {{{

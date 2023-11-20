@@ -1,6 +1,17 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # Triton cluster (RedHad OS) specific settings
 
+#: Exports {{{
+#: Directories
+export PROJAPPL="/scratch/eng/t21206-cfd"
+
+#: GridPro
+export GRIDPRO=/scratch/eng/t21206-cfd/opt/GridPro
+export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
+append_pathenv $GRIDPRO/bin:$PATH
+append_pathenv $GRIDPRO/lc_mngr:$PATH
+#: }}}
+
 #: Functions {{{
 function of () {
   if [ -z ${2+x} ]; then
@@ -24,17 +35,10 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 
-  export WM_PROJECT_SITE="${HOME}/.local/share/foamio/foamio/addons"
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
+  export WM_PROJECT_SITE="${PROJAPPL}/etc/froth"
+  append_pathenv ${WM_PROJECT_SITE}/bin
 }
-#: }}}
-
-#: Exports {{{
-export GRIDPRO=/scratch/eng/t21206-cfd/opt/GridPro
-export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
-
-export PATH=$GRIDPRO/bin:$PATH
-export PATH=$GRIDPRO/lc_mngr:$PATH
 #: }}}
 
 #: Aliases {{{
