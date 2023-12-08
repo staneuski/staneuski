@@ -33,7 +33,7 @@ function of () {
 
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
   export WM_PROJECT_SITE=${PROJAPPL}/froth
-  append_pathenv $WM_PROJECT_DIR/bin
+  append_pathenv ${WM_PROJECT_SITE}/bin
 
   module load python-data
   export PYTHONUSERBASE=${PROJAPPL}/.pyenv
