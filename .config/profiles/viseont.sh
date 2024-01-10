@@ -6,7 +6,7 @@
 export WRKDIR=/m/work/t212/unix/work/$USER
 
 #: GridPro
-export GRIDPRO=/l/Applications/GridPro/GridPro
+export GRIDPRO=/l/opt/GridPro
 export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
 append_pathenv $GRIDPRO/bin
 append_pathenv $GRIDPRO/lc_mngr
@@ -27,6 +27,7 @@ function of () {
         s|WM_COMPILE_OPTION=Debug|WM_COMPILE_OPTION=${2}|g
     " $HOME/.OpenFOAM/prefs.sh
 
+    module load common/triton-modules cmake gcc scotch flex > /dev/null
     . $HOME/.local/opt/OpenFOAM-$1/etc/bashrc
 
     sed -i "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
