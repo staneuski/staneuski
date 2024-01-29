@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/stasta/.local/opt/OpenFOAM-dev/src/OpenFOAM/primitives/functions/Function2'
+let g:netrw_dirhist_8='/Users/stasta/.local/opt/OpenFOAM-dev/src/OpenFOAM/primitives/functions/Function2/UniformTable2'
+let g:netrw_dirhist_7='/Users/stasta/.config/vim'
+let g:netrw_dirhist_6='/Users/stasta/.config'
+let g:netrw_dirhist_5='/Users/stasta'
+let g:netrw_dirhist_4='/Users/stasta/.config/vim'
+let g:netrw_dirhist_3='/Users/stasta/.config'
+let g:netrw_dirhist_2='/Users/stasta/.config/nvim'
+let g:netrw_dirhist_1='/Users/stasta/.config'

@@ -1,0 +1,31 @@
+# https://github.com/gokcehan/lf/wiki/Tips
+
+#: Use kitty preview {{{
+# set previewer ~/.config/lf/preview_bat.sh
+#: }}}
+
+#: Interface {{{
+# set info size:time
+set mouse true
+set hidden true
+#: }}}
+
+#: Key bindings {{{
+map D delete
+
+#: Select / toggle
+map <space> :toggle
+map <s-down> :toggle; down
+map <s-up> :toggle; up
+
+#: https://github.com/gokcehan/lf/blob/master/doc.md#quick-reference
+#: Use enter for shell commands
+map <enter> shell
+
+#: Edit
+map e $vim "$f"
+map <f-4> $vim "$f"
+
+#: Preview
+map <f-3> $bat --paging=never "$f"
+#: }}}

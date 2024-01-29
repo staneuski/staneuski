@@ -1,6 +1,7 @@
 source ~/.config/vim/plugins.vim
-source ~/.config/vim/interface.vim
+source ~/.config/vim/functions.vim
 source ~/.config/vim/mappings.vim
+source ~/.config/vim/interface.vim
 
 ": General {{{
 set history=1000
