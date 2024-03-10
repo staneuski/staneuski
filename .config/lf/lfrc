@@ -5,13 +5,17 @@
 #: }}}
 
 #: Interface {{{
-# set info size:time
 set mouse true
 set hidden true
 #: }}}
 
+#: Personalisation {{{
+set dupfilefmt '%b%n%e'
+#: }}}
+
 #: Key bindings {{{
 map D delete
+map <c-z> $ kill -STOP $PPID
 
 #: Select / toggle
 map <space> :toggle
