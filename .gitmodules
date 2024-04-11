@@ -1,0 +1,3 @@
+[submodule ".config/vim"]
+	path = .config/vim
+	url = https://github.com/staneuski/umbrella.vim.git
