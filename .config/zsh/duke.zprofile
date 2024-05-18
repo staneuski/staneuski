@@ -2,7 +2,7 @@
 # Duke machine (macOS) specific settings 
 
 #: Exports {{{
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 #: Directories
 export LOGSEQ="${HOME}/Library/Mobile Documents/iCloud~com~logseq~logseq/Documents"

@@ -1,23 +1,33 @@
 # vim:fileencoding=utf-8:foldmethod=marker
-# Maari computers (Aalto Linux) specific settings
+# t21202-lr017 machine (Aalto Linux) specific settings
 
 #: Exports {{{
-# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+#: Directories
 export WRKDIR=/m/work/t212/unix/work/$USER
+
+#: GridPro
+export GRIDPRO=/l/opt/GridPro
+export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
+export PATH=${PATH}:$GRIDPRO/bin
+export PATH=${PATH}:$GRIDPRO/lc_mngr
+
+#: GT-Suite
+include /l/GTI/gtenv.sh
 #: }}}
 
 #: Functions {{{
 function of () {
-  if [ $1 == "1906" ] && [ -z ${2+x} ]; then
-    module load triton-modules/1.0 openfoam/$1-openmpi-metis
-  elif [ -f /opt/openfoam$1/etc/bashrc ] && [ -z ${2+x} ]; then
+  if [ -f /opt/openfoam$1/etc/bashrc ] && [ -z ${2+x} ]; then
     . /opt/openfoam$1/etc/bashrc
+  elif [ -f /usr/lib/openfoam/openfoam$1/etc/bashrc ] && [ -z ${2+x} ]; then
+    /usr/bin/openfoam$1
   elif [ -f $HOME/.local/opt/OpenFOAM-$1/etc/bashrc ]; then
     sed -i "
         s|WM_COMPILE_OPTION=Opt|WM_COMPILE_OPTION=${2}|g;
         s|WM_COMPILE_OPTION=Debug|WM_COMPILE_OPTION=${2}|g
     " $HOME/.OpenFOAM/prefs.sh
-    
+
+    module load common/triton-modules cmake gcc scotch flex > /dev/null
     . $HOME/.local/opt/OpenFOAM-$1/etc/bashrc
 
     sed -i "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
@@ -28,15 +38,13 @@ function of () {
   fi
 
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
-  echo OpenFOAM@$v:$WM_PROJECT_DIR
+  echo OpenFOAM@$v:$WM_PROJECT_DIR $WM_COMPILE_OPTION
 
-  export FOAM_RUN="${WRKDIR}/Files/OpenFOAM/cases"
-  export WM_PROJECT_SITE="${HOME}/.local/etc/froth"
-  append_pathenv ${WM_PROJECT_SITE}/bin
+  export FOAM_RUN=$HOME/Files/OpenFOAM
+  export WM_PROJECT_SITE=${HOME}/Developer/Projects/froth
+  export PATH=${PATH}:$PYTHONUSERBASE/bin
 }
+#: }}}
 
 #: Aliases {{{
-alias ls='ls --color --group-directories-first'
-alias bat=batcat
-alias bat="batcat --style='grid,numbers,header'"
 #: }}}

@@ -8,8 +8,8 @@ export PROJAPPL="/scratch/eng/t21206-cfd"
 #: GridPro
 export GRIDPRO=/scratch/eng/t21206-cfd/opt/GridPro
 export PYTHONPATH=$GRIDPRO/lib:$PYTHONPATH
-append_pathenv $GRIDPRO/bin:$PATH
-append_pathenv $GRIDPRO/lc_mngr:$PATH
+export PATH=${PATH}:$GRIDPRO/bin:$PATH
+export PATH=${PATH}:$GRIDPRO/lc_mngr:$PATH
 #: }}}
 
 #: Functions {{{
@@ -37,10 +37,10 @@ function of () {
 
   export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
   export WM_PROJECT_SITE="${PROJAPPL}/etc/froth"
-  append_pathenv ${WM_PROJECT_SITE}/bin
+  export PATH=${PATH}:${WM_PROJECT_SITE}/bin
 }
 #: }}}
 
 #: Aliases {{{
-alias ls='ls --color --group-directories-first'
+alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 #: }}}

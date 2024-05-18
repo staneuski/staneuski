@@ -4,6 +4,56 @@
 # set previewer ~/.config/lf/preview_bat.sh
 #: }}}
 
+#: Functions {{{
+#: Compress selected files
+cmd archive &{{
+  set -f
+  tar -caf ${1} $(echo $fx | sed -e "s~${PWD}/~~g") -C $PWD && rm -rf $fx # &
+  # wait
+  lf -remote "send ${id} unselect"
+}}
+
+cmd unxz &{{
+  set -f
+  [ ! -f $f ] &&
+    return
+  [ ${f##*.} != .xz ] &&
+  unxz --compress --force -9e --threads=0 $f ||
+  unxz --uncompress --force -9e --threads=0 $f
+}}
+
+#: Create directory with selected files
+cmd mkdir-mv ${{
+  set -f
+  mkdir -p $1
+  mv -- $fx $1 
+}}
+
+#: Create file with/or directory
+cmd create ${{
+  set -f
+  if [[ "${1}" =~ ^.*\/ ]]; then
+    mkdir -p -- $1
+    lf -remote "send ${id} cd ${1}"
+  else
+    mkdir -p $(dirname -- $1)
+    touch -- $1
+    lf -remote "send ${id} select ${1}"
+  fi
+}}
+
+#: Edit symlink
+cmd lnedit %{{
+  set -f
+  [ -L $f ] && ln -sf $1 $f
+}}
+
+#: Group select
+cmd globtoggle ${{
+  lf -remote "send ${id} toggle $(ls -d ${*} | xargs)"
+}}
+#: }}}
+
 #: Interface {{{
 set mouse true
 set hidden true
@@ -14,8 +64,21 @@ set dupfilefmt '%b%n%e'
 #: }}}
 
 #: Key bindings {{{
-map D delete
 map <c-z> $ kill -STOP $PPID
+
+#: Select
+map + push :globtoggle<space>
+
+#: Create, delete, edit links
+map <enter> push :create<space>
+map <a-n> push :mkdir-mv<space>
+map D delete
+map S push :lnedit<space>
+
+#: tar
+map a push :archive<space>
+map <a-a> :unxz
+map x &tar -xf $f && rm -rf $f
 
 #: Select / toggle
 map <space> :toggle
@@ -24,7 +87,7 @@ map <s-up> :toggle; up
 
 #: https://github.com/gokcehan/lf/blob/master/doc.md#quick-reference
 #: Use enter for shell commands
-map <enter> shell
+# map <enter> shell
 
 #: Edit
 map e $vim "$f"

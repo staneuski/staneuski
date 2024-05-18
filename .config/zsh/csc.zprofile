@@ -37,12 +37,12 @@ function of () {
 
   module load python-data
   export PYTHONUSERBASE=${PROJAPPL}/.pyenv
-  export PYTHONPATH=$PYTHONUSERBASE/lib/python3.*/site-packages/ && \
-  append_pathenv $PYTHONUSERBASE/bin
+  export PYTHONPATH=${PYTHONUSERBASE}/lib/python3.*/site-packages/ && \
+  export PATH=${PATH}:${PYTHONUSERBASE}/bin
 }
 #: }}}
 
 #: Aliases {{{
-alias ls='ls --color --group-directories-first'
+alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 alias sbatch="sbatch --account=project_${PRJ_ID}"
 #: }}}
