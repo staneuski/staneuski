@@ -39,16 +39,16 @@ alias ff='find . -type f -name'
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}'
 
-#: kitty
-[ ${TERM} == xterm-kitty ] &&
-  alias kssh='kitty +kitten ssh'
-
 #: slurm
 command -v squeue > /dev/null &&
   alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 
-#: stow
+#: https://www.atlassian.com/git/tutorials/dotfiles
 alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+
+#: kitty
+[ ${TERM} == xterm-kitty ] &&
+  alias kssh='kitty +kitten ssh'
 #: }}}
 
 #: Functions {{{
@@ -57,3 +57,6 @@ function swap() {
   mv "${1}" $tmp_file && mv "${2}" "${1}" && mv $tmp_file "${2}"
 }
 #: }}}
+
+[ -f ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin ] &&
+  . ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin 

@@ -15,15 +15,15 @@ export PATH=${PATH}:$GRIDPRO/lc_mngr:$PATH
 #: Functions {{{
 function of () {
   if [ -z ${2+x} ]; then
-    module load openfoam-org/$1-openmpi-metis
+    module load openfoam-org/$1
   elif [ -f $HOME/.local/opt/OpenFOAM-$1/etc/bashrc ]; then
-    module load bison cmake gcc scotch flex
+    module load scibuilder-spack-dev/2024-01 openmpi/4.1.6 cmake/3.27.7 gcc/12.3.0 flex/2.6.4 scotch/7.0.4
     sed -i "
         s|WM_COMPILE_OPTION=Opt|WM_COMPILE_OPTION=${2}|g;
         s|WM_COMPILE_OPTION=Debug|WM_COMPILE_OPTION=${2}|g
     " $HOME/.OpenFOAM/prefs.sh
     
-    . $HOME/.local/opt/OpenFOAM-$1/etc/bashrc
+    . ${PROJAPPL}/opt/OpenFOAM-$1/etc/bashrc
 
     sed -i "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
     " $HOME/.OpenFOAM/prefs.sh
@@ -35,12 +35,10 @@ function of () {
   [[ -r $WM_PROJECT_DIR/.build ]] && v=$(cat $WM_PROJECT_DIR/.build) || v=$1
   echo OpenFOAM@$v:$WM_PROJECT_DIR
 
-  export FOAM_RUN="${WRKDIR}/OpenFOAM/cases"
   export WM_PROJECT_SITE="${PROJAPPL}/etc/froth"
   export PATH=${PATH}:${WM_PROJECT_SITE}/bin
 }
 #: }}}
 
 #: Aliases {{{
-alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
 #: }}}

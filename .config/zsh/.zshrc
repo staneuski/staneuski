@@ -50,7 +50,7 @@ zinit snippet OMZP::common-aliases
 zinit snippet OMZP::command-not-found
 
 #: https://www.atlassian.com/git/tutorials/dotfiles
-alias conf-git="/usr/bin/git --git-dir=${HOME}/.local/etc/conf-git --work-tree=${HOME}"
+alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
 
 #: kitty
 [ $TERM = xterm-kitty ] &&
