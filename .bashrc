@@ -8,6 +8,10 @@
 #: User specific environment
 [[ "${PATH}" =~ "${HOME}/.local/bin:${HOME}/bin:" ]] ||
   export PATH="${PATH}:${HOME}/.local/bin"
+
+#: Prompt
+command -v starship > /dev/null &&
+  eval "$(starship init bash)"
 #: }}}
 
 #: Aliases {{{
