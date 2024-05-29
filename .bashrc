@@ -8,10 +8,6 @@
 #: User specific environment
 [[ "${PATH}" =~ "${HOME}/.local/bin:${HOME}/bin:" ]] ||
   export PATH="${PATH}:${HOME}/.local/bin"
-
-#: Prompt
-command -v starship > /dev/null &&
-  eval "$(starship init bash)"
 #: }}}
 
 #: Aliases {{{
@@ -63,4 +59,8 @@ function swap() {
 #: }}}
 
 [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin ] &&
-  . ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin 
+  . ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin
+
+#: Prompt
+command -v starship > /dev/null &&
+  eval "$(starship init bash)"

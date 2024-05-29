@@ -10,11 +10,6 @@ if [ ! -d "${ZINIT_HOME}" ]; then
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 
-#: Prompt (starship)
-command -v starship > /dev/null ||
-  curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "${HOME}/.local/bin" --force
-eval "$(starship init zsh)"
-
 #: Terminal tab
 [[ $(uname) == "Linux" ]] &&
   export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
@@ -66,3 +61,7 @@ bindkey '^[w' kill-region
 bindkey '^[[3~' delete-char
 #: }}}
 
+#: Prompt (starship)
+command -v starship > /dev/null ||
+  curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "${HOME}/.local/bin" --force
+eval "$(starship init zsh)"
