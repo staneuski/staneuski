@@ -59,8 +59,4 @@ function swap() {
 #: }}}
 
 [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin ] &&
-  . ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin
-
-#: Prompt
-command -v starship > /dev/null &&
-  eval "$(starship init bash)"
+  source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin

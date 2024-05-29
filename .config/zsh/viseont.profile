@@ -12,7 +12,8 @@ export PATH=${PATH}:$GRIDPRO/bin
 export PATH=${PATH}:$GRIDPRO/lc_mngr
 
 #: GT-Suite
-include /l/GTI/gtenv.sh
+[ -f /l/GTI/gtenv.sh ] &&
+  source /l/GTI/gtenv.sh
 #: }}}
 
 #: Functions {{{
@@ -48,3 +49,7 @@ function of () {
 
 #: Aliases {{{
 #: }}}
+
+#: Prompt
+command -v starship > /dev/null &&
+  eval "$(starship init bash)"

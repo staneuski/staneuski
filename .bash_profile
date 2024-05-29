@@ -35,4 +35,8 @@ shopt -u progcomp
 #: Enable ls color support
 [ -x /usr/bin/dircolors ] &&
   eval "$(dircolors -b)"
+
+#: Prompt
+[ $(hostname) != viseont ] && command -v starship > /dev/null &&
+  eval "$(starship init bash)"
 #: }}}
