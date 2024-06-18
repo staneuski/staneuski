@@ -63,5 +63,6 @@ bindkey -e
 bindkey "\e[A" history-beginning-search-backward
 bindkey "\e[B" history-beginning-search-forward
 bindkey '^[w' kill-region
+bindkey '^[[3~' delete-char
 #: }}}
 
