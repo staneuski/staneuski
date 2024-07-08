@@ -62,6 +62,8 @@ bindkey '^[[3~' delete-char
 #: }}}
 
 #: Prompt (starship)
-command -v starship > /dev/null ||
-  curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "${HOME}/.local/bin" --force
-eval "$(starship init zsh)"
+if [[ ! $(arch) =~ ^mips.* ]]; then
+  command -v starship > /dev/null ||
+    curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "${HOME}/.local/bin" --force
+  eval "$(starship init zsh)"
+fi
