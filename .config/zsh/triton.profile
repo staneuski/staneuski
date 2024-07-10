@@ -22,7 +22,7 @@ function of () {
         s|WM_COMPILE_OPTION=Opt|WM_COMPILE_OPTION=${2}|g;
         s|WM_COMPILE_OPTION=Debug|WM_COMPILE_OPTION=${2}|g
     " $HOME/.OpenFOAM/prefs.sh
-    
+
     . ${PROJAPPL}/opt/OpenFOAM-$1/etc/bashrc
 
     sed -i "s|WM_COMPILE_OPTION=${2}|WM_COMPILE_OPTION=Opt|g
@@ -41,4 +41,7 @@ function of () {
 #: }}}
 
 #: Aliases {{{
+sb () { sbatch "$@" }
+sr () { srun "$@" }
+srt () { srun --partition=interative --time=00:15:00 "$@" }
 #: }}}

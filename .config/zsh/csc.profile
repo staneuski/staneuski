@@ -36,13 +36,14 @@ function of () {
   export PATH=${PATH}:${WM_PROJECT_SITE}/bin
 
   module load python-data
-  export PYTHONUSERBASE=${PROJAPPL}/.pyenv
+  export PYTHONUSERBASE=${PROJAPPL}/pyenv
   export PYTHONPATH=${PYTHONUSERBASE}/lib/python3.*/site-packages/ && \
   export PATH=${PATH}:${PYTHONUSERBASE}/bin
 }
 #: }}}
 
 #: Aliases {{{
-alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
-alias sbatch="sbatch --account=project_${PRJ_ID}"
+sb () { sbatch --account="project_${PRJ_ID}" "$@" }
+sr () { srun --account="project_${PRJ_ID}" "$@" }
+srt () { srun --account="project_${PRJ_ID}" --partition=test --time=00:15:00 "$@" }
 #: }}}
