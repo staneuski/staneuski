@@ -41,10 +41,7 @@ zinit wait lucid for \
     OMZP::common-aliases \
     OMZP::command-not-found \
     OMZP::git \
-    OMZP::kitty \
-  atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes
-         zstyle ':omz:plugins:eza' 'git-status' yes" \
-    OMZP::eza
+    OMZP::kitty
 
 #: https://www.atlassian.com/git/tutorials/dotfiles
 alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
@@ -127,6 +124,10 @@ if [[ $(uname) == "Linux" ]]; then
     atpull"%atclone"
   zinit light eza-community/eza
 fi
+zinit wait"3" lucid for \
+  atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes
+         zstyle ':omz:plugins:eza' 'git-status' yes" \
+    OMZP::eza
 
 #: helix (helix does not provide man page)
 zinit ice wait"2" lucid from="gh-r" as="program" \
