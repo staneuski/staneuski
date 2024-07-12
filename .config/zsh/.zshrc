@@ -83,6 +83,12 @@ zinit cdreplay -q
 # 1 cli
 # 2 tui
 # 3 completions, docs
+#: fzf (use `fzf --man` instead of `man fzf`)
+zinit ice wait"1" lucid as"command" from"gh-r" \
+  atclone"./fzf --zsh > init.zsh" \
+  atpull"%atclone" src"init.zsh"
+zinit light junegunn/fzf
+
 # TODO: zinit ice from"gh-r"
 #: atuin
 [ -d "${HOME}/.atuin/" ] ||
@@ -144,12 +150,6 @@ zinit wait"3" lucid for \
     https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
   as"null" cp"lf.1 -> $ZINIT[MAN_DIR]/man1/lf.1" \
     https://github.com/gokcehan/lf/blob/master/lf.1
-
-#: fzf (use `fzf --man` instead of `man fzf`)
-zinit ice wait"1" lucid as"command" from"gh-r" \
-  atclone"./fzf --zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh"
-zinit light junegunn/fzf
 
 #: ripgrep
 zinit ice wait"1" lucid from"gh-r" as"program" \
