@@ -83,18 +83,14 @@ zinit cdreplay -q
 # 1 cli
 # 2 tui
 # 3 completions, docs
-#: fzf (use `fzf --man` instead of `man fzf`)
-zinit ice wait"1" lucid as"command" from"gh-r" \
-  atclone"./fzf --zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh"
-zinit light junegunn/fzf
-
-# TODO: zinit ice from"gh-r"
 #: atuin
-[ -d "${HOME}/.atuin/" ] ||
-  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-. "${HOME}/.atuin/bin/env"
-eval "$(atuin init zsh)"
+zinit ice wait="1b" lucid from"gh-r" as"command" \
+  bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" \
+  mv"atuin* -> atuin" \
+  pick"atuin*/atuin" \
+  atclone"atuin*/./atuin init zsh > init.zsh" \
+  atpull"%atclone" src"init.zsh" nocompile'!'
+zinit light atuinsh/atuin
 
 #: bat 
 zinit ice wait="2" lucid from"gh-r" as"command" \
@@ -134,6 +130,12 @@ zinit wait"3" lucid for \
   atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes
          zstyle ':omz:plugins:eza' 'git-status' yes" \
     OMZP::eza
+
+#: fzf (use `fzf --man` instead of `man fzf`)
+zinit ice wait"1a" lucid as"command" from"gh-r" \
+  atclone"./fzf --zsh > init.zsh" \
+  atpull"%atclone" src"init.zsh"
+zinit light junegunn/fzf
 
 #: helix (helix does not provide man page)
 zinit ice wait"2" lucid from="gh-r" as="program" \
