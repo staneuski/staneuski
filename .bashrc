@@ -6,7 +6,7 @@
 
 #: Exports {{{
 #: User specific environment
-[[ "${PATH}" =~ "${HOME}/.local/bin:${HOME}/bin:" ]] ||
+[[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
 #: }}}
 
@@ -46,7 +46,21 @@ alias ff='find . -type f -name'
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}'
 
-#: ohmyzsh/plugins/common-aliases#kitty
+#: ohmyzsh/plugins/eza
+if command -v exa > /dev/null; then
+  alias ls='exa --color=always --group-directories-first' 
+  alias la='exa --color=always --group-directories-first -la'
+  alias ldot='exa --color=always --group-directories-first -ld .*'
+  alias lD='exa --color=always --group-directories-first -lD'
+  alias lDD='exa --color=always --group-directories-first -lDa'
+  alias ll='exa --color=always --group-directories-first -l'
+  alias lsd='exa --color=always --group-directories-first -d'
+  alias lsdl='exa --color=always --group-directories-first -dl'
+  alias lS='exa --color=always --group-directories-first -l -ssize'
+  alias lT='exa --color=always --group-directories-first -l -snewest'
+fi
+
+#: ohmyzsh/plugins/kitty
 if [ ${TERM} == 'xterm-kitty' ]; then
   alias kssh='kitty +kitten ssh'
   alias kssh-slow='infocmp -a xterm-kitty | ssh myserver tic -x -o \~/.terminfo /dev/stdin'
@@ -62,21 +76,18 @@ command -v squeue > /dev/null &&
 #: }}}
 
 #: Integrations {{{
-#: Programms {{{
-if [[ ! $(arch) =~ ^mips.* ]]; then
-  #: atuin
-  [ -d "${HOME}/.atuin/" ] ||
-    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-  . "${HOME}/.atuin/bin/env"
-  eval "$(atuin init bash)"
-
-  #: starship
-  command -v starship > /dev/null ||
-    curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "${HOME}/.local/bin" --force
-  eval "$(starship init zsh)"
-fi
-
 #: Machine specific environment
 [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin ] &&
   source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin
+
+#: Programms {{{
+#: fzf
+command -v fzf > /dev/null &&
+  eval "$(fzf --bash)"
+
+if [[ ! $(arch) =~ ^mips.* ]]; then
+  #: starship
+  command -v starship > /dev/null &&
+    eval "$(starship init bash)"
+fi
 #: }}}
