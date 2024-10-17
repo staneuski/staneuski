@@ -127,8 +127,7 @@ if [[ $(uname) == "Linux" ]]; then
   zinit light eza-community/eza
 fi
 zinit wait"3" lucid for \
-  atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes
-         zstyle ':omz:plugins:eza' 'git-status' yes" \
+  atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
     OMZP::eza
 
 #: fzf (use `fzf --man` instead of `man fzf`)
