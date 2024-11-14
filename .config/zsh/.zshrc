@@ -78,6 +78,10 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 autoload -Uz compinit && compinit
 zinit cdreplay -q
 
+#: Prevent complete path deletions
+autoload -U select-word-style
+select-word-style bash
+
 #: Recipes {{{
 # 0 prompt, cd, ls
 # 1 cli
