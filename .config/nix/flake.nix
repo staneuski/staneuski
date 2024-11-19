@@ -17,43 +17,47 @@
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [
-          pkgs.cmake
-          pkgs.git
-          pkgs.git-lfs
-          pkgs.htop
-          pkgs.kitty
-          pkgs.mc
-          pkgs.rclone
-          pkgs.pipx
-          pkgs.python3
-          pkgs.syncthing
-          pkgs.virtualenv
-          pkgs.xquartz
+      environment.systemPackages = [
+        pkgs.cmake
+        pkgs.git
+        pkgs.git-lfs
+        pkgs.htop
+        pkgs.kitty
+        pkgs.mc
+        pkgs.pipx
+        pkgs.python3
+        pkgs.rclone
+        pkgs.syncthing
+        pkgs.virtualenv
+        pkgs.xquartz
 
-          pkgs.eza
-          pkgs.ice-bar
-          pkgs.maccy
-          pkgs.mkalias
-          pkgs.monitorcontrol
-        ];
+        pkgs.eza
+        pkgs.ice-bar
+        pkgs.maccy
+        pkgs.mkalias
+        pkgs.monitorcontrol
+      ];
 
       homebrew = {
         enable = true;
         brews = [
+          "ffmpeg"
+          "imagemagick"
+
           "mas"
         ];
         casks = [
-          "amethyst"
-          "coconutbattery"
-          "firefox"
-          "logi-options+"
+          "inkscape"
           "logseq"
           "paraview"
           "visual-studio-code"
           "vlc"
           "zotero"
+
+          "amethyst"
+          "coconutbattery"
+          "logi-options+"
+          "zen-browser"
         ];
         masApps = {
           "Hush" = 1544743900;
