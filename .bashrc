@@ -18,6 +18,7 @@ function swap() {
 #: }}}
 
 #: Aliases {{{
+# BEGIN_ASHELL_PROFILE
 #: ohmyzsh/plugins/common-aliases#ls-command
 alias l='ls -lFh'
 alias la='ls -lAFh'
@@ -40,11 +41,12 @@ alias duf='du -sh'
 alias t='tail -f'
 
 #: ohmyzsh/plugins/common-aliases#find-and-grep
-command -v fd > /dev/null &&
-  alias fd='find . -type d -name'
-alias ff='find . -type f -name'
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}'
+alias ff='find . -type f -name'
+# END_ASHELL_PROFILE
+command -v fd > /dev/null &&
+  alias fd='find . -type d -name'
 
 #: ohmyzsh/plugins/eza
 if command -v exa > /dev/null; then
