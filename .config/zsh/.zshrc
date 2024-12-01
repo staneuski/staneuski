@@ -1,6 +1,12 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 export PATH="${HOME}/.local/bin:${PATH}"
 
+# zinit wait levels:
+# 0 prompt, cd, ls
+# 1 cli
+# 2 tui
+# 3 completions, docs
+
 #: Environment {{{
 #: Plugin manager (zinit)
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
@@ -17,10 +23,11 @@ export MANPATH="$ZINIT[MAN_DIR]:$MANPATH"
 #: }}}
 
 #: Plugins {{{
-zinit wait lucid light-mode for \
+zinit wait"1" lucid light-mode for \
   zsh-users/zsh-autosuggestions \
   zsh-users/zsh-completions \
-  zsh-users/zsh-syntax-highlighting
+  zdharma-continuum/fast-syntax-highlighting \
+  MichaelAquilina/zsh-you-should-use
 #: }}}
 
 #: Functions {{{
@@ -37,7 +44,7 @@ function fancy-ctrl-z() {
 #: }}}
 
 #: Aliases {{{
-zinit wait lucid for \
+zinit wait"1" lucid for \
     OMZP::common-aliases \
     OMZP::command-not-found \
     OMZP::git \
@@ -49,6 +56,9 @@ alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree
 #: slurm
 (( $+commands[squeue] )) &&
   alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
+
+#: zoxide
+alias zql='zoxide query --list'
 #: }}}
 
 # Keybindings {{{
@@ -83,12 +93,8 @@ autoload -U select-word-style
 select-word-style bash
 
 #: Recipes {{{
-# 0 prompt, cd, ls
-# 1 cli
-# 2 tui
-# 3 completions, docs
 #: atuin
-zinit ice wait="1b" lucid from"gh-r" as"command" \
+zinit ice wait"1b" lucid from"gh-r" as"command" \
   bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" \
   mv"atuin* -> atuin" \
   pick"atuin*/atuin" \
@@ -97,7 +103,7 @@ zinit ice wait="1b" lucid from"gh-r" as"command" \
 zinit light atuinsh/atuin
 
 #: bat 
-zinit ice wait="2" lucid from"gh-r" as"command" \
+zinit ice wait"2" lucid from"gh-r" as"command" \
   mv"bat* -> bat" \
   pick"bat*/bat" \
   cp"bat*/autocomplete/bat.zsh -> _bat" \

@@ -18,11 +18,11 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = [
-        pkgs.cmake
+        # pkgs.cmake
         pkgs.git
         pkgs.git-lfs
         pkgs.htop
-        pkgs.kitty
+        # pkgs.kitty
         pkgs.mc
         pkgs.pipx
         pkgs.python3
@@ -35,7 +35,7 @@
         pkgs.ice-bar
         pkgs.maccy
         pkgs.mkalias
-        pkgs.monitorcontrol
+        # pkgs.monitorcontrol
       ];
 
       homebrew = {
@@ -45,6 +45,7 @@
           "imagemagick"
 
           "mas"
+          # "/Users/stasta/.local/opt/parmgridgen.rb"
         ];
         casks = [
           "inkscape"
@@ -58,6 +59,9 @@
           "coconutbattery"
           "logi-options+"
           "zen-browser"
+
+          "kitty"
+          "monitorcontrol"
         ];
         masApps = {
           "Hush" = 1544743900;
@@ -80,22 +84,22 @@
         };
       in
         pkgs.lib.mkForce ''
-          # Set up applications.
-          echo "setting up /Applications..." >&2
-          rm -rf /Applications/Nix\ Apps
-          mkdir -p /Applications/Nix\ Apps
-          find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-          while read src; do
-            app_name=$(basename "$src")
-            echo "copying $src" >&2
-            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-          done
-        ''; 
+        # Set up applications.
+        echo "setting up /Applications..." >&2
+        rm -rf /Applications/Nix\ Apps
+        mkdir -p /Applications/Nix\ Apps
+        find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+        while read -r src; do
+          app_name=$(basename "$src")
+          echo "copying $src" >&2
+          ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+        done
+      '';
 
       system.activationScripts.script.text = pkgs.lib.mkForce ''
         curl -sLo "/Users/stasta/Library/LaunchAgents/syncthing.plist" https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
         sed -i "" "
-          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
+          s|/Users/USERNANE/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
           s|USERNAME|stasta|g
         " "/Users/stasta/Library/LaunchAgents/syncthing.plist" 
       '';
@@ -108,7 +112,8 @@
         dock.persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
           "/System/Applications/Mail.app"
-          "${pkgs.kitty}/Applications/Kitty.app"
+          # "${pkgs.kitty}/Applications/Kitty.app"
+          "/Applications/kitty.app"
           "/Applications/Visual Studio Code.app"
           "/Applications/Logseq.app"
         ];
