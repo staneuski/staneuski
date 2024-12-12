@@ -18,24 +18,22 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = [
-        # pkgs.cmake
         pkgs.git
         pkgs.git-lfs
         pkgs.htop
-        # pkgs.kitty
+        pkgs.kitty
         pkgs.mc
         pkgs.pipx
         pkgs.python3
         pkgs.rclone
         pkgs.syncthing
         pkgs.virtualenv
-        pkgs.xquartz
 
         pkgs.eza
         pkgs.ice-bar
         pkgs.maccy
         pkgs.mkalias
-        # pkgs.monitorcontrol
+        pkgs.monitorcontrol
       ];
 
       homebrew = {
@@ -58,10 +56,8 @@
           "amethyst"
           "coconutbattery"
           "logi-options+"
+          "xquartz"
           "zen-browser"
-
-          "kitty"
-          "monitorcontrol"
         ];
         masApps = {
           "Hush" = 1544743900;
@@ -73,7 +69,7 @@
       };
 
       fonts.packages = [
-        (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+        pkgs.nerd-fonts.jetbrains-mono
       ];
 
       system.activationScripts.applications.text = let
@@ -97,9 +93,10 @@
       '';
 
       system.activationScripts.script.text = pkgs.lib.mkForce ''
+        #!/bin/sh
         curl -sLo "/Users/stasta/Library/LaunchAgents/syncthing.plist" https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
         sed -i "" "
-          s|/Users/USERNANE/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
+          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
           s|USERNAME|stasta|g
         " "/Users/stasta/Library/LaunchAgents/syncthing.plist" 
       '';
@@ -112,8 +109,7 @@
         dock.persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
           "/System/Applications/Mail.app"
-          # "${pkgs.kitty}/Applications/Kitty.app"
-          "/Applications/kitty.app"
+          "${pkgs.kitty}/Applications/Kitty.app"
           "/Applications/Visual Studio Code.app"
           "/Applications/Logseq.app"
         ];

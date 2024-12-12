@@ -4,11 +4,6 @@
 #: Exports {{{
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-#: Directories
-export LOGSEQ="${HOME}/Library/Mobile Documents/iCloud~com~logseq~logseq/Documents"
-export WRKDIR=$HOME/Developer
-#: }}}
-
 #: Functions {{{
 function of () {
   if [ -f $HOME/.local/opt/OpenFOAM-$1/etc/bashrc ] && [ ! -z ${2+x} ]; then

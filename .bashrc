@@ -3,6 +3,8 @@
 #: Source global definitions
 [ -f /etc/bashrc ] &&
   . /etc/bashrc
+[ -f /opt/etc/profile ] &&
+  . /opt/etc/profile 
 
 #: Exports {{{
 #: User specific environment
@@ -87,9 +89,11 @@ command -v squeue > /dev/null &&
 command -v fzf > /dev/null &&
   eval "$(fzf --bash)"
 
-if [[ ! $(arch) =~ ^mips.* ]]; then
+if [[ ! $(uname -m) =~ ^mips.* ]]; then
   #: starship
   command -v starship > /dev/null &&
     eval "$(starship init bash)"
+else
+  export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]❯ '
 fi
 #: }}}
