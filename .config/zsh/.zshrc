@@ -112,14 +112,14 @@ zinit ice wait"2" lucid from"gh-r" as"command" \
 zinit light sharkdp/bat
 
 #: entr
-zinit ice wait"1" lucid as"program" configure \
+zinit ice wait"1" lucid as"command" \
   cp"entr.1 $ZINIT[MAN_DIR]/man1" \
-  make"PREFIX=$ZPFX"
+  configure make"PREFIX=$ZPFX"
 zinit light eradman/entr
 
 #: eza
 if [[ $(uname) == "Linux" ]]; then
-  zinit ice wait"0" lucid from"gh-r" as"program"
+  zinit ice wait"0" lucid from"gh-r" as"command"
   zinit light eza-community/eza
   zinit ice wait"3" lucid from"gh-r" as"completion" \
     id-as"eza-community/eza/complitions" \
@@ -147,14 +147,14 @@ zinit ice wait"1a" lucid as"command" from"gh-r" \
 zinit light junegunn/fzf
 
 #: helix (helix does not provide man page)
-zinit ice wait"2" lucid from="gh-r" as="program" \
+zinit ice wait"2" lucid from="gh-r" as="command" \
   mv"helix* -> helix" \
   pick"helix*/hx" \
   cp"helix*/contrib/completion/hx.zsh -> _hx"
 zinit light helix-editor/helix
 
 #: lf
-zinit ice wait"2" lucid from"gh-r" as"program"
+zinit ice wait"2" lucid from"gh-r" as"command"
 zinit light gokcehan/lf
 zinit wait"3" lucid for \
   as"completion" cp"lf.zsh -> _lf" \
@@ -163,19 +163,26 @@ zinit wait"3" lucid for \
     https://github.com/gokcehan/lf/blob/master/lf.1
 
 #: ripgrep
-zinit ice wait"1" lucid from"gh-r" as"program" \
+zinit ice wait"1" lucid from"gh-r" as"command" \
   mv="ripgrep* -> ripgrep" \
   cp"*/doc/rg.1 -> $ZINIT[MAN_DIR]/man1/rg.1" \
   pick"ripgrep*/rg"
 zinit light BurntSushi/ripgrep
 
+#: stow
+zinit wait"1" id-as"gnu-stow" as"program" \
+  extract'!' \
+  cp"stow.8 $ZINIT[MAN_DIR]/man8" \
+  configure make"install PREFIX=$ZPFX" for \
+    http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
+
 #: treeify ( https://superuser.com/a/1086525 )
 (( $+commands[tree] )) ||
-zinit wait"1" lucid as"program" for \
+zinit wait"1" lucid as"command" for \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify
 
 #: zoxide ( https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951 )
-zinit ice from"gh-r" as"program" \
+zinit ice from"gh-r" as"command" \
   cp"zoxide-*/completions/_zoxide -> _zoxide" \
   atclone"./zoxide init --cmd=cd zsh > init.zsh" \
   atpull"%atclone" src"init.zsh" nocompile'!'
