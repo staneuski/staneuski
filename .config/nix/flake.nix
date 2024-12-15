@@ -23,7 +23,6 @@
         pkgs.htop
         pkgs.kitty
         pkgs.mc
-        pkgs.pipx
         pkgs.python3
         pkgs.rclone
         pkgs.syncthing

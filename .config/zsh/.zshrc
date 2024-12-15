@@ -123,6 +123,12 @@ zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
     mv"share/man/man1/nvim.1 -> $ZINIT[MAN_DIR]/man1/" \
     sbin"nvim" \
   neovim/neovim
+
+# requires python's argcomplete
+zinit wait"2" lucid as"completions" from"gh-r" id-as for \
+    atclone"register-python-argcomplete pipx > _pipx" atpull"%atclone" \
+    atload'pipx () { python3 "${ZINIT[PLUGINS_DIR]}/pipx/pipx.pyz" "$@" }' \
+  pypa/pipx
 #: }}}
 
 #: aliases, completions, docs, key-bindings {{{
