@@ -1,13 +1,8 @@
 # vim:fileencoding=utf-8:foldmethod=marker
-export PATH="${HOME}/.local/bin:${PATH}"
-
-# zinit wait levels:
-# 0 prompt, cd, ls
-# 1 cli
-# 2 tui
-# 3 completions, docs
 
 #: Environment {{{
+export PATH="${HOME}/.local/bin:${PATH}"
+
 #: Plugin manager (zinit)
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
 if [ ! -d "${ZINIT_HOME}" ]; then
@@ -17,17 +12,8 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 export MANPATH="$ZINIT[MAN_DIR]:$MANPATH"
 
-#: Terminal tab
-[[ $(uname) == "Linux" ]] &&
-  export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
-#: }}}
-
-#: Plugins {{{
-zinit wait"1" lucid light-mode for \
-  zsh-users/zsh-autosuggestions \
-  zsh-users/zsh-completions \
-  zdharma-continuum/fast-syntax-highlighting \
-  MichaelAquilina/zsh-you-should-use
+zinit lucid id-as for \
+  zdharma-continuum/zinit-annex-bin-gem-node
 #: }}}
 
 #: Functions {{{
@@ -43,34 +29,6 @@ function fancy-ctrl-z() {
 }
 #: }}}
 
-#: Aliases {{{
-zinit wait"1" lucid for \
-    OMZP::common-aliases \
-    OMZP::command-not-found \
-    OMZP::git \
-    OMZP::kitty
-
-#: https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
-
-#: slurm
-(( $+commands[squeue] )) &&
-  alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
-
-#: zoxide
-alias zql='zoxide query --list'
-#: }}}
-
-# Keybindings {{{
-bindkey -e
-bindkey '^[[3~' delete-char # https://superuser.com/a/1078653
-bindkey '^[w' kill-region
-
-#: Switch back Ctrl-Z
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-#: }}}
-
 #: Intergrations {{{
 #: History settings
 setopt appendhistory
@@ -81,118 +39,144 @@ setopt hist_ignore_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
-#: Completions
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-#: Load completions
-autoload -Uz compinit && compinit
-zinit cdreplay -q
-
 #: Prevent complete path deletions
 autoload -U select-word-style
 select-word-style bash
-
-#: Recipes {{{
-#: atuin
-zinit ice wait"1b" lucid from"gh-r" as"command" \
-  bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" \
-  mv"atuin* -> atuin" \
-  pick"atuin*/atuin" \
-  atclone"atuin*/./atuin init zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh" nocompile'!'
-zinit light atuinsh/atuin
-
-#: bat 
-zinit ice wait"2" lucid from"gh-r" as"command" \
-  mv"bat* -> bat" \
-  pick"bat*/bat" \
-  cp"bat*/autocomplete/bat.zsh -> _bat" \
-  atclone"cp -rvf bat*/bat.1 $ZINIT[MAN_DIR]/man1/" \
-  atpull"%atclone"
-zinit light sharkdp/bat
-
-#: entr
-zinit ice wait"1" lucid as"command" \
-  cp"entr.1 $ZINIT[MAN_DIR]/man1" \
-  configure make"PREFIX=$ZPFX"
-zinit light eradman/entr
-
-#: eza
-if [[ $(uname) == "Linux" ]]; then
-  zinit ice wait"0" lucid from"gh-r" as"command"
-  zinit light eza-community/eza
-  zinit ice wait"3" lucid from"gh-r" as"completion" \
-    id-as"eza-community/eza/complitions" \
-    bpick"completions*" \
-    mv"**/completions* -> completions" \
-    pick"**/complitions*/_eza"
-  zinit light eza-community/eza
-  zinit ice wait"3" lucid from"gh-r" as"none" \
-    id-as"eza-community/eza/man" \
-    bpick"man*" \
-    mv"**/man* -> man" \
-    atclone"cp -rfv **/man*/*.1 $ZINIT[MAN_DIR]/man1/
-            cp -rfv **/man*/*.5 $ZINIT[MAN_DIR]/man5/" \
-    atpull"%atclone"
-  zinit light eza-community/eza
-fi
-zinit wait"3" lucid for \
-  atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
-    OMZP::eza
-
-#: fzf (use `fzf --man` instead of `man fzf`)
-zinit ice wait"1a" lucid as"command" from"gh-r" \
-  atclone"./fzf --zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh"
-zinit light junegunn/fzf
-
-#: helix (helix does not provide man page)
-zinit ice wait"2" lucid from="gh-r" as="command" \
-  mv"helix* -> helix" \
-  pick"helix*/hx" \
-  cp"helix*/contrib/completion/hx.zsh -> _hx"
-zinit light helix-editor/helix
-
-#: lf
-zinit ice wait"2" lucid from"gh-r" as"command"
-zinit light gokcehan/lf
-zinit wait"3" lucid for \
-  as"completion" cp"lf.zsh -> _lf" \
-    https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
-  as"null" cp"lf.1 -> $ZINIT[MAN_DIR]/man1/lf.1" \
-    https://github.com/gokcehan/lf/blob/master/lf.1
-
-#: ripgrep
-zinit ice wait"1" lucid from"gh-r" as"command" \
-  mv="ripgrep* -> ripgrep" \
-  cp"*/doc/rg.1 -> $ZINIT[MAN_DIR]/man1/rg.1" \
-  pick"ripgrep*/rg"
-zinit light BurntSushi/ripgrep
-
-#: stow
-zinit wait"1" id-as"gnu-stow" as"program" \
-  extract'!' \
-  cp"stow.8 $ZINIT[MAN_DIR]/man8" \
-  configure make"install PREFIX=$ZPFX" for \
-    http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
-
-#: treeify ( https://superuser.com/a/1086525 )
-(( $+commands[tree] )) ||
-zinit wait"1" lucid as"command" for \
-  https://git.nullroute.lt/hacks/treeify.git/plain/treeify
-
-#: zoxide ( https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951 )
-zinit ice from"gh-r" as"command" \
-  cp"zoxide-*/completions/_zoxide -> _zoxide" \
-  atclone"./zoxide init --cmd=cd zsh > init.zsh" \
-  atpull"%atclone" src"init.zsh" nocompile'!'
-zinit light ajeetdsouza/zoxide
-
-#: starship
-zinit ice from"gh-r" as"command" \
-  atclone"./starship init zsh > init.zsh
-          ./starship completions zsh > _starship" \
-  atpull"%atclone" src"init.zsh"
-zinit light starship/starship
 #: }}}
+
+#: prompt, cd, ls {{{
+#: Terminal tab
+[[ $(uname) == 'Linux' ]] &&
+  export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
+
+zinit lucid as"none" from"gh-r" for \
+    atclone"
+      ./starship init zsh > init.zsh
+      ./starship completions zsh > _starship
+    " atpull"%atclone" \
+    src"init.zsh" \
+    sbin"starship" id-as \
+  starship/starship
+# https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
+zinit wait"0" lucid as"none" from"gh-r" for \
+    if"[[ $(uname) == 'Linux' ]]" \
+    sbin"eza" id-as \
+  eza-community/eza \
+    atclone"
+      ./zoxide init --cmd=cd zsh > init.zsh
+      cp -rfv man/man1/zoxide{,-add,-import,-init,-query,-remove}.1 $ZINIT[MAN_DIR]/man1/
+    " atpull"%atclone" \
+    cp"completions/_zoxide -> _zoxide" \
+    src"init.zsh" nocompile'!' \
+    atload"alias zql='zoxide query --list'" \
+    sbin"zoxide" id-as \
+  ajeetdsouza/zoxide
+
+#: CLIs, plugins {{{
+# treeify ( https://superuser.com/a/1086525 )
+zinit wait"1" lucid as"none" for \
+    configure make"PREFIX=$ZPFX" \
+    mv"entr.1 -> $ZINIT[MAN_DIR]/man1/" \
+    sbin"entr" id-as \
+  eradman/entr \
+    from"gh-r" sbin"lf" id-as \
+  gokcehan/lf \
+    if"[[ -n $+commands[tree] ]]" \
+    as"null" sbin"treeify" id-as"treeify" \
+  https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
+    from"gh-r" extract'!' \
+    mv"doc/rg.1 -> $ZINIT[MAN_DIR]/man1/" \
+    sbin"rg" id-as \
+  BurntSushi/ripgrep \
+    extract'!' \
+    configure make"install PREFIX=$ZPFX" \
+    id-as"gstow" \
+  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
+zinit wait"1" lucid light-mode for \
+  zsh-users/zsh-autosuggestions \
+  zsh-users/zsh-completions \
+  zdharma-continuum/fast-syntax-highlighting \
+  MichaelAquilina/zsh-you-should-use
+# use `fzf --man` instead of `man fzf`
+zinit wait"1a" lucid as"none" for \
+    from"gh-r" \
+    atclone"./fzf --zsh > init.zsh" atpull"%atclone" \
+    src"init.zsh" \
+    sbin"fzf" id-as \
+  junegunn/fzf
+zinit wait"1b" lucid as"none" for \
+    from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+    atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
+    src"init.zsh" nocompile'!' \
+    sbin"atuin" id-as \
+  atuinsh/atuin
+#: }}}
+
+#: TUIs {{{
+zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
+    mv"bat.1 -> $ZINIT[MAN_DIR]/man1/" cp"autocomplete/bat.zsh -> _bat" \
+    sbin"bat" \
+  @sharkdp/bat \
+    cp"contrib/completion/hx.zsh -> _hx" \
+    sbin"hx" \
+  helix-editor/helix \
+    mv"share/man/man1/nvim.1 -> $ZINIT[MAN_DIR]/man1/" \
+    sbin"nvim" \
+  neovim/neovim
+#: }}}
+
+#: aliases, completions, docs, key-bindings {{{
+#: Aliases
+# https://www.atlassian.com/git/tutorials/dotfiles
+alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+# slurm
+(( $+commands[squeue] )) &&
+  alias sq='squeue --format="%.10i %.9P %.40j %.8T %.6M %.4D %R" --me'
+
+#: Completions
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# Load completions
+autoload -Uz compinit && compinit
+zinit cdreplay -q
+
+#: Key-bindings
+bindkey -e
+bindkey '^[[3~' delete-char # https://superuser.com/a/1078653
+bindkey '^[w' kill-region
+# Switch back Ctrl-Z
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+zinit wait"3" lucid for \
+    if"[[ $(uname) == 'Darwin' ]]" has"bat" \
+    atload'alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"' \
+  @zdharma-continuum/null \
+    has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
+  OMZP::eza \
+    if"[[ $(uname) == 'Linux' ]]" has"eza" from"gh-r" bpick"completions*" \
+    as"completion" extract'!!' \
+    id-as"eza/completions" \
+  eza-community/eza \
+    if"[[ $(uname) == 'Linux' ]]" has"eza" from"gh-r" bpick"man*" \
+    as"completion" extract'!!' \
+    atclone"
+      cp -rfv *.1 $ZINIT[MAN_DIR]/man1/
+      cp -rfv *.5 $ZINIT[MAN_DIR]/man5/
+    " atpull"%atclone" \
+    id-as"eza/man" \
+  eza-community/eza \
+    has"fzf" as"completion" mv"completion.zsh -> _zsh" nocompile'!' \
+  https://github.com/junegunn/fzf/raw/master/shell/completion.zsh \
+    has"fzf" \
+  https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
+    has"lf" as"completion" id-as"_lf" \
+  https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
+    has"lf" as"null" cp"man.lf -> $ZINIT[MAN_DIR]/man1/lf.1" \
+    id-as"man.lf" \
+  https://github.com/gokcehan/lf/blob/master/lf.1
+zinit wait"3a" lucid for \
+  OMZP::common-aliases \
+  OMZP::command-not-found \
+  OMZP::git \
+  OMZP::kitty
 #: }}}

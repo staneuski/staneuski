@@ -32,7 +32,7 @@ function of () {
 #: }}}
 
 #: Aliases {{{
-alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
+# alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
 alias cattysh="caffeinate -ims kitty +kitten ssh"
 alias rsync="rsync --exclude={'.DS_Store','._*'}"
 alias tar="COPYFILE_DISABLE=1 tar"
