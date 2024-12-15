@@ -167,13 +167,13 @@ zinit wait"3" lucid for \
   eza-community/eza \
     has"fzf" as"completion" mv"completion.zsh -> _zsh" nocompile'!' \
   https://github.com/junegunn/fzf/raw/master/shell/completion.zsh \
-    has"fzf" \
-  https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
     has"lf" as"null" cp"man.lf -> $ZINIT[MAN_DIR]/man1/lf.1" \
     id-as"man.lf" \
   https://github.com/gokcehan/lf/blob/master/lf.1
+  # has"fzf" \
+  # https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
 zinit wait"3a" lucid for \
   OMZP::common-aliases \
   OMZP::command-not-found \

@@ -1,13 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # mahti and puhti CSC clusters (RedHad OS) specific settings
 
-#: Exports {{{
-#: Directories
-export PRJ_ID=2004997
-export PROJAPPL="/projappl/project_${PRJ_ID}/${USER}"
-export WRKDIR="/scratch/project_${PRJ_ID}/${USER}"
-#: }}}
-
 #: Functions {{{
 function of () {
   if [ -z ${2+x} ]; then
