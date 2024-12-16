@@ -13,7 +13,9 @@ source "${ZINIT_HOME}/zinit.zsh"
 export MANPATH="$ZINIT[MAN_DIR]:$MANPATH"
 
 zinit lucid id-as for \
-  zdharma-continuum/zinit-annex-bin-gem-node
+  zdharma-continuum/zinit-annex-bin-gem-node \
+  zdharma-continuum/zinit-annex-binary-symlink \
+  zdharma-continuum/zinit-annex-linkman
 #: }}}
 
 #: Functions {{{
@@ -55,12 +57,12 @@ zinit lucid as"none" from"gh-r" for \
       ./starship completions zsh > _starship
     " atpull"%atclone" \
     src"init.zsh" \
-    sbin"starship" id-as \
+    lbin"!starship" id-as \
   starship/starship
 # https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
 zinit wait"0" lucid as"none" from"gh-r" for \
     if"[[ $(uname) == 'Linux' ]]" \
-    sbin"eza" id-as \
+    lbin"!eza" id-as \
   eza-community/eza \
     atclone"
       ./zoxide init --cmd=cd zsh > init.zsh
@@ -69,24 +71,22 @@ zinit wait"0" lucid as"none" from"gh-r" for \
     cp"completions/_zoxide -> _zoxide" \
     src"init.zsh" nocompile'!' \
     atload"alias zql='zoxide query --list'" \
-    sbin"zoxide" id-as \
+    lbin"!zoxide" id-as \
   ajeetdsouza/zoxide
 
 #: CLIs, plugins {{{
 # treeify ( https://superuser.com/a/1086525 )
 zinit wait"1" lucid as"none" for \
     configure make"PREFIX=$ZPFX" \
-    mv"entr.1 -> $ZINIT[MAN_DIR]/man1/" \
-    sbin"entr" id-as \
+    lbin"!entr" lman"entr.1" id-as \
   eradman/entr \
     from"gh-r" sbin"lf" id-as \
   gokcehan/lf \
     if"[[ -n $+commands[tree] ]]" \
-    as"null" sbin"treeify" id-as"treeify" \
+    as"null" lbin"!treeify" id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
     from"gh-r" extract'!' \
-    mv"doc/rg.1 -> $ZINIT[MAN_DIR]/man1/" \
-    sbin"rg" id-as \
+    lbin"!rg" lman"rg.1" id-as \
   BurntSushi/ripgrep \
     extract'!' \
     configure make"install PREFIX=$ZPFX" \
@@ -102,26 +102,25 @@ zinit wait"1a" lucid as"none" for \
     from"gh-r" \
     atclone"./fzf --zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" \
-    sbin"fzf" id-as \
+    lbin"!fzf" id-as \
   junegunn/fzf
 zinit wait"1b" lucid as"none" for \
     from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
-    sbin"atuin" id-as \
+    lbin"!atuin" id-as \
   atuinsh/atuin
 #: }}}
 
 #: TUIs {{{
 zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
-    mv"bat.1 -> $ZINIT[MAN_DIR]/man1/" cp"autocomplete/bat.zsh -> _bat" \
-    sbin"bat" \
+    cp"autocomplete/bat.zsh -> _bat" \
+    lbin"!bat" lman"bat.1" \
   @sharkdp/bat \
     cp"contrib/completion/hx.zsh -> _hx" \
-    sbin"hx" \
+    lbin"!hx" \
   helix-editor/helix \
-    mv"share/man/man1/nvim.1 -> $ZINIT[MAN_DIR]/man1/" \
-    sbin"nvim" \
+    lbin"!nvim" lman"share/man/man1/nvim.1" \
   neovim/neovim
 
 # requires python's argcomplete
@@ -154,6 +153,11 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 zinit wait"3" lucid for \
+  OMZP::common-aliases \
+  OMZP::command-not-found \
+  OMZP::git \
+  OMZP::kitty
+zinit wait"3a" lucid for \
     if"[[ $(uname) == 'Darwin' ]]" has"bat" \
     atload'alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"' \
   @zdharma-continuum/null \
@@ -164,25 +168,15 @@ zinit wait"3" lucid for \
     id-as"eza/completions" \
   eza-community/eza \
     if"[[ $(uname) == 'Linux' ]]" has"eza" from"gh-r" bpick"man*" \
-    as"completion" extract'!!' \
-    atclone"
-      cp -rfv *.1 $ZINIT[MAN_DIR]/man1/
-      cp -rfv *.5 $ZINIT[MAN_DIR]/man5/
-    " atpull"%atclone" \
-    id-as"eza/man" \
+    as"null" extract'!!' \
+    lman"eza*" id-as"eza/man" \
   eza-community/eza \
     has"fzf" as"completion" mv"completion.zsh -> _zsh" nocompile'!' \
   https://github.com/junegunn/fzf/raw/master/shell/completion.zsh \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
-    has"lf" as"null" cp"man.lf -> $ZINIT[MAN_DIR]/man1/lf.1" \
-    id-as"man.lf" \
+    has"lf" as"null" lman"lf.1" \
   https://github.com/gokcehan/lf/blob/master/lf.1
-  # has"fzf" \
+  #   has"fzf" \
   # https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
-zinit wait"3a" lucid for \
-  OMZP::common-aliases \
-  OMZP::command-not-found \
-  OMZP::git \
-  OMZP::kitty
 #: }}}
