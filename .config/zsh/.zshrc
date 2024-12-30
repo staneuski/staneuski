@@ -133,7 +133,7 @@ zinit wait"2" lucid as"completions" from"gh-r" id-as for \
 #: aliases, completions, docs, key-bindings {{{
 #: Aliases
 # https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="$(which git) --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+alias stow-git="git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
 # slurm
 (( $+commands[squeue] )) &&
   alias sq='squeue --format="%.10i %.9P %.40j %.8T %.6M %.4D %R" --me'
@@ -172,6 +172,7 @@ zinit wait"3a" lucid for \
     lman"eza*" id-as"eza/man" \
   eza-community/eza \
     has"fzf" as"completion" mv"completion.zsh -> _zsh" nocompile'!' \
+    atload"export FZF_DEFAULT_OPTS=\"--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'\"" \
   https://github.com/junegunn/fzf/raw/master/shell/completion.zsh \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \

@@ -72,7 +72,7 @@ if [ ${TERM} == 'xterm-kitty' ]; then
 fi
 
 #: https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+alias stow-git="git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
 
 #: slurm
 command -v squeue > /dev/null &&
