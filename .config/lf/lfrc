@@ -1,7 +1,7 @@
 # https://github.com/gokcehan/lf/wiki/Tips
 
 #: Use kitty preview {{{
-# set previewer ~/.config/lf/preview_bat.sh
+set previewer ~/.config/lf/preview.sh
 #: }}}
 
 #: Functions {{{
@@ -32,25 +32,32 @@ cmd mkdir-mv ${{
 #: Create file with/or directory
 cmd create ${{
   set -f
-  if [[ "${1}" =~ ^.*\/ ]]; then
-    mkdir -p -- $1
-    lf -remote "send ${id} cd ${1}"
+  if [[ "${1}" == */ ]]; then
+    mkdir -p $1
+    # lf -remote "send ${id} cd ${1}"
   else
-    mkdir -p $(dirname -- $1)
+    mkdir -p -- $(dirname -- $1)
     touch -- $1
-    lf -remote "send ${id} select ${1}"
+    # lf -remote "send ${id} select ${1}"
   fi
 }}
 
 #: Edit symlink
-cmd lnedit %{{
-  set -f
-  [ -L $f ] && ln -sf $1 $f
-}}
+# cmd lnedit %{{
+#   set -f
+#   [ -L $f ] && ln -sf $1 $f
+# }}
 
 #: Group select
 cmd globtoggle ${{
   lf -remote "send ${id} toggle $(ls -d ${*} | xargs)"
+}}
+
+cmd bat-toggle &{{
+  set -f
+  [[ $(grep -- '--theme=' ~/.config/bat/config | sed -E 's/^--theme="([^"]+)"/\1/') == "GitHub" ]] &&
+    sed -i'.prev' '/^--theme/ s/.*/--theme="Dracula"/' ~/.config/bat/config ||
+    sed -i'.prev' '/^--theme/ s/.*/--theme="GitHub"/' ~/.config/bat/config
 }}
 #: }}}
 
@@ -65,20 +72,21 @@ set dupfilefmt '%b%n%e'
 
 #: Key bindings {{{
 map <c-z> $ kill -STOP $PPID
+map T push :bat-toggle<enter>
 
 #: Select
 map + push :globtoggle<space>
 
-#: Create, delete, edit links
+#: Create, delete
 map <enter> push :create<space>
 map <a-n> push :mkdir-mv<space>
 map D delete
-map S push :lnedit<space>
+# map S push :lnedit<space>
 
 #: tar
 map a push :archive<space>
 map <a-a> :unxz
-map x &tar -xf $f && rm -rf $f
+map x &tar -xf "$f" && rm -rf "$f"
 
 #: Select / toggle
 map <space> :toggle
@@ -89,10 +97,11 @@ map <s-up> :toggle; up
 #: Use enter for shell commands
 # map <enter> shell
 
-#: Edit
-map e $vim "$f"
-map <f-4> $vim "$f"
-
 #: Preview
-map <f-3> $bat --paging=never "$f"
+map i $bat --paging=always "$f"
+map <f-3> $less -nR "$f"
+
+#: Edit
+# map e $vim "$f"
+map <f-4> $vim "$f"
 #: }}}

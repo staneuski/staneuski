@@ -133,7 +133,7 @@ zinit wait"2" lucid as"completions" from"gh-r" id-as for \
 #: aliases, completions, docs, key-bindings {{{
 #: Aliases
 # https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="/usr/bin/git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+alias stow-git="$(which git) --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
 # slurm
 (( $+commands[squeue] )) &&
   alias sq='squeue --format="%.10i %.9P %.40j %.8T %.6M %.4D %R" --me'
@@ -159,7 +159,7 @@ zinit wait"3" lucid for \
   OMZP::kitty
 zinit wait"3a" lucid for \
     if"[[ $(uname) == 'Darwin' ]]" has"bat" \
-    atload'alias bat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"' \
+    atload"bat () { $(which bat) --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) \"\$@\" }" \
   @zdharma-continuum/null \
     has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
   OMZP::eza \
