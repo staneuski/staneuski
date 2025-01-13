@@ -57,12 +57,12 @@ zinit lucid as"none" from"gh-r" for \
       ./starship completions zsh > _starship
     " atpull"%atclone" \
     src"init.zsh" \
-    lbin"!starship" id-as \
+    lbin'!starship' id-as \
   starship/starship
 # https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
 zinit wait"0" lucid as"none" from"gh-r" for \
     if"[[ $(uname) == 'Linux' ]]" \
-    lbin"!eza" id-as \
+    lbin'!eza' id-as \
   eza-community/eza \
     atclone"
       ./zoxide init --cmd=cd zsh > init.zsh
@@ -71,22 +71,22 @@ zinit wait"0" lucid as"none" from"gh-r" for \
     cp"completions/_zoxide -> _zoxide" \
     src"init.zsh" nocompile'!' \
     atload"alias zql='zoxide query --list'" \
-    lbin"!zoxide" id-as \
+    lbin'!zoxide' id-as \
   ajeetdsouza/zoxide
 
 #: CLIs, plugins {{{
 # treeify ( https://superuser.com/a/1086525 )
 zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
-    lbin"!entr" lman"entr.1" id-as \
+    lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
     from"gh-r" sbin"lf" id-as \
   gokcehan/lf \
     if"[[ -n $+commands[tree] ]]" \
-    as"null" lbin"!treeify" id-as"treeify" \
+    as"null" lbin'!treeify' id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
     from"gh-r" extract'!' \
-    lbin"!rg" lman"rg.1" id-as \
+    lbin'!rg' lman"rg.1" id-as \
   BurntSushi/ripgrep \
     extract'!' \
     configure make"install PREFIX=${ZPFX}" \
@@ -102,27 +102,29 @@ zinit wait"1a" lucid as"none" for \
     from"gh-r" \
     atclone"./fzf --zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" \
-    lbin"!fzf" id-as \
+    lbin'!fzf' id-as \
   junegunn/fzf
 zinit wait"1b" lucid as"none" for \
     from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
-    lbin"!atuin" id-as \
+    lbin'!atuin' id-as \
   atuinsh/atuin
 #: }}}
 
 #: TUIs {{{
 zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
     cp"autocomplete/bat.zsh -> _bat" \
-    lbin"!bat" lman"bat.1" \
+    lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     cp"contrib/completion/hx.zsh -> _hx" \
-    lbin"!hx" \
+    lbin'!hx' \
   helix-editor/helix \
     lbin'!lazygit' id-as \
-  jesseduffield/lazygit
-    lbin"!nvim" lman"share/man/man1/nvim.1" \
+    atload"alias lg='lazygit'
+           alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"" \
+  jesseduffield/lazygit \
+    lbin'!nvim' lman"share/man/man1/nvim.1" \
   neovim/neovim
 
 # requires python's argcomplete
