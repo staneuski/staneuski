@@ -77,7 +77,7 @@ zinit wait"0" lucid as"none" from"gh-r" for \
 #: CLIs, plugins {{{
 # treeify ( https://superuser.com/a/1086525 )
 zinit wait"1" lucid as"none" for \
-    configure make"PREFIX=$ZPFX" \
+    configure make"PREFIX=${ZPFX}" \
     lbin"!entr" lman"entr.1" id-as \
   eradman/entr \
     from"gh-r" sbin"lf" id-as \
@@ -89,7 +89,7 @@ zinit wait"1" lucid as"none" for \
     lbin"!rg" lman"rg.1" id-as \
   BurntSushi/ripgrep \
     extract'!' \
-    configure make"install PREFIX=$ZPFX" \
+    configure make"install PREFIX=${ZPFX}" \
     id-as"gstow" \
   http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
 zinit wait"1" lucid light-mode for \
@@ -120,6 +120,8 @@ zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
     cp"contrib/completion/hx.zsh -> _hx" \
     lbin"!hx" \
   helix-editor/helix \
+    lbin'!lazygit' id-as \
+  jesseduffield/lazygit
     lbin"!nvim" lman"share/man/man1/nvim.1" \
   neovim/neovim
 
