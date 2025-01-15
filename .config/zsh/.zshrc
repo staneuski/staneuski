@@ -1,6 +1,8 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 #: Environment {{{
+[[ "${PATH}" == *nix* ]] &&
+  export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
 export PATH="${HOME}/.local/bin:${PATH}"
 
 #: Plugin manager (zinit)
