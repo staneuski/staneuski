@@ -1,3 +1,5 @@
 --theme="Dracula"
 
+--map-syntax="*.eb*:Python"
 --map-syntax="*.pvsm*:XML"
+--map-syntax="*.series:JSON"
