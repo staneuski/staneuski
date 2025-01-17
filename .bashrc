@@ -8,8 +8,12 @@
 
 #: Exports {{{
 #: User specific environment
+[[ "${PATH}" == *nix* ]] &&
+  export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
+
+
 #: }}}
 
 #: Functions {{{
