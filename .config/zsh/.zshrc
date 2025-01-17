@@ -125,7 +125,10 @@ zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
            alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"" \
   jesseduffield/lazygit \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
-  neovim/neovim
+  neovim/neovim  \
+    from"gh-r" extract'!' \
+    lbin'!yazi' id-as \
+  sxyazi/yazi
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
