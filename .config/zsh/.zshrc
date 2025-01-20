@@ -82,8 +82,6 @@ zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
-    from"gh-r" sbin"lf" id-as \
-  gokcehan/lf \
     if"[[ -n $+commands[tree] ]]" \
     as"null" lbin'!treeify' id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
@@ -119,6 +117,8 @@ zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
     cp"autocomplete/bat.zsh -> _bat" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
+    from"gh-r" sbin"lf" id-as \
+  gokcehan/lf \
     cp"contrib/completion/hx.zsh -> _hx" \
     lbin'!hx' \
   helix-editor/helix \
