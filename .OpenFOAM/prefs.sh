@@ -20,20 +20,10 @@
 #
 #------------------------------------------------------------------------------
 
-
-# OpenFOAM environment variables
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# macOS compilation settings
-if [[ $(uname) == "Darwin" ]]; then
+if [[ $(uname) == "Darwin" ]]
+then
     export WM_COMPILER=Clang
     export WM_MPLIB=SYSTEMOPENMPI
     export WM_LABEL_SIZE=32
     export WM_NCOMPPROCS=$(sysctl -n hw.ncpu)
-    export WM_PROJECT_SITE=$HOME/Developer/Projects/foamio/addons
-else
-    export WM_PROJECT_SITE=$HOME/.local/share/foamio/addons
 fi
-
-export WM_COMPILE_OPTION=Opt # Opt | Debug
-export WM_PROJECT_USER_DIR=$HOME/.local/opt/$WM_PROJECT-$WM_PROJECT_VERSION
-
