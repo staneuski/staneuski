@@ -1,5 +1,8 @@
 #: Environment {{{
 $env:DISPLAY = "localhost:0"
+$env:EDITOR = "hx"
+$env:PAGER = "less"
+$env:PIPX_HOME = "$env:LOCALAPPDATA\pipx"
 #: }}}
 
 #: Aliases {{{
@@ -19,8 +22,8 @@ Function lT { eza --color=always --group-directories-first -l -snewest $args }
 #: git
 Import-Module git-aliases -DisableNameChecking
 Set-Alias -Name lg -Value "lazygit"
-Function Stow-Git { git --git-dir=$env:USERPROFILE\.local\share\dotfiles --work-tree=$env:USERPROFILE $args }
-Function Stow-Lg { lazygit --git-dir=$env:USERPROFILE\.local\share\dotfiles --work-tree=$env:USERPROFILE $args }
+Function Stow-Git { git --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:USERPROFILE $args }
+Function Stow-Lg { lazygit --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:USERPROFILE $args }
 
 #: zoxide
 Function zql { zoxide query --list $args }
