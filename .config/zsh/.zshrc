@@ -53,18 +53,18 @@ select-word-style bash
 [[ $(uname) == 'Linux' ]] &&
   export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
-zinit lucid as"none" from"gh-r" for \
+zinit lucid as"none" from"gh-r" id-as for \
     atclone"
       ./starship init zsh > init.zsh
       ./starship completions zsh > _starship
     " atpull"%atclone" \
     src"init.zsh" \
-    lbin'!starship' id-as \
+    lbin'!starship' \
   starship/starship
 # https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
-zinit wait"0" lucid as"none" from"gh-r" for \
+zinit wait"0" lucid as"none" from"gh-r" id-as for \
     if"[[ $(uname) == 'Linux' ]]" \
-    lbin'!eza' id-as \
+    lbin'!eza' \
   eza-community/eza \
     atclone"
       ./zoxide init --cmd=cd zsh > init.zsh
@@ -73,7 +73,7 @@ zinit wait"0" lucid as"none" from"gh-r" for \
     cp"completions/_zoxide -> _zoxide" \
     src"init.zsh" nocompile'!' \
     atload"alias zql='zoxide query --list'" \
-    lbin'!zoxide' id-as \
+    lbin'!zoxide' \
   ajeetdsouza/zoxide
 
 #: CLIs, plugins {{{
@@ -85,6 +85,9 @@ zinit wait"1" lucid as"none" for \
     if"[[ -n $+commands[tree] ]]" \
     as"null" lbin'!treeify' id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
+    from"gh-r" atclone"./rip completions zsh > _rip" atpull"%atclone" \
+    lbin'!rip' id-as"rm-improved" \
+  MilesCranmer/rip2 \
     from"gh-r" extract'!' \
     lbin'!rg' lman"rg.1" id-as \
   BurntSushi/ripgrep \
@@ -98,17 +101,16 @@ zinit wait"1" lucid light-mode for \
   zdharma-continuum/fast-syntax-highlighting \
   MichaelAquilina/zsh-you-should-use
 # use `fzf --man` instead of `man fzf`
-zinit wait"1a" lucid as"none" for \
-    from"gh-r" \
+zinit wait"1a" lucid as"none" from"gh-r" id-as for \
     atclone"./fzf --zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" \
-    lbin'!fzf' id-as \
+    lbin'!fzf' \
   junegunn/fzf
-zinit wait"1b" lucid as"none" for \
-    from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+zinit wait"1b" lucid as"none" from"gh-r" for \
+    bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
-    lbin'!atuin' id-as \
+    lbin'!atuin' \
   atuinsh/atuin
 #: }}}
 
@@ -118,19 +120,21 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
-    lbin"lf" id-as \
+    lbin"lf" \
   gokcehan/lf \
     extract'!' cp"contrib/completion/hx.zsh -> _hx" \
     lbin'!hx' \
   helix-editor/helix \
     extract'!' \
-    lbin'!lazygit' id-as \
-    atload"alias lg='lazygit'
-           alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"" \
+    lbin'!lazygit' \
+    atload"
+      alias lg='lazygit'
+      alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"
+    " \
   jesseduffield/lazygit \
     atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
-    lbin'!navi' id-as \
+    lbin'!navi' \
   denisidoro/navi \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
