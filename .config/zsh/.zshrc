@@ -113,24 +113,28 @@ zinit wait"1b" lucid as"none" for \
 #: }}}
 
 #: TUIs {{{
-zinit wait"2" lucid as"none" from"gh-r" extract'!' id-as for \
-    cp"autocomplete/bat.zsh -> _bat" \
+zinit wait"2" lucid as"none" from"gh-r" id-as for \
+    extract'!' cp"autocomplete/bat.zsh -> _bat" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
-    from"gh-r" sbin"lf" id-as \
+    extract'!' \
+    lbin"lf" id-as \
   gokcehan/lf \
-    cp"contrib/completion/hx.zsh -> _hx" \
+    extract'!' cp"contrib/completion/hx.zsh -> _hx" \
     lbin'!hx' \
   helix-editor/helix \
+    extract'!' \
     lbin'!lazygit' id-as \
     atload"alias lg='lazygit'
            alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"" \
   jesseduffield/lazygit \
+    atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
+    src"init.zsh" nocompile'!' \
+    lbin'!navi' id-as \
+  denisidoro/navi \
+    extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
-  neovim/neovim  \
-    from"gh-r" extract'!' \
-    lbin'!yazi' id-as \
-  sxyazi/yazi
+  neovim/neovim
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
