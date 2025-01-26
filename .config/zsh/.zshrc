@@ -106,7 +106,7 @@ zinit wait"1a" lucid as"none" from"gh-r" id-as for \
     src"init.zsh" \
     lbin'!fzf' \
   junegunn/fzf
-zinit wait"1b" lucid as"none" from"gh-r" for \
+zinit wait"1b" lucid as"none" from"gh-r" id-as for \
     bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
