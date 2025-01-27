@@ -120,7 +120,7 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
-    lbin"lf" \
+    lbin"!lf" \
   gokcehan/lf \
     extract'!' cp"contrib/completion/hx.zsh -> _hx" \
     lbin'!hx' \
