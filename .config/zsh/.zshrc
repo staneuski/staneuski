@@ -85,6 +85,9 @@ zinit wait"1" lucid as"none" for \
     if"[[ -n $+commands[tree] ]]" \
     as"null" lbin'!treeify' id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
+    from"gh-r" cp"completions/just.zsh -> _just" \
+    lbin'!just' lman"just.1" id-as \
+  casey/just \
     from"gh-r" atclone"./rip completions zsh > _rip" atpull"%atclone" \
     lbin'!rip' id-as"rm-improved" \
   MilesCranmer/rip2 \
