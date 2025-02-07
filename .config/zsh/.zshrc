@@ -125,9 +125,6 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     extract'!' \
     lbin"!lf" \
   gokcehan/lf \
-    extract'!' cp"contrib/completion/hx.zsh -> _hx" \
-    lbin'!hx' \
-  helix-editor/helix \
     extract'!' \
     lbin'!lazygit' \
     atload"
@@ -138,10 +135,7 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
     lbin'!navi' \
-  denisidoro/navi \
-    extract'!' \
-    lbin'!nvim' lman"share/man/man1/nvim.1" \
-  neovim/neovim
+  denisidoro/navi
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
