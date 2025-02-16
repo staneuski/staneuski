@@ -5,7 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # home-manager.url = "github:nix-community/home-manager";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
@@ -17,22 +16,24 @@
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages = [
-        pkgs.git
-        pkgs.git-lfs
-        pkgs.htop
-        pkgs.kitty
-        pkgs.mc
-        pkgs.python3
-        pkgs.rclone
-        pkgs.syncthing
-        pkgs.virtualenv
+      environment.systemPackages = with pkgs; [
+        git
+        git-lfs
+        helix
+        htop
+        kitty
+        mc
+        neovim
+        python3
+        rclone
+        syncthing
+        virtualenv
 
-        pkgs.eza
-        pkgs.ice-bar
-        pkgs.maccy
-        pkgs.mkalias
-        pkgs.monitorcontrol
+        eza
+        ice-bar
+        maccy
+        mkalias
+        monitorcontrol
       ];
 
       homebrew = {
@@ -42,9 +43,9 @@
           "imagemagick"
 
           "mas"
-          # "/Users/stasta/.local/opt/parmgridgen.rb"
         ];
         casks = [
+          "firefox"
           "inkscape"
           "logseq"
           "paraview"
@@ -52,18 +53,19 @@
           "vlc"
           "zotero"
 
+          "node@22"
           "amethyst"
           "coconutbattery"
+          "hammerspoon"
           "logi-options+"
           "xquartz"
-          "zen-browser"
         ];
         masApps = {
           "Hush" = 1544743900;
           "Strongbox" = 897283731;
         };
-        onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
+        onActivation.cleanup = "zap";
         onActivation.upgrade = true;
       };
 
@@ -79,7 +81,6 @@
         };
       in
         pkgs.lib.mkForce ''
-        # Set up applications.
         echo "setting up /Applications..." >&2
         rm -rf /Applications/Nix\ Apps
         mkdir -p /Applications/Nix\ Apps
@@ -92,7 +93,7 @@
       '';
 
       system.activationScripts.script.text = pkgs.lib.mkForce ''
-        #!/bin/sh
+        #!/usr/bin/env sh
         curl -sLo "/Users/stasta/Library/LaunchAgents/syncthing.plist" https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
         sed -i "" "
           s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
@@ -105,6 +106,7 @@
         dock.autohide-delay = 0.1;
         dock.autohide-time-modifier = 0.4;
         dock.largesize = 128;
+        dock.magnification = true;
         dock.persistent-apps = [
           "/System/Cryptexes/App/System/Applications/Safari.app"
           "/System/Applications/Mail.app"
@@ -112,7 +114,6 @@
           "/Applications/Visual Studio Code.app"
           "/Applications/Logseq.app"
         ];
-        dock.magnification = true;
         # finder.FXPreferredViewStyle = "clmv";
         loginwindow.GuestEnabled = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;

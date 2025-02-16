@@ -8,11 +8,12 @@
   let
     configuration = { config, pkgs, ... }: {
       environment.systemPackages = with pkgs; [
+        bc
+        gawk
         gcc
         git
         git-lfs
         gnumake
-        mc
         nix-ld
         vim
         wget
