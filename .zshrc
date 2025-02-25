@@ -85,9 +85,6 @@ zinit wait"1" lucid as"none" for \
     if"[[ -n $+commands[tree] ]]" \
     as"null" lbin'!treeify' id-as"treeify" \
   https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
-    from"gh-r" cp"completions/just.zsh -> _just" \
-    lbin'!just' lman"just.1" id-as \
-  casey/just \
     from"gh-r" atclone"./rip completions zsh > _rip" atpull"%atclone" \
     lbin'!rip' id-as"rm-improved" \
   MilesCranmer/rip2 \
@@ -127,10 +124,7 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
   gokcehan/lf \
     extract'!' \
     lbin'!lazygit' \
-    atload"
-      alias lg='lazygit'
-      alias stow-lg=\"lazygit --git-dir=${HOME}/.config/ --work-tree=${HOME}/.config/\"
-    " \
+    atload"alias lg='lazygit'" \
   jesseduffield/lazygit \
     atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \

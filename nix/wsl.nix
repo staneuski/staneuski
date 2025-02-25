@@ -9,12 +9,16 @@
     configuration = { config, pkgs, ... }: {
       environment.systemPackages = with pkgs; [
         bc
+        file
         gawk
         gcc
         git
         git-lfs
         gnumake
         nix-ld
+        python3
+        toybox
+        unzip
         vim
         wget
         zsh
