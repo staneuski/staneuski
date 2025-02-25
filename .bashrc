@@ -13,7 +13,11 @@
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
 
+[ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
+  export BASH_COMPLETION_USER_DIR="$HOME/.local/share/bash-completion"
 
+[[ "${MANPATH}" =~ .*"${HOME}/.local/share/man".* ]] ||
+  export MANPATH="${HOME}/.local/share/man:${MANPATH}"
 #: }}}
 
 #: Functions {{{
@@ -67,6 +71,18 @@ if command -v exa > /dev/null; then
   alias lS='exa --color=always --group-directories-first -l -ssize'
   alias lT='exa --color=always --group-directories-first -l -snewest'
 fi
+if command -v eza > /dev/null; then
+  alias ls='eza --color=always --group-directories-first' 
+  alias la='eza --color=always --group-directories-first -la'
+  alias ldot='eza --color=always --group-directories-first -ld .*'
+  alias lD='eza --color=always --group-directories-first -lD'
+  alias lDD='eza --color=always --group-directories-first -lDa'
+  alias ll='eza --color=always --group-directories-first -l'
+  alias lsd='eza --color=always --group-directories-first -d'
+  alias lsdl='eza --color=always --group-directories-first -dl'
+  alias lS='eza --color=always --group-directories-first -l -ssize'
+  alias lT='eza --color=always --group-directories-first -l -snewest'
+fi
 
 #: ohmyzsh/plugins/kitty
 if [ ${TERM} == 'xterm-kitty' ]; then
@@ -93,11 +109,15 @@ command -v squeue > /dev/null &&
 command -v fzf > /dev/null &&
   eval "$(fzf --bash)"
 
+#: starship / prompt
 if [[ ! $(uname -m) =~ ^mips.* ]]; then
-  #: starship
   command -v starship > /dev/null &&
     eval "$(starship init bash)"
 else
   export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]❯ '
 fi
+
+#: zoxide
+command -v zoxide > /dev/null &&
+  eval "$(zoxide init --cmd=cd bash)"
 #: }}}

@@ -204,3 +204,5 @@ zinit wait"3a" lucid for \
   #   has"fzf" \
   # https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
 #: }}}
+
+. "$HOME/.atuin/bin/env"
