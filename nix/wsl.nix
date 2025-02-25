@@ -15,17 +15,26 @@
         git
         git-lfs
         gnumake
+        helix
+        jq
+        mc
+        neovim
         nix-ld
         python3
+        rclone
         toybox
         unzip
         vim
+        virtualenv
         wget
         zsh
       ];
 
+      nix.settings.experimental-features = "nix-command flakes";
+
       programs.nix-ld.enable = true;
       programs.zsh.enable = true;
+
       users.defaultUserShell = pkgs.zsh;
   };
   in {
@@ -35,7 +44,7 @@
         configuration
         nixos-wsl.nixosModules.default
         {
-          system.stateVersion = "24.11";
+          system.stateVersion = "unstable";
           wsl.defaultUser = "SST055";
           wsl.enable = true;
         }

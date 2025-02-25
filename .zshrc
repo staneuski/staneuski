@@ -94,7 +94,11 @@ zinit wait"1" lucid as"none" for \
     extract'!' \
     configure make"install PREFIX=${ZPFX}" \
     id-as"gstow" \
-  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz
+  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
+    from"gh-r" extract'!' \
+    mv'yq* -> yq' \
+    lbin'!yq' id-as \
+  mikefarah/yq
 zinit wait"1" lucid light-mode for \
   zsh-users/zsh-autosuggestions \
   zsh-users/zsh-completions \
@@ -194,7 +198,11 @@ zinit wait"3a" lucid for \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
     has"lf" as"null" lman"lf.1" \
-  https://github.com/gokcehan/lf/blob/master/lf.1
+  https://github.com/gokcehan/lf/blob/master/lf.1 \
+    has"yq" from"gh-r" bpick"*man_page_only*" \
+    as"null" extract'!' \
+    lman"yq.1" id-as"yq/man" \
+  mikefarah/yq
   #   has"fzf" \
   # https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
 #: }}}

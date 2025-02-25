@@ -96,6 +96,19 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   rm -rf $SRC
 )
 
+#: jq
+(
+  set -euo pipefail
+  VER=1.7.1
+
+  curl -L https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-linux-amd64 \
+    --output $PREFIX/bin/jq
+  chmod +x $PREFIX/bin/jq
+
+  curl -sL https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-${VER}.tar.gz \
+    | tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz jq-${VER}/jq.1
+)
+
 #: lazygit
 (
   VER=0.47.2
@@ -119,6 +132,19 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
   curl -sL https://github.com/denisidoro/navi/releases/download/v${VER}/navi-v${VER}-${ARCH}-unknown-linux-musl.tar.gz \
     | tar -C $PREFIX/bin -xvz
+)
+
+#: pipx
+(
+  set -euo pipefail
+
+  curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
+    --output $PREFIX/share/pipx.pyz
+
+  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PREFIX/share/pipx.pyz" > $PREFIX/bin/pipx
+  chmod +x $PREFIX/bin/pipx
+
+  register-python-argcomplete pipx > $BASH_COMPLETION_USER_DIR/pipx.bash
 )
 
 #: rip
@@ -176,6 +202,18 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   cd -
 
   rm -rf $SRC
+)
+
+#: yq
+(
+  set -euo pipefail
+
+  curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+    --output $PREFIX/bin/yq
+  chmod +x $PREFIX/bin/yq
+
+  curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz \
+    | tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz yq.1
 )
 
 #: zoxide
