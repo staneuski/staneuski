@@ -1,0 +1,6 @@
+*.bak
+*.lock
+*.prev
+
+/.zcompdump*
+/.zsh_sessions

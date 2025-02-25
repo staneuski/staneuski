@@ -173,7 +173,16 @@ zinit wait"3" lucid for \
   OMZP::kitty
 zinit wait"3a" lucid for \
     if"[[ $(uname) == 'Darwin' ]]" has"bat" \
-    atload"bat () { $(which bat) --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) \"\$@\" }" \
+    atload"bat () {
+      $(which bat) --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) \"\$@\"
+    }" \
+  @zdharma-continuum/null \
+    if"[[ $(uname) == 'Darwin' ]]" \
+    atload"
+      alias cattysh='caffeinate -ims kitty +kitten ssh'
+      alias rsync='rsync --exclude={\'.DS_Store\',\'._*\'}'
+      alias tar='COPYFILE_DISABLE=1 tar'
+    " \
   @zdharma-continuum/null \
     has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
   OMZP::eza \

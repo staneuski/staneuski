@@ -1,0 +1,25 @@
+theme = "term16_dark"
+
+[editor]
+line-number = "relative"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.whitespace.render]
+space = "all"
+tab = "all"
+
+# [keys.normal]
+# S-j = ["extend_to_line_bounds", "delete_selection", "paste_after"]
+# S-k = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
+# https://www.reddit.com/r/HelixEditor/comments/148x9wl/comment/jo2w7zz/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+[keys.normal]
+"A-k" = ["goto_line_end","extend_line_below", "delete_selection", "move_line_up", "paste_before"]
+"A-j" = ["goto_line_end","extend_line_below", "delete_selection", "paste_after"]
+
+[keys.select]
+"A-k" = ["goto_line_end","extend_line_below",  "delete_selection", "move_line_up", "paste_before", "select_mode"]
+"A-j" = ["goto_line_end","extend_line_below",  "delete_selection", "paste_after", "select_mode" ]

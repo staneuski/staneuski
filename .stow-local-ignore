@@ -1,0 +1,16 @@
+#: root {{{
+#: Any file/folder starting with anything but '.'
+^(?!\.).*
+
+#: Git 
+^\.git
+^\.gitignore
+^\.gitmodules
+
+#: Stow
+^\.stow.*
+
+#: zsh
+^\.zsh(?!env).*
+^\.z(compdump|logout).*
+#: }}}
