@@ -129,7 +129,7 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!lazygit' \
     atload"
       alias lg='lazygit'
-      alias stow-lg=\"lazygit --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}\"
+      alias stow-lg=\"lazygit --git-dir=${HOME}/.config/ --work-tree=${HOME}/.config/\"
     " \
   jesseduffield/lazygit \
     atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
@@ -147,7 +147,7 @@ zinit wait"2" lucid as"completions" from"gh-r" id-as for \
 #: aliases, completions, docs, key-bindings {{{
 #: Aliases
 # https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="git --git-dir=${HOME}/.local/share/dotfiles --work-tree=${HOME}"
+alias stow-git="git -C ${HOME}/.config/"
 # slurm
 (( $+commands[squeue] )) &&
   alias sq='squeue --format="%.10i %.9P %.40j %.8T %.6M %.4D %R" --me'

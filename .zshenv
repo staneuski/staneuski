@@ -5,7 +5,7 @@
 # export PREFIX=$HOME/.local
 
 #: zsh dotfiles
-export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 #: History
 export HISTSIZE=1000000
