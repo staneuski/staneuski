@@ -109,6 +109,13 @@ command -v squeue > /dev/null &&
 command -v fzf > /dev/null &&
   eval "$(fzf --bash)"
 
+#: pyenv
+command -v pyenv > /dev/null && (
+  export PYENV_ROOT="$HOME/.local/opt/pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init - bash)"
+)
+
 #: starship / prompt
 if [[ ! $(uname -m) =~ ^mips.* ]]; then
   command -v starship > /dev/null &&

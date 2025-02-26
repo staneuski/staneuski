@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PREFIX=$HOME/.local
+PREFIX=${PREFIX:-$HOME/.local}
 
 mkdir -p $PREFIX/{bin,opt,share/man/man{1,2,3,4,5,6,7,8,9}}
 mkdir -p $BASH_COMPLETION_USER_DIR
@@ -133,6 +133,13 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     | tar -C $PREFIX/bin -xvz
 )
 
+#: neovim
+(
+  curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage \
+    --output $PREFIX/bin/nvim
+  chmod +x $PREFIX/bin/nvim
+)
+
 #: pipx
 (
   set -euo pipefail
@@ -140,10 +147,21 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
     --output $PREFIX/share/pipx.pyz
 
-  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PREFIX/share/pipx.pyz" > $PREFIX/bin/pipx
+  command -v pyenv > /dev/null &&
+    PY=$(pyenv which python3) ||
+    PY=$(which python3)
+  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "${PY}" "$PREFIX/share/pipx.pyz" > $PREFIX/bin/pipx
   chmod +x $PREFIX/bin/pipx
 
   register-python-argcomplete pipx > $BASH_COMPLETION_USER_DIR/pipx.bash
+)
+
+#: pyenv
+(
+  curl -fsSL https://pyenv.run | bash
+
+  ln -sfn {$PREFIX/share/pyenv,$PREFIX}/bin/pyenv
+  ln -sfn $PREFIX/share/{pyenv,}/man/man1/pyenv.1
 )
 
 #: rip
