@@ -94,12 +94,13 @@ if [ ${TERM} == 'xterm-kitty' ]; then
   alias kitty-theme='kitty +kitten themes'
 fi
 
-#: https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="git -C=${HOME}/.config/"
-
 #: slurm
 command -v squeue > /dev/null &&
   alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
+
+#: zoxide
+command -v zoxide > /dev/null &&
+  alias dq='zoxide query --list'
 #: }}}
 
 #: Integrations {{{

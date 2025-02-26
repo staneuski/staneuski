@@ -75,19 +75,16 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
     " atpull"%atclone" \
     cp"completions/_zoxide -> _zoxide" \
     src"init.zsh" nocompile'!' \
-    atload"alias zql='zoxide query --list'" \
+    atload"alias dq='zoxide query --list'" \
     lbin'!zoxide' \
   ajeetdsouza/zoxide
+#: }}}
 
 #: CLIs, plugins {{{
-# treeify ( https://superuser.com/a/1086525 )
 zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
-    if"[[ -n $+commands[tree] ]]" \
-    as"null" lbin'!treeify' id-as"treeify" \
-  https://git.nullroute.lt/hacks/treeify.git/plain/treeify \
     from"gh-r" atclone"./rip completions zsh > _rip" atpull"%atclone" \
     lbin'!rip' id-as"rm-improved" \
   MilesCranmer/rip2 \
