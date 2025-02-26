@@ -17,7 +17,7 @@
 
 [ -f "${HOME}/.env.sh" ] &&
   source "${HOME}/.env.sh"
-[[ $(uname) == 'Darwin' ]] && [ -z ${HOMEBREW_PREFIX+x} ]
+[[ $(uname) == 'Darwin' ]] && [ ! -z ${HOMEBREW_PREFIX+x} ] &&
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
