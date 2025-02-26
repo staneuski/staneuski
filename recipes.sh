@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 PREFIX=${PREFIX:-$HOME/.local}
+PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
+PYENV_ROOT=${PYENV_ROOT:-$PREFIX/opt/pyenv}
 
 mkdir -p $PREFIX/{bin,opt,share/man/man{1,2,3,4,5,6,7,8,9}}
 mkdir -p $BASH_COMPLETION_USER_DIR
@@ -144,13 +146,14 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
 
+  mkdir -p $PIPX_HOME
   curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
-    --output $PREFIX/share/pipx.pyz
+    --output $PIPX_HOME/pipx.pyz
 
   command -v pyenv > /dev/null &&
     PY=$(pyenv which python3) ||
     PY=$(which python3)
-  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "${PY}" "$PREFIX/share/pipx.pyz" > $PREFIX/bin/pipx
+  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "${PY}" "$PIPX_HOME/pipx.pyz" > $PREFIX/bin/pipx
   chmod +x $PREFIX/bin/pipx
 
   register-python-argcomplete pipx > $BASH_COMPLETION_USER_DIR/pipx.bash
@@ -160,8 +163,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   curl -fsSL https://pyenv.run | bash
 
-  ln -sfn {$PREFIX/share/pyenv,$PREFIX}/bin/pyenv
-  ln -sfn $PREFIX/share/{pyenv,}/man/man1/pyenv.1
+  ln -sfn {$PYENV_ROOT,$PREFIX}/bin/pyenv
+  ln -sfn $PYENV_ROOT/completions/pyenv.bash $BASH_COMPLETION_USER_DIR/pyenv.bash
+  ln -sfn {$PYENV_ROOT,$PREFIX/share}/man/man1/pyenv.1
 )
 
 #: rip

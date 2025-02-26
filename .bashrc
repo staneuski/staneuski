@@ -13,6 +13,9 @@
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
 
+[ -f "${HOME}/.env.sh" ] &&
+  source "${HOME}/.env.sh"
+
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
   export BASH_COMPLETION_USER_DIR="$HOME/.local/share/bash-completion"
 
@@ -100,21 +103,16 @@ command -v squeue > /dev/null &&
 #: }}}
 
 #: Integrations {{{
-#: Machine specific environment
-[ -f ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin ] &&
-  source ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/.zlogin
-
-#: Programms {{{
 #: fzf
 command -v fzf > /dev/null &&
   eval "$(fzf --bash)"
 
 #: pyenv
-command -v pyenv > /dev/null && (
-  export PYENV_ROOT="$HOME/.local/opt/pyenv"
+if command -v pyenv > /dev/null && [ -z ${PYENV_ROOT+x} ]; then
   [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init - bash)"
-)
+  # eval "$(pyenv virtualenv-init -)"
+fi
 
 #: starship / prompt
 if [[ ! $(uname -m) =~ ^mips.* ]]; then
