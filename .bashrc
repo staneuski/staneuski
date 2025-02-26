@@ -12,13 +12,16 @@
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
+[[ "${LD_LIBRARY_PATH}" =~ .*"${HOME}/.local/lib".* ]] ||
+  export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
 
 [ -f "${HOME}/.env.sh" ] &&
   source "${HOME}/.env.sh"
+[[ $(uname) == 'Darwin' ]] && [ -z ${HOMEBREW_PREFIX+x} ]
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
   export BASH_COMPLETION_USER_DIR="$HOME/.local/share/bash-completion"
-
 [[ "${MANPATH}" =~ .*"${HOME}/.local/share/man".* ]] ||
   export MANPATH="${HOME}/.local/share/man:${MANPATH}"
 #: }}}
@@ -93,6 +96,10 @@ if [ ${TERM} == 'xterm-kitty' ]; then
   alias kssh-slow='infocmp -a xterm-kitty | ssh myserver tic -x -o \~/.terminfo /dev/stdin'
   alias kitty-theme='kitty +kitten themes'
 fi
+
+#: lazygit
+command -v lazygit > /dev/null &&
+  alias lg='lazygit'
 
 #: slurm
 command -v squeue > /dev/null &&

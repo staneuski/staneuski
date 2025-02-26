@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-PREFIX=${PREFIX:-$HOME/.local}
-PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
-PYENV_ROOT=${PYENV_ROOT:-$PREFIX/opt/pyenv}
+export PREFIX=${PREFIX:-$HOME/.local}
+export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
+export PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
+export PYENV_ROOT=${PYENV_ROOT:-$PREFIX/opt/pyenv}
 
 mkdir -p $PREFIX/{bin,opt,share/man/man{1,2,3,4,5,6,7,8,9}}
 mkdir -p $BASH_COMPLETION_USER_DIR
@@ -10,6 +11,25 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: atuin
 (
   # curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+)
+
+#: curl
+(
+  set -euo pipefail
+  SRC=/tmp/$USER/curl
+  VER=8.3.0
+
+  mkdir -p $SRC
+  curl -sL https://curl.se/download/curl-${VER}.tar.gz \
+    | tar -C $SRC/ --strip-components=1 -xvz
+
+  cd $SRC
+  ./configure --prefix=$HOME/.local --with-openssl
+  make -j$(nproc)
+  make install
+  cd -
+
+  rm -rf $SRC
 )
 
 #: bat
@@ -27,6 +47,20 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/*.1 $PREFIX/share/man/man1/
   mv -f $SRC/autocomplete/bat.bash $BASH_COMPLETION_USER_DIR/
   rm -rf $SRC
+)
+
+#: brew
+(
+  set -euo pipefail
+
+  # https://docs.brew.sh/Installation#alternative-installs
+  mkdir -p $HOMEBREW_PREFIX
+  curl -L https://github.com/Homebrew/brew/tarball/master \
+    | tar -C $HOMEBREW_PREFIX --strip-components 1 -xvz 
+
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+  brew update --force --quiet
+  chmod -R go-w "$($HOMEBREW_PREFIX/bin/brew --prefix)/share/zsh"
 )
 
 #: entr
@@ -77,6 +111,29 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     | tar -C $PREFIX/bin -xvz
 
   fzf --bash > $BASH_COMPLETION_USER_DIR/fzf.bash
+)
+
+#: git
+(
+  set -euo pipefail
+  SRC=/tmp/$USER/git
+  VER=2.42.0
+
+  mkdir -p $SRC
+  curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz \
+    | tar -C $SRC/ --strip-components=1 -xvz
+
+  # Use curl installed in $PREFIX
+  export CFLAGS="-I$PREFIX/include"
+  export LDFLAGS="-L$PREFIX/lib"
+  export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+
+  cd $SRC
+  ./configure --prefix=$PREFIX --with-curl=$PREFIX
+  make prefix=$PREFIX install
+  cd -
+
+  rm -rf $SRC
 )
 
 #: git-lfs
@@ -150,10 +207,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
     --output $PIPX_HOME/pipx.pyz
 
-  command -v pyenv > /dev/null &&
-    PY=$(pyenv which python3) ||
-    PY=$(which python3)
-  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "${PY}" "$PIPX_HOME/pipx.pyz" > $PREFIX/bin/pipx
+  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PIPX_HOME/pipx.pyz" > $PREFIX/bin/pipx
   chmod +x $PREFIX/bin/pipx
 
   register-python-argcomplete pipx > $BASH_COMPLETION_USER_DIR/pipx.bash
@@ -197,7 +251,13 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 )
 
 #: spack
-# git clone -c feature.manyFiles=true --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git $PREFIX/opt/spack
+(
+  # set -euo pipefail
+  # VER=0.18
+
+  # git clone -c feature.manyFiles=true --depth=2 --branch=releases/v${VER} \
+  #   https://github.com/spack/spack.git $SPACK_ROOT
+)
 
 #: starship
 (

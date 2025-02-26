@@ -1,0 +1,8 @@
+tap "homebrew/bundle"
+
+def brew_if(condition, *packages)
+  packages.each { |pkg| brew pkg if condition }
+end
+
+brew_if OS.linux?, "entr", "gcc", "git-lfs", "openssl@3", "python@3.13", "virtualenv"
+brew_if OS.mac?, "ffmpeg", "imagemagick"
