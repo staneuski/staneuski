@@ -24,7 +24,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/bat $PREFIX/bin/
   mv -f $SRC/*.1 $PREFIX/share/man/man1/
   mv -f $SRC/autocomplete/bat.bash $BASH_COMPLETION_USER_DIR/
-
   rm -rf $SRC
 )
 
@@ -213,7 +212,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   chmod +x $PREFIX/bin/yq
 
   curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz \
-    | tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz yq.1
+    | tar -C $PREFIX/share/man/man1 -xvz yq.1
 )
 
 #: zoxide
