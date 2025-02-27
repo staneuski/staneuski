@@ -2,13 +2,15 @@
 	name = Stanislau Stasheuski
 	email = stanislau.stasheuski@gmail.com
 [filter "lfs"]
+	name = Stanislau Stasheuski
+	email = stanislau.stasheuski@gmail.com
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-	email = stanislau.stasheuski@aalto.fi
-	name = Stanislau Stasheuski
+	smudge = git-lfs smudge -- %f
 [init]
 	defaultBranch = main
 [push]
 	default = simple
+[pull]
+	rebase = true
