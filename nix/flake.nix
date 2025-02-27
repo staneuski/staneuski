@@ -1,14 +1,17 @@
 {
-  description = "Duke Darwin system flake";
+  description = "Nix flake for macOS";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; # NixOS/nixpkgs/nixos-24.11";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin"; # LnL7/nix-darwin/nix-darwin-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, mac-app-util }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -24,10 +27,17 @@
         kitty
         mc
         neovim
-        python3
+        python313
+        python313Packages.numpy
+        python313Packages.virtualenv
         rclone
+        zsh
+
+        firefox
+        logseq
         syncthing
-        virtualenv
+        vscode
+        zotero
 
         eza
         ice-bar
@@ -39,20 +49,18 @@
       homebrew = {
         enable = true;
         brews = [
+          "gawk"
           "ffmpeg"
           "imagemagick"
           "node@22"
+          "wget"
 
           "mas"
         ];
         casks = [
-          "firefox"
           "inkscape"
-          "logseq"
           "paraview"
-          "visual-studio-code"
           "vlc"
-          "zotero"
 
           "amethyst"
           "coconutbattery"
@@ -69,28 +77,9 @@
         onActivation.upgrade = true;
       };
 
-      fonts.packages = [
-        pkgs.nerd-fonts.jetbrains-mono
+      fonts.packages = with pkgs; [
+        nerd-fonts.jetbrains-mono
       ];
-
-      system.activationScripts.applications.text = let
-        env = pkgs.buildEnv {
-          name = "system-applications";
-          paths = config.environment.systemPackages;
-          pathsToLink = "/Applications";
-        };
-      in
-        pkgs.lib.mkForce ''
-        echo "setting up /Applications..." >&2
-        rm -rf /Applications/Nix\ Apps
-        mkdir -p /Applications/Nix\ Apps
-        find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-        while read -r src; do
-          app_name=$(basename "$src")
-          echo "copying $src" >&2
-          ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-        done
-      '';
 
       system.activationScripts.script.text = pkgs.lib.mkForce ''
         #!/usr/bin/env sh
@@ -108,11 +97,11 @@
         dock.largesize = 128;
         dock.magnification = true;
         dock.persistent-apps = [
-          "/System/Cryptexes/App/System/Applications/Safari.app"
+          "${pkgs.firefox}/Applications/Firefox.app"
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
-          "/Applications/Visual Studio Code.app"
-          "/Applications/Logseq.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          "${pkgs.logseq}/Applications/Logseq.app"
         ];
         # finder.FXPreferredViewStyle = "clmv";
         loginwindow.GuestEnabled = false;
@@ -120,16 +109,14 @@
         NSGlobalDomain.KeyRepeat = 2;
       };
 
-      # Auto upgrade nix package and the daemon service.
-      # services.nix-daemon.enable = true;
-      # nix.package = pkgs.nix;
-
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
       # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;
-      # programs.fish.enable = true;
+      programs = {
+        zsh.enable = true;
+        # fish.enable = true;
+      };
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -156,6 +143,7 @@
             autoMigrate = true;
           };
         }
+        mac-app-util.darwinModules.default
       ];
     };
 

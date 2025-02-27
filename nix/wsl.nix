@@ -8,26 +8,30 @@
   let
     configuration = { config, pkgs, ... }: {
       environment.systemPackages = with pkgs; [
+        git
+        git-lfs
+        helix
+        htop
+        kitty
+        mc
+        neovim
+        python313
+        python313Packages.numpy
+        python313Packages.virtualenv
+        rclone
+        zsh
+
         bc
         file
         gawk
         gcc
-        git
-        git-lfs
-        gnumake
-        helix
         jq
-        mc
-        neovim
-        nix-ld
-        python3
-        rclone
         toybox
         unzip
         vim
-        virtualenv
         wget
-        zsh
+
+        nix-ld
       ];
 
       nix.settings.experimental-features = "nix-command flakes";

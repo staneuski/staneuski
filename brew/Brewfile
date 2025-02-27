@@ -8,9 +8,9 @@ brew_if OS.linux?,
   "entr",
   "gcc",
   "git-lfs",
+  "numpy",
   "openssl@3",
   "pigz",
   "python@3.13",
   "rclone",
   "virtualenv"
-

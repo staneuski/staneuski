@@ -10,4 +10,5 @@
 
 #: zsh
 .zcompdump*
-.zsh_sessions
+.zsh_history*
+.zsh_sessions*
