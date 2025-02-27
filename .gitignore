@@ -2,5 +2,12 @@
 *.lock
 *.prev
 
-/.zcompdump*
-/.zsh_sessions
+#: htop
+/htop
+
+#: rclone
+/rclone
+
+#: zsh
+.zcompdump*
+.zsh_sessions

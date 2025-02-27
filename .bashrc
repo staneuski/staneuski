@@ -2,23 +2,25 @@
 
 #: Source global definitions
 [ -f /etc/bashrc ] &&
-  . /etc/bashrc
+  source /etc/bashrc
 [ -f /opt/etc/profile ] &&
-  . /opt/etc/profile 
+  source /opt/etc/profile
 
-#: Exports {{{
-#: User specific environment
+[ ! -z ${ZDOTDIR+x} ] && [ -f "${HOME}/.zshenv" ] &&
+  source "${HOME}/.zshenv"
+[ -f "${HOME}/.config/zsh/.zprofile" ] &&
+  source "${HOME}/.config/zsh/.zprofile"
+
+#: Environment {{{
+[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] &&
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
+
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
 [[ "${LD_LIBRARY_PATH}" =~ .*"${HOME}/.local/lib".* ]] ||
   export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
-
-[ -f "${HOME}/.env.sh" ] &&
-  source "${HOME}/.env.sh"
-[[ $(uname) == 'Darwin' ]] && [ ! -z ${HOMEBREW_PREFIX+x} ] &&
-  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
   export BASH_COMPLETION_USER_DIR="$HOME/.local/share/bash-completion"
@@ -116,8 +118,8 @@ command -v fzf > /dev/null &&
   eval "$(fzf --bash)"
 
 #: pyenv
-if command -v pyenv > /dev/null && [ -z ${PYENV_ROOT+x} ]; then
-  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+if [ ! -z ${PYENV_ROOT+x} ] && [ -d "${PYENV_ROOT}/bin" ]; then
+  export PATH="${PYENV_ROOT}/bin:${PATH}"
   eval "$(pyenv init - bash)"
   # eval "$(pyenv virtualenv-init -)"
 fi

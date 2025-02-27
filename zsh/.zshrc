@@ -1,17 +1,15 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 #: Environment {{{
+[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] &&
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
+
 [[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
   export PATH="${HOME}/.local/bin:${PATH}"
 [[ "${LD_LIBRARY_PATH}" =~ .*"${HOME}/.local/lib".* ]] ||
   export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
-
-[ -f "${HOME}/.env.sh" ] &&
-  source "${HOME}/.env.sh"
-[[ $(uname) == 'Darwin' ]] && [ ! -z ${HOMEBREW_PREFIX+x} ] &&
-  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 #: Plugin manager (zinit)
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
@@ -175,17 +173,16 @@ zinit wait"3" lucid for \
   OMZP::git \
   OMZP::kitty
 zinit wait"3a" lucid for \
+    if"[[ $(uname) == 'Darwin' ]]" \
+    atload"
+      alias cattysh='caffeinate -ims kitty +kitten ssh'
+      alias tar='COPYFILE_DISABLE=1 tar'
+    " \
+  @zdharma-continuum/null \
     if"[[ $(uname) == 'Darwin' ]]" has"bat" \
     atload"bat () {
       $(which bat) --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) \"\$@\"
     }" \
-  @zdharma-continuum/null \
-    if"[[ $(uname) == 'Darwin' ]]" \
-    atload"
-      alias cattysh='caffeinate -ims kitty +kitten ssh'
-      alias rsync='rsync --exclude={\'.DS_Store\',\'._*\'}'
-      alias tar='COPYFILE_DISABLE=1 tar'
-    " \
   @zdharma-continuum/null \
     has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
   OMZP::eza \
