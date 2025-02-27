@@ -24,7 +24,6 @@
         git-lfs
         helix
         htop
-        kitty
         mc
         neovim
         python313
@@ -34,6 +33,7 @@
         zsh
 
         firefox
+        kitty
         logseq
         syncthing
         vscode
@@ -50,17 +50,19 @@
         enable = true;
         brews = [
           "gawk"
+          "wget"
+
           "ffmpeg"
           "imagemagick"
           "node@22"
-          "wget"
 
           "mas"
         ];
         casks = [
+          "vlc"
+
           "inkscape"
           "paraview"
-          "vlc"
 
           "amethyst"
           "coconutbattery"

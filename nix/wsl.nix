@@ -8,19 +8,6 @@
   let
     configuration = { config, pkgs, ... }: {
       environment.systemPackages = with pkgs; [
-        git
-        git-lfs
-        helix
-        htop
-        kitty
-        mc
-        neovim
-        python313
-        python313Packages.numpy
-        python313Packages.virtualenv
-        rclone
-        zsh
-
         bc
         file
         gawk
@@ -30,6 +17,18 @@
         unzip
         vim
         wget
+
+        git
+        git-lfs
+        helix
+        htop
+        mc
+        neovim
+        python313
+        python313Packages.numpy
+        python313Packages.virtualenv
+        rclone
+        zsh
 
         nix-ld
       ];
