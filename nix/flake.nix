@@ -41,6 +41,7 @@
         brews = [
           "ffmpeg"
           "imagemagick"
+          "node@22"
 
           "mas"
         ];
@@ -53,7 +54,6 @@
           "vlc"
           "zotero"
 
-          "node@22"
           "amethyst"
           "coconutbattery"
           "hammerspoon"
@@ -121,7 +121,7 @@
       };
 
       # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
+      # services.nix-daemon.enable = true;
       # nix.package = pkgs.nix;
 
       # Necessary for using flakes on this system.
