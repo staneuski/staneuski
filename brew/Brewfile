@@ -14,6 +14,3 @@ brew_if OS.linux?,
   "rclone",
   "virtualenv"
 
-brew_if OS.mac?,
-  "ffmpeg",
-  "imagemagick"
