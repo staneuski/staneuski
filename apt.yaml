@@ -1,0 +1,37 @@
+#$ aptdcon --install "$(yq '.[]' ~/.config/apt.yaml | xargs)"
+---
+# ~formulae
+- curl
+- htop
+- jq
+- wget
+
+- ffmpeg
+- git
+- git-lfs
+- imagemagick
+- mc
+- python3-ipykernel
+- python3-pip
+- rclone
+- openfoam-dev
+- openfoam12
+
+#: ~casks
+- firefox
+- vlc
+
+- inkscape
+- kitty
+- paraview
+- syncthing
+- vlc-plugin-bittorrent
+
+#: extras
+- caffeine
+- chrome-gnome-shell
+- copyq
+- flatpak
+- gnome-sushi
+- paraviewopenfoam510
+- wl-clipboard

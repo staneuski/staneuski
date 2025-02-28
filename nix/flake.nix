@@ -20,23 +20,25 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [
+        htop
+        zsh
+
         git
         git-lfs
         helix
-        htop
         mc
         neovim
         python313
-        python313Packages.numpy
+        python313Packages.ipykernel
         python313Packages.virtualenv
         rclone
-        zsh
 
         firefox
+        vscode
+
         kitty
         logseq
         syncthing
-        vscode
         zotero
 
         eza

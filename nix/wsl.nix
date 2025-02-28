@@ -12,23 +12,24 @@
         file
         gawk
         gcc
+        htop
         jq
         toybox
         unzip
         vim
         wget
+        zsh
 
+        ffmpeg
         git
         git-lfs
         helix
-        htop
         mc
         neovim
         python313
-        python313Packages.numpy
+        python313Packages.ipykernel
         python313Packages.virtualenv
         rclone
-        zsh
 
         nix-ld
       ];
