@@ -1,5 +1,5 @@
 *.bak
-*.lock
+*.old
 *.prev
 
 #: htop

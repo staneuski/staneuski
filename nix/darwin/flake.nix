@@ -13,6 +13,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, mac-app-util }:
   let
+    user = "stasta";
     configuration = { pkgs, config, ... }: {
 
       nixpkgs.config.allowUnfree = true;
@@ -30,6 +31,7 @@
         neovim
         python313
         python313Packages.ipykernel
+        python313Packages.pip
         python313Packages.virtualenv
         rclone
 
@@ -85,15 +87,7 @@
         nerd-fonts.jetbrains-mono
       ];
 
-      system.activationScripts.script.text = pkgs.lib.mkForce ''
-        #!/usr/bin/env sh
-        curl -sLo "/Users/stasta/Library/LaunchAgents/syncthing.plist" https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
-        sed -i "" "
-          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
-          s|USERNAME|stasta|g
-        " "/Users/stasta/Library/LaunchAgents/syncthing.plist" 
-      '';
-
+      # https://mynixos.com/nix-darwin/options/system 
       system.defaults = {
         dock.autohide = true;
         dock.autohide-delay = 0.1;
@@ -101,17 +95,30 @@
         dock.largesize = 128;
         dock.magnification = true;
         dock.persistent-apps = [
-          "${pkgs.firefox}/Applications/Firefox.app"
+          "/System/Cryptexes/App/System/Applications/Safari.app"
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           "${pkgs.logseq}/Applications/Logseq.app"
+        ];
+        dock.persistent-others = [
+          "${config.system.build.applications}/Applications"
+          "/Users/${user}/Downloads"
         ];
         # finder.FXPreferredViewStyle = "clmv";
         loginwindow.GuestEnabled = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.KeyRepeat = 2;
       };
+      system.activationScripts.script.text = pkgs.lib.mkForce ''
+        #!/usr/bin/env sh
+        curl -sLo "/Users/${user}/Library/LaunchAgents/syncthing.plist" \
+          https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
+        sed -i "" "
+          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
+          s|USERNAME|${user}|g
+        " "/Users/${user}/Library/LaunchAgents/syncthing.plist" 
+      '';
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -135,15 +142,15 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#duke
-    darwinConfigurations."duke" = nix-darwin.lib.darwinSystem {
+    # $ darwin-rebuild build --flake .#amd64
+    darwinConfigurations."amd64" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
             enable = true;
-            user = "stasta";
+            user = user;
             autoMigrate = true;
           };
         }
@@ -152,6 +159,6 @@
     };
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."duke".pkgs;
+    darwinPackages = self.darwinConfigurations."amd64".pkgs;
   };
 }

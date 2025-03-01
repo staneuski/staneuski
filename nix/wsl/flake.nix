@@ -6,6 +6,7 @@
 
   outputs = { self, nixpkgs, nixos-wsl, ... }: 
   let
+    user = "SST055";
     configuration = { config, pkgs, ... }: {
       environment.systemPackages = with pkgs; [
         bc
@@ -28,6 +29,7 @@
         neovim
         python313
         python313Packages.ipykernel
+        python313Packages.pip
         python313Packages.virtualenv
         rclone
 
@@ -49,7 +51,7 @@
         nixos-wsl.nixosModules.default
         {
           system.stateVersion = "unstable";
-          wsl.defaultUser = "SST055";
+          wsl.defaultUser = user;
           wsl.enable = true;
         }
       ];
