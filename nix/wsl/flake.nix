@@ -41,6 +41,9 @@
       programs.nix-ld.enable = true;
       programs.zsh.enable = true;
 
+      # Set Git commit hash for nixos-version.
+      system.configurationRevision = self.rev or self.dirtyRev or null;
+
       users.defaultUserShell = pkgs.zsh;
   };
   in {
