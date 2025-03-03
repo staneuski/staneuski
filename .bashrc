@@ -6,7 +6,7 @@
 [ -f /opt/etc/profile ] &&
   source /opt/etc/profile
 
-[ ! -z ${ZDOTDIR+x} ] && [ -f "${HOME}/.zshenv" ]
+[ ! -z ${ZDOTDIR+x} ] && [ -f "${HOME}/.zshenv" ] &&
   source "${HOME}/.zshenv"
 [ -f "${HOME}/.config/zsh/.zprofile" ] &&
   source "${HOME}/.config/zsh/.zprofile"
