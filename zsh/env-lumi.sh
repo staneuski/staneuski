@@ -1,7 +1,9 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 #$ ln -sfn env-lumi.sh $HOME/.config/zsh/.zprofile
 
-export SBATCH_ACCOUNT='project_462000855'
+export EDITOR="$(which vim)"
+
+export SBATCH_ACCOUNT='project_462000770'
 export SBATCH_ALLOC="${SBATCH_ACCOUNT}"
 
 export RIP_GRAVEYARD="/scratch/${SBATCH_ACCOUNT}/${USER}/.graveyard"
