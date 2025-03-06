@@ -34,14 +34,6 @@ hs.hotkey.bind(primaryShortcut, "D", function()
     hs.task.new("/bin/sh", nil, {"-c", "pkill -30 -a kitty"}):start()
   end)
 
-  -- bat
-  hs.task.new("/bin/sh", nil, {"-c", (
-      isLightMode
-      and "sed -i'.prev' 's/theme=\"Dracula\"/theme=\"GitHub\"/g' "
-      or "sed -i'.prev' 's/theme=\"GitHub\"/theme=\"Dracula\"/g' "
-    ) .. os.getenv("HOME") .. "/.config/bat/config",
-  }):start()
-
   -- helix
   hs.task.new("/bin/sh", nil, {"-c", (
       isLightMode

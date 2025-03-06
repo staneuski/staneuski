@@ -179,11 +179,6 @@ zinit wait"3a" lucid for \
       alias tar='COPYFILE_DISABLE=1 tar'
     " \
   @zdharma-continuum/null \
-    if"[[ $(uname) == 'Darwin' ]]" has"bat" \
-    atload"bat () {
-      $(which bat) --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) \"\$@\"
-    }" \
-  @zdharma-continuum/null \
     has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
   OMZP::eza \
     if"[[ $(uname) == 'Linux' ]]" has"eza" from"gh-r" bpick"completions*" \
