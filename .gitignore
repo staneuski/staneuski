@@ -5,6 +5,9 @@
 #: htop
 /htop
 
+#: ParaView
+/ParaView/ParaView*.*.*.ini
+
 #: rclone
 /rclone
 
