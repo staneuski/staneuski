@@ -88,7 +88,8 @@ zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
-    from"gh-r" atclone"./rip completions zsh > _rip" atpull"%atclone" \
+    from"gh-r" extract'!' \
+    atclone"./rip completions zsh > _rip" atpull"%atclone" \
     lbin'!rip' id-as"rm-improved" \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
@@ -99,6 +100,7 @@ zinit wait"1" lucid as"none" for \
     id-as"gstow" \
   http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
     from"gh-r" extract'!' \
+    atclone"./yq completion zsh > _yq" atpull"%atclone" \
     mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq

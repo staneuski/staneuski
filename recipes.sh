@@ -293,6 +293,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     --output $PREFIX/bin/yq
   chmod +x $PREFIX/bin/yq
 
+  yq completion bash > $BASH_COMPLETION_USER_DIR/yq.bash
   curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz \
     | tar -C $PREFIX/share/man/man1 -xvz yq.1
 )
