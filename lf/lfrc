@@ -100,13 +100,6 @@ cmd fzf-ripgrep ${{
 cmd globtoggle ${{
   lf -remote "send ${id} toggle $(ls -d ${*} | xargs)"
 }}
-
-cmd bat-toggle &{{
-  set -f
-  [[ $(grep -- '--theme=' ~/.config/bat/config | sed -E 's/^--theme="([^"]+)"/\1/') == "GitHub" ]] &&
-    sed -i'.prev' '/^--theme/ s/.*/--theme="Dracula"/' ~/.config/bat/config ||
-    sed -i'.prev' '/^--theme/ s/.*/--theme="GitHub"/' ~/.config/bat/config
-}}
 #: }}}
 
 #: Interface {{{
@@ -120,7 +113,6 @@ set dupfilefmt '%b%n%e'
 
 #: Key bindings {{{
 map <c-z> $ kill -STOP $PPID
-map T push :bat-toggle<enter>
 
 #: Select
 map + push :globtoggle<space>

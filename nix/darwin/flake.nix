@@ -106,6 +106,7 @@
           "/Users/${user}/Downloads"
         ];
         # finder.FXPreferredViewStyle = "clmv";
+        finder.ShowPathbar = true;
         loginwindow.GuestEnabled = false;
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.KeyRepeat = 2;
