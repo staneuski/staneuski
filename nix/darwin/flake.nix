@@ -35,7 +35,6 @@
         python313Packages.virtualenv
         rclone
 
-        firefox
         vscode
 
         kitty
