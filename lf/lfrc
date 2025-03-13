@@ -9,11 +9,19 @@ cmd on-cd &{{
   lf -remote "send $id set promptfmt \"$fmt\""
 }}
 
-#: Use kitty preview {{{
+#: Preview {{{
 set previewer ~/.config/lf/preview.sh
 #: }}}
 
 #: Functions {{{
+#: Set lf bat theme
+cmd preview-toggle &{{
+  set -f
+  [[ $(yq '.preview.theme' ~/.config/lf/config.yaml) == "light" ]] &&
+    yq '.preview.theme = "dark"' -i ~/.config/lf/config.yaml ||
+    yq '.preview.theme = "light"' -i ~/.config/lf/config.yaml
+}}
+
 #: Compress selected files
 cmd archive &{{
   set -f
@@ -113,6 +121,7 @@ set dupfilefmt '%b%n%e'
 
 #: Key bindings {{{
 map <c-z> $ kill -STOP $PPID
+map B push :preview-toggle<enter>
 
 #: Select
 map + push :globtoggle<space>
@@ -121,7 +130,7 @@ map + push :globtoggle<space>
 map <enter> push :create<space>
 map <a-n> push :mkdir-mv<space>
 map D delete
-map P :link
+map L :link
 
 #: tar
 map a push :archive<space>

@@ -1,37 +1,41 @@
-#!/usr/bin/env zsh
-# https://github.com/gokcehan/lf/issues/904#issuecomment-1331826453
-# https://github.com/sharkdp/bat#dark-mode
-function get_theme() {
-  [[ $(uname) == "Darwin" ]] &&
-    (defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo Dracula || echo GitHub) || 
-  grep -- '--theme=' ~/.config/bat/config | sed -E 's/^--theme="([^"]+)"/\1/'
-}
+#!/usr/bin/env bash
 
-# [[ $(uname) == "Darwin" ]] &&
-#   _theme=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub) ||
-#   _theme=default
+if [[ "$(uname)" == "Darwin" ]]; then
+  get_mime() { file -Ib "$1" | cut -d';' -f1; }
+else
+  get_mime() { file --mime-type -b "$1"; }
+fi
 
-case "$1" in
-  *.tar*)
-    tar tf "$1"
+case "$(get_mime "$1")" in
+  application/x-tar)
+    tar -tf "$1"
     ;;
-  *.zip)
+  application/gzip)
+    tar -tzf "$1"
+    ;;
+  application/x-gzip)
+    gzip -cd "$1"
+    ;;
+  application/x-xz)
+    tar -tJf "$1" 2>/dev/null || xz -cd "$1"
+    ;;
+  application/zip)
     unzip -l "$1"
     ;;
-  # *.rar)
-  #   unrar l "$1"
-  #   ;;
-  # *.7z)
-  #   7z l "$1"
-  #   ;;
-  # *.pdf)
+  application/x-rar)
+    unrar l "$1"
+    ;;
+  application/x-7z-compressed)
+    7z l "$1"
+    ;;
+  # application/pdf)
   #   pdftotext "$1" -
   #   ;;
   *)
     # return false to always repaint, in case terminal size changes
     bat \
       --plain \
-      --theme="$(get_theme)" \
+      --theme=$(yq '.preview.theme' ~/.config/lf/config.yaml) \
       --force-colorization \
       --style=changes \
       --terminal-width $(($2 - 3)) "$1" && false

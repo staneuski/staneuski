@@ -1,7 +1,8 @@
---theme="auto"
 --theme-light="GitHub"
 --theme-dark="Dracula"
 
 --map-syntax="*.eb*:Python"
 --map-syntax="*.pvsm*:XML"
 --map-syntax="*.series:JSON"
+
+--set-terminal-title
