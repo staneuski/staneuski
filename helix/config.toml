@@ -22,5 +22,5 @@ tab = "all"
 "A-j" = ["goto_line_end","extend_line_below", "delete_selection", "paste_after"]
 
 [keys.select]
-"A-k" = ["goto_line_end","extend_line_below",  "delete_selection", "move_line_up", "paste_before", "select_mode"]
-"A-j" = ["goto_line_end","extend_line_below",  "delete_selection", "paste_after", "select_mode" ]
+"A-k" = ["goto_line_end","extend_line_below", "delete_selection", "move_line_up", "paste_before", "select_mode"]
+"A-j" = ["goto_line_end","extend_line_below", "delete_selection", "paste_after", "select_mode" ]
