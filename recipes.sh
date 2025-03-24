@@ -20,8 +20,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   VER=8.3.0
 
   mkdir -p $SRC
-  curl -sL https://curl.se/download/curl-${VER}.tar.gz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -sL https://curl.se/download/curl-${VER}.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   cd $SRC
   ./configure --prefix=$HOME/.local --with-openssl
@@ -40,8 +40,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ARCH=$(uname -m)
 
   mkdir -p $SRC
-  curl -sL https://github.com/sharkdp/bat/releases/download/v${VER}/bat-v${VER}-${ARCH}-unknown-linux-musl.tar.gz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -sL https://github.com/sharkdp/bat/releases/download/v${VER}/bat-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   mv -f $SRC/bat $PREFIX/bin/
   mv -f $SRC/*.1 $PREFIX/share/man/man1/
@@ -55,8 +55,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
   # https://docs.brew.sh/Installation#alternative-installs
   mkdir -p $HOMEBREW_PREFIX
-  curl -L https://github.com/Homebrew/brew/tarball/master \
-    | tar -C $HOMEBREW_PREFIX --strip-components 1 -xvz 
+  curl -L https://github.com/Homebrew/brew/tarball/master |
+    tar -C $HOMEBREW_PREFIX --strip-components 1 -xvz
 
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
   brew update --force --quiet
@@ -70,8 +70,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   VER=5.7
 
   mkdir -p $SRC
-  curl -sL https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -sL https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   cd $SRC
   $SRC/./configure
@@ -89,11 +89,11 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ARCH=$(uname -m)
 
   mkdir -p $SRC
-  curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/eza_${ARCH}-unknown-linux-musl.tar.gz \
-    | tar -C $PREFIX/bin -xvz
+  curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/eza_${ARCH}-unknown-linux-musl.tar.gz |
+    tar -C $PREFIX/bin -xvz
   for d in completions man; do
     mkdir -p $SRC/$d
-    curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/${d}-${VER}.tar.gz | \
+    curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/${d}-${VER}.tar.gz |
       tar -C $SRC/$d --strip-components=3 -xvz
   done
 
@@ -107,10 +107,10 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   VER=0.60.2
 
-  curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz \
-    | tar -C $PREFIX/bin -xvz
+  curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz |
+    tar -C $PREFIX/bin -xvz
 
-  fzf --bash > $BASH_COMPLETION_USER_DIR/fzf.bash
+  fzf --bash >$BASH_COMPLETION_USER_DIR/fzf.bash
 )
 
 #: git
@@ -120,8 +120,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   VER=2.42.0
 
   mkdir -p $SRC
-  curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   # Use curl installed in $PREFIX
   export CFLAGS="-I$PREFIX/include"
@@ -143,8 +143,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ARCH=$(uname -m)
 
   mkdir -p $SRC
-  curl -sL https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -sL https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   PREFIX=$PREFIX $SRC/install.sh
 
@@ -163,8 +163,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     --output $PREFIX/bin/jq
   chmod +x $PREFIX/bin/jq
 
-  curl -sL https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-${VER}.tar.gz \
-    | tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz jq-${VER}/jq.1
+  curl -sL https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-${VER}.tar.gz |
+    tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz jq-${VER}/jq.1
 )
 
 #: lazygit
@@ -172,14 +172,14 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   VER=0.47.2
   ARCH=$(uname -m)
 
-  curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz \
-    | tar -C $PREFIX/bin -xvz lazygit
+  curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz |
+    tar -C $PREFIX/bin -xvz lazygit
 )
 
 #: lf
 (
-  curl -sL https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz \
-    | tar -C $PREFIX/bin -xvz
+  curl -sL https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz |
+    tar -C $PREFIX/bin -xvz
 )
 
 #: navi
@@ -188,8 +188,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   VER=2.24.0
   ARCH=$(uname -m)
 
-  curl -sL https://github.com/denisidoro/navi/releases/download/v${VER}/navi-v${VER}-${ARCH}-unknown-linux-musl.tar.gz \
-    | tar -C $PREFIX/bin -xvz
+  curl -sL https://github.com/denisidoro/navi/releases/download/v${VER}/navi-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
+    tar -C $PREFIX/bin -xvz
 )
 
 #: neovim
@@ -197,6 +197,16 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage \
     --output $PREFIX/bin/nvim
   chmod +x $PREFIX/bin/nvim
+)
+
+#: paraview
+(
+  set -euo pipefail
+  VER=5.13.2
+
+  mkdir -p "${PREFIX}/opt/paraview"
+  curl -sL "https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v${VER%.*}&type=binary&os=Linux&downloadFile=ParaView-${VER}-osmesa-MPI-Linux-Python3.10-x86_64.tar.gz" |
+    tar -C "${PREFIX}/opt/paraview" --strip-components 1 -xvz
 )
 
 #: pipx
@@ -207,10 +217,10 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
     --output $PIPX_HOME/pipx.pyz
 
-  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PIPX_HOME/pipx.pyz" > $PREFIX/bin/pipx
+  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PIPX_HOME/pipx.pyz" >$PREFIX/bin/pipx
   chmod +x $PREFIX/bin/pipx
 
-  register-python-argcomplete pipx > $BASH_COMPLETION_USER_DIR/pipx.bash
+  register-python-argcomplete pipx >$BASH_COMPLETION_USER_DIR/pipx.bash
 )
 
 #: pyenv
@@ -227,10 +237,10 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   set -euo pipefail
   ARCH=$(uname -m)
 
-  curl -sL https://github.com/MilesCranmer/rip2/releases/latest/download/rip-Linux-${ARCH}-musl.tar.gz \
-    | tar -C $PREFIX/bin -xvz
+  curl -sL https://github.com/MilesCranmer/rip2/releases/latest/download/rip-Linux-${ARCH}-musl.tar.gz |
+    tar -C $PREFIX/bin -xvz
 
-  rip completions bash > $BASH_COMPLETION_USER_DIR/rip.bash
+  rip completions bash >$BASH_COMPLETION_USER_DIR/rip.bash
 )
 
 #: ripgrep
@@ -241,8 +251,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ARCH=$(uname -m)
 
   mkdir -p $SRC
-  curl -sL https://github.com/BurntSushi/ripgrep/releases/download/${VER}/ripgrep-${VER}-${ARCH}-unknown-linux-musl.tar.gz \
-    | tar -C $SRC --strip-components=1 -xvz
+  curl -sL https://github.com/BurntSushi/ripgrep/releases/download/${VER}/ripgrep-${VER}-${ARCH}-unknown-linux-musl.tar.gz |
+    tar -C $SRC --strip-components=1 -xvz
 
   mv -f $SRC/rg $PREFIX/bin/
   mv -f $SRC/complete/rg.bash $BASH_COMPLETION_USER_DIR/
@@ -263,7 +273,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir $PREFIX/bin
 
-  starship completions bash > $BASH_COMPLETION_USER_DIR/starship.bash
+  starship completions bash >$BASH_COMPLETION_USER_DIR/starship.bash
 )
 
 #: stow
@@ -274,8 +284,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   # cpan Test::Output
 
   mkdir -p $SRC
-  curl -sL http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
-    | tar -C $SRC/ --strip-components=1 -xvz
+  curl -sL http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
 
   cd $SRC
   $SRC/./configure --prefix=$PREFIX
@@ -293,9 +303,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     --output $PREFIX/bin/yq
   chmod +x $PREFIX/bin/yq
 
-  yq completion bash > $BASH_COMPLETION_USER_DIR/yq.bash
-  curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz \
-    | tar -C $PREFIX/share/man/man1 -xvz yq.1
+  yq completion bash >$BASH_COMPLETION_USER_DIR/yq.bash
+  curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz |
+    tar -C $PREFIX/share/man/man1 -xvz yq.1
 )
 
 #: zoxide
