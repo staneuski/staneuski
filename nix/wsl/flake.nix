@@ -13,6 +13,7 @@
         file
         gawk
         gcc
+        gnumake
         htop
         jq
         toybox
