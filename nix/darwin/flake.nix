@@ -38,7 +38,6 @@
         vscode
 
         kitty
-        logseq
         syncthing
         zotero
 
@@ -65,6 +64,7 @@
           "vlc"
 
           "inkscape"
+          "logseq"
           "paraview"
 
           "amethyst"
@@ -98,7 +98,7 @@
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          "${pkgs.logseq}/Applications/Logseq.app"
+          "/Applications/Logseq.app"
         ];
         dock.persistent-others = [
           "${config.system.build.applications}/Applications"
