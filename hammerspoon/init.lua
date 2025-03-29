@@ -28,8 +28,8 @@ hs.hotkey.bind(primaryShortcut, "D", function()
     .new("/bin/sh", nil, {
       "-c",
       (
-        isLightMode and "sed -i'.prev' 's/theme = \"tokyonight\"/theme = \"tokyonight_day\"/g' "
-        or "sed -i'.prev' 's/theme = \"tokyonight_day\"/theme = \"tokyonight\"/g' "
+        isLightMode and "sed -i'.prev' 's/theme = \"tokyonight_moon\"/theme = \"tokyonight_day\"/g' "
+        or "sed -i'.prev' 's/theme = \"tokyonight_day\"/theme = \"tokyonight_moon\"/g' "
       )
         .. os.getenv("HOME")
         .. "/.config/helix/config.toml",
