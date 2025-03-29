@@ -23,8 +23,8 @@
       --output-dir "${OUT}"
   done
 
-  ln -sfn themes/tokyonight_night.conf ~/.config/kitty/dark-theme.auto.conf
-  ln -sfn themes/tokyonight_day.conf ~/.config/kitty/light-theme.auto.conf
+  ln -sfn themes/tokyonight_night.conf "${HOME}/.config/kitty/dark-theme.auto.conf"
+  ln -sfn themes/tokyonight_day.conf "${HOME}/.config/kitty/light-theme.auto.conf"
 )
 
 #: vim

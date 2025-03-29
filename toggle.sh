@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-  cat << EOF
+  cat <<EOF
 positional arguments:
   MODE {light,dark}     set the theme to light or dark
 options:
@@ -14,23 +14,23 @@ EOF
 parse_args() {
   while [ $# -gt 0 ]; do
     case $1 in
-      -h|--help)
-        usage
-        exit 0
-        ;;
-      -v|--verbose)
-        set -x
-        shift
-        ;;
-      light|dark)
-        MODE=$1
-        shift
-        ;;
-      *)
-        echo "unknown parameter passed: $1"
-        usage
-        exit 1
-        ;;
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -v | --verbose)
+      set -x
+      shift
+      ;;
+    light | dark)
+      MODE=$1
+      shift
+      ;;
+    *)
+      echo "unknown parameter passed: $1"
+      usage
+      exit 1
+      ;;
     esac
   done
 
@@ -41,8 +41,8 @@ parse_args() {
 }
 
 is_gnome() {
-  gsettings list-schemas 2>/dev/null |
-    grep -q '^org\.gnome\.desktop\.interface$'
+  command -v gsettings &>/dev/null &&
+    gsettings get org.gnome.desktop.interface color-scheme &>/dev/null
 }
 
 toggle() {
@@ -51,7 +51,7 @@ toggle() {
 
   #: gnome
   is_gnome &&
-  gsettings set org.gnome.desktop.interface color-scheme "${gnome}"
+    gsettings set org.gnome.desktop.interface color-scheme "${gnome}"
 
   #: helix
   sed -i'.old' "s/^theme.*=.*$/theme = \"${helix}\"/g" \
@@ -62,10 +62,10 @@ toggle() {
 
   #: lf
   command -v yq >/dev/null &&
-  yq ".preview.theme = \"${lf}\"" -i "${HOME}/.config/lf/config.yaml"
+    yq ".preview.theme = \"${lf}\"" -i "${HOME}/.config/lf/config.yaml"
 
   #: vim
-  printf "runtime colors/${vim}.vim\n" > "${HOME}/.vim/colors/tokyonight.vim"
+  printf "runtime colors/${vim}.vim\n" >"${HOME}/.vim/colors/tokyonight.vim"
 }
 
 parse_args "$@"
