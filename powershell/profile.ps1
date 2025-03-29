@@ -22,8 +22,6 @@ Function lT { eza --color=always --group-directories-first -l -snewest $args }
 #: git
 Import-Module git-aliases -DisableNameChecking
 Set-Alias -Name lg -Value "lazygit"
-Function Stow-Git { git --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:USERPROFILE $args }
-Function Stow-Lg { lazygit --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:USERPROFILE $args }
 
 #: zoxide
 Function dq { zoxide query --list $args }

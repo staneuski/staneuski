@@ -63,12 +63,12 @@ alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}'
 alias ff='find . -type f -name'
 # END_ASHELL_PROFILE
-command -v fd > /dev/null &&
+command -v fd >/dev/null &&
   alias fd='find . -type d -name'
 
 #: ohmyzsh/plugins/eza
-if command -v exa > /dev/null; then
-  alias ls='exa --color=always --group-directories-first' 
+if command -v exa >/dev/null; then
+  alias ls='exa --color=always --group-directories-first'
   alias la='exa --color=always --group-directories-first -la'
   alias ldot='exa --color=always --group-directories-first -ld .*'
   alias lD='exa --color=always --group-directories-first -lD'
@@ -79,8 +79,8 @@ if command -v exa > /dev/null; then
   alias lS='exa --color=always --group-directories-first -l -ssize'
   alias lT='exa --color=always --group-directories-first -l -snewest'
 fi
-if command -v eza > /dev/null; then
-  alias ls='eza --color=always --group-directories-first' 
+if command -v eza >/dev/null; then
+  alias ls='eza --color=always --group-directories-first'
   alias la='eza --color=always --group-directories-first -la'
   alias ldot='eza --color=always --group-directories-first -ld .*'
   alias lD='eza --color=always --group-directories-first -lD'
@@ -100,21 +100,23 @@ if [ ${TERM} == 'xterm-kitty' ]; then
 fi
 
 #: lazygit
-command -v lazygit > /dev/null &&
+command -v lazygit >/dev/null &&
   alias lg='lazygit'
 
 #: slurm
-command -v squeue > /dev/null &&
-  alias sq='squeue --format="%.8i %.9P %.42j %.8T %.6M %.4D %R" --me'
+command -v squeue >/dev/null &&
+  alias queue='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
+command -v squeue >/dev/null &&
+  alias qyaml='squeue --format="%i;%j;%T;%M;%S;%P;%D;%R" --me | yq -p=csv --csv-separator=";" -o=yaml'
 
 #: zoxide
-command -v zoxide > /dev/null &&
+command -v zoxide >/dev/null &&
   alias dq='zoxide query --list'
 #: }}}
 
 #: Integrations {{{
 #: fzf
-command -v fzf > /dev/null &&
+command -v fzf >/dev/null &&
   eval "$(fzf --bash)"
 
 #: pyenv
@@ -126,13 +128,13 @@ fi
 
 #: starship / prompt
 if [[ ! $(uname -m) =~ ^mips.* ]]; then
-  command -v starship > /dev/null &&
+  command -v starship >/dev/null &&
     eval "$(starship init bash)"
 else
   export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]❯ '
 fi
 
 #: zoxide
-command -v zoxide > /dev/null &&
+command -v zoxide >/dev/null &&
   eval "$(zoxide init --cmd=cd bash)"
 #: }}}

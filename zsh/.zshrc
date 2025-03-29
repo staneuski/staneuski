@@ -90,7 +90,7 @@ zinit wait"1" lucid as"none" for \
   eradman/entr \
     from"gh-r" extract'!' \
     atclone"./rip completions zsh > _rip" atpull"%atclone" \
-    lbin'!rip' id-as"rm-improved" \
+    lbin'!rip' id-as \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
     lbin'!rg' lman"rg.1" id-as \
@@ -148,12 +148,11 @@ zinit wait"2" lucid as"completions" from"gh-r" id-as for \
 #: }}}
 
 #: aliases, completions, docs, key-bindings {{{
-#: Aliases
-# https://www.atlassian.com/git/tutorials/dotfiles
-alias stow-git="git -C ${HOME}/.config/"
 # slurm
 (( $+commands[squeue] )) &&
-  alias sq='squeue --format="%.10i %.9P %.40j %.8T %.6M %.4D %R" --me'
+  alias queue='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
+(( $+commands[squeue] )) &&
+  alias qyaml='squeue --format="%i;%j;%T;%M;%S;%P;%D;%R" --me | yq -p=csv --csv-separator=";" -o=yaml'
 
 #: Completions
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
