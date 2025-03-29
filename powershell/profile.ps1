@@ -26,7 +26,7 @@ Function Stow-Git { git --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:US
 Function Stow-Lg { lazygit --git-dir=$env:LOCALAPPDATA\dotfiles --work-tree=$env:USERPROFILE $args }
 
 #: zoxide
-Function zql { zoxide query --list $args }
+Function dq { zoxide query --list $args }
 #: }}}
 
 #: Integrations {{{

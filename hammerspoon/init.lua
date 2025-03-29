@@ -6,7 +6,7 @@ done
 ]]
 
 hs = hs -- prevents warnings
-primaryShortcut = {"ctrl", "alt", "shift"}
+local primaryShortcut = { "ctrl", "alt", "shift" }
 
 hs.hotkey.bind(primaryShortcut, "T", function()
   hs.application.launchOrFocus("Kitty")
@@ -23,24 +23,18 @@ hs.hotkey.bind(primaryShortcut, "D", function()
     return lightModeState
   ]])
 
-  -- kitty
-  hs.task.new("/run/current-system/sw/bin/kitty", nil, {
-    "+kitten",
-    "themes",
-    "--reload-in=all",
-    isLightMode and "Goph Mar" or "Dracula",
-  }):start()
-  hs.timer.doAfter(0.25, function()
-    hs.task.new("/bin/sh", nil, {"-c", "pkill -30 -a kitty"}):start()
-  end)
-
   -- helix
-  hs.task.new("/bin/sh", nil, {"-c", (
-      isLightMode
-      and "sed -i'.prev' 's/theme = \"term16_dark\"/theme = \"term16_light\"/g' "
-      or "sed -i'.prev' 's/theme = \"term16_light\"/theme = \"term16_dark\"/g' "
-    ) .. os.getenv("HOME") .. "/.config/helix/config.toml",
-  }):start()
+  hs.task
+    .new("/bin/sh", nil, {
+      "-c",
+      (
+        isLightMode and "sed -i'.prev' 's/theme = \"tokyonight\"/theme = \"tokyonight_day\"/g' "
+        or "sed -i'.prev' 's/theme = \"tokyonight_day\"/theme = \"tokyonight\"/g' "
+      )
+        .. os.getenv("HOME")
+        .. "/.config/helix/config.toml",
+    })
+    :start()
 end)
 
 hs.hotkey.bind(primaryShortcut, "R", function()
