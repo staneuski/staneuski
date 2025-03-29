@@ -3,24 +3,39 @@
 #: bat
 (
   # https://github.com/sharkdp/bat?tab=readme-ov-file#adding-new-themes
-  mkdir -p "$(bat --config-dir)/themes/"
+  OUT="$(bat --config-dir)/themes"
 
+  mkdir -p "${OUT}"
   for flavour in day moon night storm; do
     curl -LO https://raw.githubusercontent.com/folke/tokyonight.nvim/master/extras/sublime/tokyonight_${flavour}.tmTheme \
-      --output-dir "$(bat --config-dir)/themes"
+      --output-dir "${OUT}"
   done
   bat cache --build
 )
 
 #: kitty
 (
-  mkdir -p ~/.config/kitty/themes/
+  OUT="${HOME}/.config/kitty/themes/"
 
+  mkdir -p "${OUT}"
   for flavour in day moon night storm; do
     curl -LO https://raw.githubusercontent.com/folke/tokyonight.nvim/master/extras/kitty/tokyonight_${flavour}.conf \
-      --output-dir ~/.config/kitty/themes/
+      --output-dir "${OUT}"
   done
 
   ln -sfn themes/tokyonight_night.conf ~/.config/kitty/dark-theme.auto.conf
   ln -sfn themes/tokyonight_day.conf ~/.config/kitty/light-theme.auto.conf
+)
+
+#: vim
+(
+  OUT="${HOME}/.config/.vim/colors/"
+
+  mkdir -p "${OUT}"
+  for flavour in day moon night storm; do
+    curl -LO https://raw.githubusercontent.com/folke/tokyonight.nvim/refs/heads/main/extras/vim/colors/tokyonight-${flavour}.vim \
+      --output-dir "${OUT}"
+  done
+
+  echo "runtime colors/tokyonight-moon.vim" > "${OUT}/tokyonight.vim"
 )

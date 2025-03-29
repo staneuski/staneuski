@@ -1,5 +1,5 @@
+--theme-dark="tokyonight_moon"
 --theme-light="tokyonight_day"
---theme-dark="tokyonight_night"
 
 --map-syntax="*.eb*:Python"
 --map-syntax="*.pvsm*:XML"

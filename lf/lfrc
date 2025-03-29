@@ -18,8 +18,8 @@ set previewer ~/.config/lf/preview.sh
 cmd preview-toggle &{{
   set -f
   [[ $(yq '.preview.theme' ~/.config/lf/config.yaml) == "light" ]] &&
-    yq '.preview.theme = "dark"' -i ~/.config/lf/config.yaml ||
-    yq '.preview.theme = "light"' -i ~/.config/lf/config.yaml
+    ~/.config/toggle.sh dark ||
+    ~/.config/toggle.sh light
 }}
 
 #: Compress selected files
@@ -43,7 +43,7 @@ cmd unxz &{{
 cmd mkdir-mv ${{
   set -f
   mkdir -p $1
-  mv -- $fx $1 
+  mv -- $fx $1
 }}
 
 #: Create file with/or directory
