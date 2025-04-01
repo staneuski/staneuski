@@ -54,7 +54,7 @@
         configuration
         nixos-wsl.nixosModules.default
         {
-          system.stateVersion = "unstable";
+          system.stateVersion = "25.05";
           wsl.defaultUser = user;
           wsl.enable = true;
         }
