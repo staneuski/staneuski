@@ -1,3 +1,6 @@
 {
-    "last_update":  "2025-03-04T09:20:48.0707391+02:00"
+    "last_update":  "2025-04-01T23:32:14.6698202+03:00",
+    "scoop_repo":  "https://github.com/ScoopInstaller/Scoop",
+    "scoop_branch":  "master",
+    "aria2-warning-enabled":  false
 }
