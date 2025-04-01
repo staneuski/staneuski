@@ -89,6 +89,7 @@
                 "commandline": "ssh -Y sst055@fis8045.accdom.for.int",
                 "guid": "{986b5e88-edad-569b-8f6e-0e2fb2312a9a}",
                 "hidden": false,
+                "icon": "%USERPROFILE%\\.config\\powershell\\icon-bg_transparent-primary-64x.png",
                 "name": "StarGate"
             },
             {
