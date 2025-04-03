@@ -61,8 +61,8 @@ select-word-style bash
 
 zinit lucid as"none" from"gh-r" id-as for \
     atclone"
-      ./starship init zsh > init.zsh
-      ./starship completions zsh > _starship
+      ./starship init zsh >init.zsh
+      ./starship completions zsh >_starship
     " atpull"%atclone" \
     src"init.zsh" \
     lbin'!starship' \
@@ -73,7 +73,7 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
     lbin'!eza' \
   eza-community/eza \
     atclone"
-      ./zoxide init --cmd=cd zsh > init.zsh
+      ./zoxide init --cmd=cd zsh >init.zsh
       cp -rfv man/man1/zoxide{,-add,-import,-init,-query,-remove}.1 $ZINIT[MAN_DIR]/man1/
     " atpull"%atclone" \
     cp"completions/_zoxide -> _zoxide" \
@@ -89,7 +89,7 @@ zinit wait"1" lucid as"none" for \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
     from"gh-r" extract'!' \
-    atclone"./rip completions zsh > _rip" atpull"%atclone" \
+    atclone"./rip completions zsh >_rip" atpull"%atclone" \
     lbin'!rip' id-as \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
@@ -100,7 +100,7 @@ zinit wait"1" lucid as"none" for \
     id-as"gstow" \
   http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
     from"gh-r" extract'!' \
-    atclone"./yq completion zsh > _yq" atpull"%atclone" \
+    atclone"./yq completion zsh >_yq" atpull"%atclone" \
     mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq
@@ -109,16 +109,18 @@ zinit wait"1" lucid light-mode for \
   zsh-users/zsh-completions \
   zdharma-continuum/fast-syntax-highlighting \
   MichaelAquilina/zsh-you-should-use
+
 # use `fzf --man` instead of `man fzf`
-zinit wait"1a" lucid as"none" from"gh-r" id-as for \
-    atclone"./fzf --zsh > init.zsh" atpull"%atclone" \
-    src"init.zsh" \
+zinit wait"1a" lucid as"none" from"gh-r" id-as src"init.zsh" for \
+    atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
+    atload"export FZF_DEFAULT_OPTS=\"--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'\"" \
     lbin'!fzf' \
   junegunn/fzf
-zinit wait"1b" lucid as"none" from"gh-r" id-as for \
+zinit wait"1b" lucid as"none" from"gh-r" id-as src"init.zsh" for \
     bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
-    atclone"./atuin init zsh > init.zsh" atpull"%atclone" \
-    src"init.zsh" nocompile'!' \
+    atclone"./atuin init zsh --disable-ctrl-r >init.zsh" atpull"%atclone" \
+    atload"bindkey '^x' atuin-search" \
+    nocompile'!' \
     lbin'!atuin' \
   atuinsh/atuin
 #: }}}
@@ -135,14 +137,14 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!lazygit' \
     atload"alias lg='lazygit'" \
   jesseduffield/lazygit \
-    atclone"./navi widget zsh > init.zsh" atpull"%atclone" \
+    atclone"./navi widget zsh >init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
     lbin'!navi' \
   denisidoro/navi
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
-    atclone"register-python-argcomplete pipx > _pipx" atpull"%atclone" \
+    atclone"register-python-argcomplete pipx >_pipx" atpull"%atclone" \
     atload'pipx () { python3 "${ZINIT[PLUGINS_DIR]}/pipx/pipx.pyz" "$@" }' \
   pypa/pipx
 #: }}}
@@ -190,9 +192,6 @@ zinit wait"3a" lucid for \
     as"null" extract'!!' \
     lman"eza*" id-as"eza/man" \
   eza-community/eza \
-    has"fzf" as"completion" mv"completion.zsh -> _zsh" nocompile'!' \
-    atload"export FZF_DEFAULT_OPTS=\"--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'\"" \
-  https://github.com/junegunn/fzf/raw/master/shell/completion.zsh \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
     has"lf" as"null" lman"lf.1" \
@@ -201,6 +200,4 @@ zinit wait"3a" lucid for \
     as"null" extract'!' \
     lman"yq.1" id-as"yq/man" \
   mikefarah/yq
-  #   has"fzf" \
-  # https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh \
 #: }}}

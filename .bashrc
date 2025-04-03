@@ -28,13 +28,6 @@
   export MANPATH="${HOME}/.local/share/man:${MANPATH}"
 #: }}}
 
-#: Functions {{{
-function swap() {
-  local tmp_file=/tmp/$$.tmp
-  mv "${1}" $tmp_file && mv "${2}" "${1}" && mv $tmp_file "${2}"
-}
-#: }}}
-
 #: Aliases {{{
 # BEGIN_ASHELL_PROFILE
 #: ohmyzsh/plugins/common-aliases#ls-command
@@ -116,6 +109,7 @@ command -v zoxide >/dev/null &&
 
 #: Integrations {{{
 #: fzf
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 command -v fzf >/dev/null &&
   eval "$(fzf --bash)"
 

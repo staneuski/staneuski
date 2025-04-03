@@ -46,7 +46,7 @@ is_gnome() {
 }
 
 toggle() {
-  declare gnome="${1}" kitty="${2}" lf="${3}" vim="${4}"
+  local gnome="${1}" kitty="${2}" lf="${3}" vim="${4}"
   local helix="${kitty}"
 
   #: gnome
