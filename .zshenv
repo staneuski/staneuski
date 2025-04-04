@@ -13,11 +13,13 @@ export SAVEHIST="$HISTSIZE"
 
 #: Functions {{{
 function opt-load() {
-  if [ $# -ne 2 ] && [ ! -d "${1}" ]; then
-    echo "Usage: opt-load PREFIX"
+  if [ $# -ne 1 ]; then
+    echo "Usage: opt-load PREFIX $#"
     return 1
   fi
   local prefix="$(realpath ${1})"
+  [ -d "${prefix}" ] ||
+    return 1
 
   [[ "${PATH}" =~ .*"${prefix}/bin".* ]] ||
     export PATH="${prefix}/bin:${PATH}"
@@ -28,12 +30,14 @@ function opt-load() {
 }
 
 function opt-unload() {
-  if [ $# -ne 2 ] && [ ! -d "${1}" ]; then
+  if [ $# -ne 1 ]; then
     echo "Usage: opt-unload PREFIX"
     return 1
   fi
   local prefix="$(realpath ${1})"
-   
+  [ -d "${prefix}" ] ||
+    return 1
+
   PATH="${PATH//:$prefix\/bin/}"
   export PATH="${PATH/#$prefix\/bin:/}"
 

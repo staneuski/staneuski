@@ -1,5 +1,10 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
+#: Source global definitions {{{
+[ -f "${HOME}/.zshenv" ] && (( $+commands[opt-load] )) ||
+  source "${HOME}/.zshenv"
+#: }}}
+
 #: Environment {{{
 [ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX/bin/brew}" ] &&
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
