@@ -1,6 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
-#: Source global definitions
+#: Source global definitions {{{
 [ -f /etc/bashrc ] &&
   source /etc/bashrc
 [ -f /opt/etc/profile ] &&
@@ -10,22 +10,18 @@
   source "${HOME}/.zshenv"
 [ -f "${HOME}/.config/zsh/.zprofile" ] &&
   source "${HOME}/.config/zsh/.zprofile"
+#: }}}
 
 #: Environment {{{
-[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX}/biqn/brew" ] &&
+[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX}/bin/brew" ] &&
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
-
-[[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
-  export PATH="${HOME}/.local/bin:${PATH}"
-[[ "${LD_LIBRARY_PATH}" =~ .*"${HOME}/.local/lib".* ]] ||
-  export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
+opt-load "${HOME}/.local/share/zinit/polaris"
+opt-load "${HOME}/.local"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
-  export BASH_COMPLETION_USER_DIR="$HOME/.local/share/bash-completion"
-[[ "${MANPATH}" =~ .*"${HOME}/.local/share/man".* ]] ||
-  export MANPATH="${HOME}/.local/share/man:${MANPATH}"
+  export BASH_COMPLETION_USER_DIR="${HOME}/.local/share/bash-completion"
 #: }}}
 
 #: Aliases {{{
@@ -96,6 +92,17 @@ fi
 command -v lazygit >/dev/null &&
   alias lg='lazygit'
 
+#: lf
+if command -v lf >/dev/null; then
+  lf () { command lf -log "${TMPDIR:-/tmp}/lf.log" "$@"; }
+  lz () { command zoxide query --list "$@" | head -1 | xargs lf; }
+  lf-zoxide-widget () {
+    local d="$(command zoxide query --interactive)" || return
+    [ -n "$d" ] && lf "$d"
+  }
+  bind -x '"\C-o": "lf-zoxide-widget"'
+fi
+
 #: slurm
 command -v squeue >/dev/null &&
   alias queue='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
@@ -104,23 +111,16 @@ command -v squeue >/dev/null &&
 
 #: zoxide
 command -v zoxide >/dev/null &&
-  alias dq='zoxide query --list'
+  dq () { command zoxide query --list "$@" | head -1; }
 #: }}}
 
 #: Integrations {{{
-#: lf
-lf () { command lf -log ${TMPDIR:-/tmp}/lf.log "$@" }
-lz () { command zoxide query --list "$@" | head -1 | xargs lf }
-lf-zoxide-widget () {
-  local d="$(command zoxide query --interactive)" || return
-  [ -n "$d" ] && lf "$d"
-}
-bind -x '"\C-o": "lf-zoxide-widget"'
-
 #: fzf
-command -v fzf >/dev/null &&
-  eval "$(FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc fzf --bash)"
-# bind -x '"\C-p": "fzf-history-widget"'
+export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
+if command -v fzf >/dev/null; then
+  eval "$(fzf --bash)"
+  bind -x '"\C-p": "fzf-history-widget"'
+fi
 
 #: pyenv
 if [ ! -z ${PYENV_ROOT+x} ] && [ -d "${PYENV_ROOT}/bin" ]; then

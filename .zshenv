@@ -15,6 +15,34 @@ export SAVEHIST="$HISTSIZE"
 #: }}}
 
 #: Functions {{{
+function opt-load() {
+  local prefix="$(realpath ${1})"
+  [ -d "${prefix}" ] ||
+    return
+
+  [[ "${PATH}" =~ .*"${prefix}/bin".* ]] ||
+    export PATH="${prefix}/bin:${PATH}"
+  [[ "${LD_LIBRARY_PATH}" =~ .*"${prefix}/lib".* ]] ||
+    export LD_LIBRARY_PATH="${prefix}/lib:${LD_LIBRARY_PATH}"
+  [[ "${MANPATH}" =~ .*"${prefix}/share/man".* ]] ||
+    export MANPATH="${prefix}/share/man:${MANPATH}"
+}
+
+function opt-unload() {
+  local prefix="$(realpath ${1})"
+  [ -d "$prefix" ] ||
+    return
+               
+   PATH="${PATH//:$prefix\/bin/}"
+   export PATH="${PATH/#$prefix\/bin:/}"
+
+   LD_LIBRARY_PATH="${LD_LIBRARY_PATH//:$prefix\/lib/}"
+   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH/#$prefix\/lib:/}"
+
+   MANPATH="${MANPATH//:$prefix\/share\/man/}"
+   export MANPATH="${MANPATH/#$prefix\/share\/man:/}"
+}
+
 function swap() {
   local lhs="${1}" rhs="${2}"
 

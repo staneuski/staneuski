@@ -3,13 +3,10 @@
 #: Environment {{{
 [ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX/bin/brew}" ] &&
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
-
-[[ "${PATH}" =~ .*"${HOME}/.local/bin".* ]] ||
-  export PATH="${HOME}/.local/bin:${PATH}"
-[[ "${LD_LIBRARY_PATH}" =~ .*"${HOME}/.local/lib".* ]] ||
-  export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
+opt-load "${HOME}/.local"
 
 #: Plugin manager (zinit)
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
@@ -78,7 +75,7 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
     " atpull"%atclone" \
     cp"completions/_zoxide -> _zoxide" \
     src"init.zsh" nocompile'!' \
-    atload"alias dq='zoxide query --list'" \
+    atload'dq () { command zoxide query --list "$@" | head -1 }' \
     lbin'!zoxide' \
   ajeetdsouza/zoxide
 #: }}}
