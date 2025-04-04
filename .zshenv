@@ -1,9 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 #: Environment {{{
-#: Compiled software location
-# export PREFIX=$HOME/.local
-
 #: zsh dotfiles
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 
@@ -16,9 +13,11 @@ export SAVEHIST="$HISTSIZE"
 
 #: Functions {{{
 function opt-load() {
+  if [ $# -ne 2 ] && [ ! -d "${1}" ]; then
+    echo "Usage: opt-load PREFIX"
+    return 1
+  fi
   local prefix="$(realpath ${1})"
-  [ -d "${prefix}" ] ||
-    return
 
   [[ "${PATH}" =~ .*"${prefix}/bin".* ]] ||
     export PATH="${prefix}/bin:${PATH}"
@@ -29,18 +28,20 @@ function opt-load() {
 }
 
 function opt-unload() {
+  if [ $# -ne 2 ] && [ ! -d "${1}" ]; then
+    echo "Usage: opt-unload PREFIX"
+    return 1
+  fi
   local prefix="$(realpath ${1})"
-  [ -d "$prefix" ] ||
-    return
-               
-   PATH="${PATH//:$prefix\/bin/}"
-   export PATH="${PATH/#$prefix\/bin:/}"
+   
+  PATH="${PATH//:$prefix\/bin/}"
+  export PATH="${PATH/#$prefix\/bin:/}"
 
-   LD_LIBRARY_PATH="${LD_LIBRARY_PATH//:$prefix\/lib/}"
-   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH/#$prefix\/lib:/}"
+  LD_LIBRARY_PATH="${LD_LIBRARY_PATH//:$prefix\/lib/}"
+  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH/#$prefix\/lib:/}"
 
-   MANPATH="${MANPATH//:$prefix\/share\/man/}"
-   export MANPATH="${MANPATH/#$prefix\/share\/man:/}"
+  MANPATH="${MANPATH//:$prefix\/share\/man/}"
+  export MANPATH="${MANPATH/#$prefix\/share\/man:/}"
 }
 
 function swap() {

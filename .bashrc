@@ -6,7 +6,7 @@
 [ -f /opt/etc/profile ] &&
   source /opt/etc/profile
 
-[ -z ${ZDOTDIR+x} ] && [ -f "${HOME}/.zshenv" ] &&
+[ -f "${HOME}/.zshenv" ] && command -v opt-load >/dev/null ||
   source "${HOME}/.zshenv"
 [ -f "${HOME}/.config/zsh/.zprofile" ] &&
   source "${HOME}/.config/zsh/.zprofile"
