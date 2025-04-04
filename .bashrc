@@ -12,7 +12,7 @@
   source "${HOME}/.config/zsh/.zprofile"
 
 #: Environment {{{
-[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX}/bin/brew" ] &&
+[ ! -z ${HOMEBREW_PREFIX+x} ] && [ -z ${HOMEBREW_CELLAR+x} ] && [ -f "${HOMEBREW_PREFIX}/biqn/brew" ] &&
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
@@ -108,10 +108,13 @@ command -v zoxide >/dev/null &&
 #: }}}
 
 #: Integrations {{{
+#: lf
+command -v lf >/dev/null &&
+  bind -x '"\C-o": "lf-zoxide-widget"'
 #: fzf
-export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 command -v fzf >/dev/null &&
-  eval "$(fzf --bash)"
+  eval "$(FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc fzf --bash)"
+# bind -x '"\C-p": "fzf-history-widget"'
 
 #: pyenv
 if [ ! -z ${PYENV_ROOT+x} ] && [ -d "${PYENV_ROOT}/bin" ]; then

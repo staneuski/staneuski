@@ -35,7 +35,7 @@ case "$(get_mime "$1")" in
     # return false to always repaint, in case terminal size changes
     bat \
       --plain \
-      --theme=$(yq '.preview.theme' ~/.config/lf/config.yaml) \
+      --theme="${lf_user_theme}" \
       --force-colorization \
       --style=changes \
       --terminal-width $(($2 - 3)) "$1" && false

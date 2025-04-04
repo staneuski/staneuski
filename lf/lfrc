@@ -1,52 +1,95 @@
-# https://github.com/gokcehan/lf/wiki/Tips
+# vim:fileencoding=utf-8:foldmethod=marker:foldmarker=#:{{{,}}}:syntax=sh:expandtab:ts=2:sw=2:sts=2
 
-cmd on-select &{{
-  lf -remote "send $id set statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
-}}
+#: https://github.com/gokcehan/lf/wiki/Tips#configuration {{{
+set user_theme dark
 
-cmd on-cd &{{
-  fmt="$(STARSHIP_SHELL= starship prompt | sed 's/\\/\\\\/g;s/"/\\"/g')"
-  lf -remote "send $id set promptfmt \"$fmt\""
-}}
-
-#: Preview {{{
-set previewer ~/.config/lf/preview.sh
+set dupfilefmt '%b%n%e'
+set hidden true
+set mouse true
 #: }}}
 
-#: Functions {{{
-#: Set lf bat theme
-cmd preview-toggle &{{
-  set -f
-  [[ $(yq '.preview.theme' ~/.config/lf/config.yaml) == "light" ]] &&
-    ~/.config/toggle.sh dark ||
-    ~/.config/toggle.sh light
-}}
 
-#: Compress selected files
-cmd archive &{{
-  set -f
-  tar -caf ${1} $(echo $fx | sed -e "s~${PWD}/~~g") -C $PWD && rm -rf $fx # &
-  # wait
-  lf -remote "send ${id} unselect"
-}}
+#: https://github.com/gokcehan/lf/wiki/Tips#appearance {{{
+set previewer ~/.config/lf/preview.sh
 
-cmd unxz &{{
-  set -f
-  [ ! -f $f ] &&
-    return
-  [ ${f##*.} != .xz ] &&
-  unxz --compress --force -9e --threads=0 $f ||
-  unxz --uncompress --force -9e --threads=0 $f
+#: Toggle theme
+cmd theme-toggle &{{
+  if [ "$lf_user_theme" == "light" ]; then
+    ~/.config/lf/toggle.sh dark
+    lf -remote "send ${id} :set user_theme dark; reload"
+  else
+    ~/.config/lf/toggle.sh light
+    lf -remote "send ${id} :set user_theme light; reload"
+  fi
 }}
+map B theme-toggle
 
-#: Create directory with selected files
-cmd mkdir-mv ${{
-  set -f
-  mkdir -p $1
-  mv -- $fx $1
+#: https://github.com/gokcehan/lf/wiki/Integrations#eza
+cmd on-select & lf -remote "send ${id} set statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
+
+#: https://github.com/gokcehan/lf/wiki/Integrations#starship
+cmd on-cd &{{
+  fmt="$(STARSHIP_SHELL= starship prompt | sed 's/\\/\\\\/g;s/"/\\"/g')"
+  lf -remote "send ${id} set promptfmt \"${fmt}\""
+  zoxide add "${PWD}"
 }}
+#: }}}
 
-#: Create file with/or directory
+
+#: Selection, https://github.com/gokcehan/lf/wiki/Tips#navigation {{{
+#: Jump to current directory in graveyard if exists
+cmd jump-graveyard % {{
+  set -f
+  [ -d "$(rip graveyard)${PWD}" ] &&
+    lf -remote "send ${id} cd $(rip graveyard)${PWD}" ||
+    lf -remote "send ${id} echoerr No such directory: $(rip graveyard)$(pwd -P)"
+}}
+map R jump-graveyard
+
+#: Selection
+map <space> :toggle
+map <s-down> :toggle; down
+map <s-up> :toggle; up
+map J :toggle; down
+map K :toggle; up
+
+#: Glob select
+map - push :glob-unselect<space>
+map + push :glob-select<space>
+cmd glob-toggle $ lf -remote "send ${id} toggle $(ls -d ${*} | xargs)"
+map = push :glob-toggle<space>
+
+#: zoxide ( https://github.com/gokcehan/lf/wiki/Integrations#zoxide )
+cmd z %{{
+  res="$(zoxide query --exclude "$PWD" "$@" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+  lf -remote "send ${id} cd \"$res\""
+}}
+map <c-g> push :z<space>
+cmd zi ${{
+  res="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
+  lf -remote "send ${id} cd \"$res\""
+}}
+#: }}}
+
+
+#: https://github.com/gokcehan/lf/wiki/Tips#copypaste (inc. clipboard) {{{
+#: Copy path(s) to clipboard
+map Yp $ printf "%s" "${fx}" | kitty +kitten clipboard
+
+#: Copy file(s) content to clipboard
+map Yt $ kitty +kitten clipboard --mime 'text/*' -- ${fx}
+#: }}}
+
+
+#: https://github.com/gokcehan/lf/wiki/Tips#file-operations {{{
+map <enter> rename i
+
+#: Deletion
+map u % rip --unbury
+map r % rip --force ${fx} # remaps default rename
+map D delete
+
+#: Create file or directory
 cmd create ${{
   set -f
   if [[ "${1}" == */ ]]; then
@@ -58,8 +101,52 @@ cmd create ${{
     # lf -remote "send ${id} select ${1}"
   fi
 }}
+map n push :create<space>
 
-#: Symlinks ( https://github.com/gokcehan/lf/wiki/Tips#creating-links )
+#: Create directory with selected files
+cmd mkdir-mv ${{
+  set -f
+  mkdir -p $1
+  mv -- $fx $1
+}}
+map <a-n> push :mkdir-mv<space>
+
+#: Extract selected files
+map x &{{
+  set -f
+  if [ ! -f $f ]; then
+    lf -remote "send ${id} echoerr 'invalid .tar-file: ${f}"
+    return
+  fi
+  tar -xf "$f" && rm -rf "$f" &
+  lf -remote "send ${id} :reload; echomsg 'untaping ${1} [PID=$!]'" &
+}}
+
+#: Compress selected files
+cmd archive &{{
+  set -f
+  tar -C $PWD -caf ${1} $(echo $fx | sed -e "s~${PWD}/~~g") &&
+    rm -rf $fx &
+  lf -remote "send ${id} :reload; echomsg 'taping ${1} [PID=$!]'" &
+}}
+map a push :archive<space>
+
+#: (De)compress selected files
+cmd unxz &{{
+  set -f
+  if [ ! -f $f ]; then
+    lf -remote "send ${id} echoerr 'invalid .xz-file: ${f}'"
+    return
+  fi
+
+  [ ${f##*.} != .xz ] &&
+    unxz --compress --force -9e --threads=0 $f ||
+    unxz --uncompress --force -9e --threads=0 $f
+  lf -remote "send ${id} :reload; echomsg 'compressing ${f} [PID=$!]'" &
+}}
+map <a-a> :unxz
+
+#: https://github.com/gokcehan/lf/wiki/Tips#creating-links
 # y (select for copy) and P to paste symlink
 # d (select for cut) and P to paste hard link
 cmd link %{{
@@ -67,94 +154,41 @@ cmd link %{{
   mode="$1"
   shift
   if [ "$#" -lt 1 ]; then
-    lf -remote "send $id echoerr no files to link"
+    lf -remote "send ${id} echoerr no files to link"
     exit
   fi
   case "$mode" in
     # 'copy' mode indicates a symlink
     copy)
-      ln -sr -t . -- "$@"
-      ;;
+      ln -sr -t . -- "$@";;
     # while 'move' mode indicates a hard link
     move)
       ln -t . -- "$@"
-      lf -remote "send clear"
-      ;;
+      lf -remote "send clear";;
   esac
 }}
-
-#: Find
-cmd fzf-jump ${{
-  export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-  res="$(fzf --reverse --header='Jump to location')"
-  if [ -n "$res" ]; then
-    [ -d "$res" ] && cmd="cd" || cmd="select"
-    res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
-    lf -remote "send $id $cmd \"$res\""
-  fi
-}}
-cmd fzf-ripgrep ${{
-  RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-  res="$(
-    FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
-      fzf --bind "change:reload:$RG_PREFIX {q} || true" --ansi --layout=reverse --header 'Search in files' \
-        | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
-  )"
-  [ -n "$res" ] && lf -remote "send $id select \"$res\""
-}}
-# }}
-
-#: Group select
-cmd globtoggle ${{
-  lf -remote "send ${id} toggle $(ls -d ${*} | xargs)"
-}}
+map P :link
 #: }}}
 
-#: Interface {{{
-set mouse true
-set hidden true
-#: }}}
 
-#: Personalisation {{{
-set dupfilefmt '%b%n%e'
-#: }}}
-
-#: Key bindings {{{
-map <c-z> $ kill -STOP $PPID
-map B push :preview-toggle<enter>
-
-#: Select
-map + push :globtoggle<space>
-
-#: Create, delete
-map <enter> push :create<space>
-map <a-n> push :mkdir-mv<space>
-map D delete
-map L :link
-
-#: tar
-map a push :archive<space>
-map <a-a> :unxz
-map x &tar -xf "$f" && rm -rf "$f"
-
-#: Select / toggle
-map <space> :toggle
-map <s-down> :toggle; down
-map <s-up> :toggle; up
-
-#: https://github.com/gokcehan/lf/blob/master/doc.md#quick-reference
-#: Use enter for shell commands
-# map <enter> shell
-
-#: Find
-map <c-f> :fzf-jump
-map <c-g> :fzf-ripgrep
-
+#: https://github.com/gokcehan/lf/wiki/Tips#executing-commands {{{
 #: Preview
-map i $bat --paging=always "$f"
-map <f-3> $less -nR "$f"
+map i $ bat --paging=always "$f"
+map I $ less -nR "$f"
 
 #: Edit
-# map e $vim "$f"
-map <f-4> $vim "$f"
+# map <f-4> $ vim "$f"
+
+#: Custom mappings help, use <f-1> for defaults
+cmd help ${{
+  sed -n '/^#/p; /^map/p; /^$/p' ~/.config/lf/lfrc | $PAGER
+    # bat --file-name="sed -n '/^#/p; /^map/p; /^$/p' ~/.config/lf/lfrc" -l=sh --style='header-filename,grid'
+}}
+map ? help
+#: }}}
+
+
+#: https://github.com/gokcehan/lf/wiki/Tips#command-line {{{
+#: https://github.com/gokcehan/lf/wiki/Tips#put-lf-into-the-background
+map <c-z> $ kill -STOP $PPID
 #: }}}

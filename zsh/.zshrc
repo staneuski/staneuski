@@ -99,30 +99,31 @@ zinit wait"1" lucid as"none" for \
     configure make"install PREFIX=${ZPFX}" \
     id-as"gstow" \
   http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
+    from"gh-r" \
+    atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
+    atload"
+      export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
+      bindkey '^P' fzf-history-widget
+    " src"init.zsh" id-as \
+    lbin'!fzf' \
+  junegunn/fzf \
     from"gh-r" extract'!' \
     atclone"./yq completion zsh >_yq" atpull"%atclone" \
     mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq
+# Load atuin after fzf to overwrite key bindings
+zinit wait"1b" lucid as"none" for \
+    from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+    atclone"./atuin init zsh >init.zsh" atpull"%atclone" \
+    src"init.zsh" nocompile'!' \
+    lbin'!atuin' id-as \
+  atuinsh/atuin
 zinit wait"1" lucid light-mode for \
   zsh-users/zsh-autosuggestions \
   zsh-users/zsh-completions \
   zdharma-continuum/fast-syntax-highlighting \
   MichaelAquilina/zsh-you-should-use
-
-# use `fzf --man` instead of `man fzf`
-zinit wait"1a" lucid as"none" from"gh-r" id-as src"init.zsh" for \
-    atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
-    atload"export FZF_DEFAULT_OPTS=\"--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'\"" \
-    lbin'!fzf' \
-  junegunn/fzf
-zinit wait"1b" lucid as"none" from"gh-r" id-as src"init.zsh" for \
-    bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
-    atclone"./atuin init zsh --disable-ctrl-r >init.zsh" atpull"%atclone" \
-    atload"bindkey '^x' atuin-search" \
-    nocompile'!' \
-    lbin'!atuin' \
-  atuinsh/atuin
 #: }}}
 
 #: TUIs {{{
@@ -131,7 +132,10 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
-    lbin"!lf" \
+    atload"
+      zle -N lf-zoxide-widget
+      bindkey '^O' lf-zoxide-widget
+    " lbin"!lf" \
   gokcehan/lf \
     extract'!' \
     lbin'!lazygit' \

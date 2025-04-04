@@ -4,5 +4,6 @@
 --map-syntax="*.eb*:Python"
 --map-syntax="*.pvsm*:XML"
 --map-syntax="*.series:JSON"
+--map-syntax="*rc:Bourne Again Shell (bash)"
 
 --set-terminal-title

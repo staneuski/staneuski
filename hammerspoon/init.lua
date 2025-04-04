@@ -12,7 +12,7 @@ hs.hotkey.bind(primaryShortcut, "T", function()
   hs.application.launchOrFocus("Kitty")
 end)
 
-hs.hotkey.bind(primaryShortcut, "D", function()
+hs.hotkey.bind(primaryShortcut, "B", function()
   local _, isLightMode = hs.osascript.applescript([[
     tell application "System Events"
       tell appearance preferences

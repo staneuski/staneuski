@@ -61,8 +61,8 @@ toggle() {
   ln -sfn "themes/${kitty}.conf" "${HOME}/.config/kitty/current-theme.conf"
 
   #: lf
-  command -v yq >/dev/null &&
-    yq ".preview.theme = \"${lf}\"" -i "${HOME}/.config/lf/config.yaml"
+  sed -i'.old' "s/^set.*user_theme.*$/set user_theme ${lf}/g" \
+    "${HOME}/.config/lf/lfrc"
 
   #: vim
   printf "runtime colors/${vim}.vim\n" >"${HOME}/.vim/colors/tokyonight.vim"
