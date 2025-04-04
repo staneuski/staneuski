@@ -109,8 +109,14 @@ command -v zoxide >/dev/null &&
 
 #: Integrations {{{
 #: lf
-command -v lf >/dev/null &&
-  bind -x '"\C-o": "lf-zoxide-widget"'
+lf () { command lf -log ${TMPDIR:-/tmp}/lf.log "$@" }
+lz () { command zoxide query --list "$@" | head -1 | xargs lf }
+lf-zoxide-widget () {
+  local d="$(command zoxide query --interactive)" || return
+  [ -n "$d" ] && lf "$d"
+}
+bind -x '"\C-o": "lf-zoxide-widget"'
+
 #: fzf
 command -v fzf >/dev/null &&
   eval "$(FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc fzf --bash)"
