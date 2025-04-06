@@ -100,7 +100,9 @@ if command -v lf >/dev/null; then
     local d="$(command zoxide query --interactive)" || return
     [ -n "$d" ] && lf "$d"
   }
-  bind -x '"\C-o": "lf-zoxide-widget"'
+
+  [[ $- == *i* ]] &&
+    bind -x '"\C-o": "lf-zoxide-widget"'
 fi
 
 #: slurm
@@ -117,7 +119,7 @@ command -v zoxide >/dev/null &&
 #: Integrations {{{
 #: fzf
 export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
-if command -v fzf >/dev/null; then
+if [[ $- == *i* ]] && command -v fzf >/dev/null; then
   eval "$(fzf --bash)"
   bind -x '"\er":   "__fzf_history__"'
   bind -x '"\C-xr": "__fzf_history__"'
