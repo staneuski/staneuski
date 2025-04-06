@@ -105,7 +105,8 @@ zinit wait"1" lucid as"none" for \
     atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
     atload"
       export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
-      bindkey '^P' fzf-history-widget
+      bindkey '^[r' fzf-history-widget
+      bindkey '^Xr' fzf-history-widget
     " src"init.zsh" id-as \
     lbin'!fzf' \
   junegunn/fzf \
@@ -178,7 +179,6 @@ zinit cdreplay -q
 bindkey -e
 bindkey '^[[3~' delete-char # https://superuser.com/a/1078653
 bindkey '^[w' kill-region
-# Switch back Ctrl-Z
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 

@@ -119,7 +119,8 @@ command -v zoxide >/dev/null &&
 export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
 if command -v fzf >/dev/null; then
   eval "$(fzf --bash)"
-  bind -x '"\C-p": "fzf-history-widget"'
+  bind -x '"\er":   "__fzf_history__"'
+  bind -x '"\C-xr": "__fzf_history__"'
 fi
 
 #: pyenv
