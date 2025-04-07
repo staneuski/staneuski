@@ -3,7 +3,7 @@
 
 export EDITOR="$(which vim)"
 
-export SBATCH_ACCOUNT='project_462000855'
+export SBATCH_ACCOUNT='project_462000885'
 export SBATCH_ALLOC="${SBATCH_ACCOUNT}"
 
 export RIP_GRAVEYARD="/scratch/${SBATCH_ACCOUNT}/${USER}/.graveyard"
