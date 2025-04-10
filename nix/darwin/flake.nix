@@ -65,6 +65,7 @@
 
           "inkscape"
           "logseq"
+          "meshlab"
           "paraview"
 
           "amethyst"
