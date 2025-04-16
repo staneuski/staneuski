@@ -194,7 +194,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: neovim
 (
-  curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage \
+  curl -L https://github.com/neovim/neovim-releases/releases/download/stable/nvim-linux-x86_64.appimage \
     --output $PREFIX/bin/nvim
   chmod +x $PREFIX/bin/nvim
 )
