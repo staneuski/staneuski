@@ -3,4 +3,4 @@
 	url = git@github.com:staneuski/submoduled.vim.git
 [submodule ".OpenFOAM"]
 	path = .OpenFOAM
-	url = git@github.com/staneuski/froth.git
+	url = git@github.com:staneuski/froth.git
