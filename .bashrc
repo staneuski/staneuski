@@ -94,11 +94,10 @@ command -v lazygit >/dev/null &&
 
 #: lf
 if command -v lf >/dev/null; then
-  lf () { command lf -log "${TMPDIR:-/tmp}/lf.log" "$@"; }
-  lz () { command zoxide query --list "$@" | head -1 | xargs lf; }
+  lf () { command zoxide query --list "$@" | head -1 | xargs command lf -log "${TMPDIR:-/tmp}/lf.log"; }
   lf-zoxide-widget () {
     local d="$(command zoxide query --interactive)" || return
-    [ -n "$d" ] && lf "$d"
+    [ -n "$d" ] && command lf -log "${TMPDIR:-/tmp}/lf.log" "$d"
   }
 
   [[ $- == *i* ]] &&

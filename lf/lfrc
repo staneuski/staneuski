@@ -14,15 +14,11 @@ set previewer ~/.config/lf/preview.sh
 
 #: Toggle theme
 cmd theme-toggle &{{
-  if [ "$lf_user_theme" == "light" ]; then
-    ~/.config/lf/toggle.sh dark
-    lf -remote "send ${id} :set user_theme dark; reload"
-  else
-    ~/.config/lf/toggle.sh light
-    lf -remote "send ${id} :set user_theme light; reload"
-  fi
+  [ "$lf_user_theme" == "light" ] && theme=dark || theme=light
+  ~/.config/lf/toggle.sh "${theme}"
+  lf -remote "send ${id} :set user_theme ${theme}; reload"
 }}
-map B theme-toggle
+map Bt theme-toggle
 
 #: https://github.com/gokcehan/lf/wiki/Integrations#eza
 cmd on-select & lf -remote "send ${id} set statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
@@ -44,7 +40,7 @@ cmd jump-graveyard % {{
     lf -remote "send ${id} cd $(rip graveyard)${PWD}" ||
     lf -remote "send ${id} echoerr No such directory: $(rip graveyard)$(pwd -P)"
 }}
-map R jump-graveyard
+map gr jump-graveyard
 
 #: Selection
 map <space> :toggle
@@ -64,7 +60,7 @@ cmd z %{{
   res="$(zoxide query --exclude "$PWD" "$@" | sed 's/\\/\\\\/g;s/"/\\"/g')"
   lf -remote "send ${id} cd \"$res\""
 }}
-map <c-g> push :z<space>
+map gz push :z<space>
 cmd zi ${{
   res="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
   lf -remote "send ${id} cd \"$res\""
@@ -101,7 +97,7 @@ cmd create ${{
     # lf -remote "send ${id} select ${1}"
   fi
 }}
-map n push :create<space>
+# map n push :create<space>
 
 #: Create directory with selected files
 cmd mkdir-mv ${{
@@ -112,7 +108,7 @@ cmd mkdir-mv ${{
 map <a-n> push :mkdir-mv<space>
 
 #: Extract selected files
-map x &{{
+cmd extract &{{
   set -f
   if [ ! -f $f ]; then
     lf -remote "send ${id} echoerr 'invalid .tar-file: ${f}"
@@ -121,6 +117,7 @@ map x &{{
   tar -xf "$f" && rm -rf "$f" &
   lf -remote "send ${id} :reload; echomsg 'untaping ${1} [PID=$!]'" &
 }}
+map ax :extract
 
 #: Compress selected files
 cmd archive &{{
@@ -129,7 +126,7 @@ cmd archive &{{
     rm -rf $fx &
   lf -remote "send ${id} :reload; echomsg 'taping ${1} [PID=$!]'" &
 }}
-map a push :archive<space>
+map ac push :archive<space>
 
 #: (De)compress selected files
 cmd unxz &{{
@@ -144,7 +141,7 @@ cmd unxz &{{
     unxz --uncompress --force -9e --threads=0 $f
   lf -remote "send ${id} :reload; echomsg 'compressing ${f} [PID=$!]'" &
 }}
-map <a-a> :unxz
+map az :unxz
 
 #: https://github.com/gokcehan/lf/wiki/Tips#creating-links
 # y (select for copy) and P to paste symlink

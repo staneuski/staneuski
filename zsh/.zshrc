@@ -136,11 +136,10 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
   @sharkdp/bat \
     extract'!' \
     atload"
-      lf () { command lf -log \${TMPDIR:-/tmp}/lf.log \"\$@\" }
-      lz () { command zoxide query --list \"\$@\" | head -1 | xargs lf }
+      lf () { command zoxide query --list \"\$@\" | head -1 | xargs command lf -log \${TMPDIR:-/tmp}/lf.log }
       lf-zoxide-widget () {
         local d=\"\$(command zoxide query --interactive)\" || return
-        [ -n \"\$d\" ] && lf \"\$d\"
+        [ -n \"\$d\" ] && command lf -log \${TMPDIR:-/tmp}/lf.log \"\$d\"
       }
       zle -N lf-zoxide-widget
       bindkey '^O' lf-zoxide-widget
