@@ -12,5 +12,8 @@
 	defaultBranch = main
 [push]
 	default = simple
+	recurseSubmodules = on-demand
 [pull]
 	rebase = true
+[submodule]
+	recurse = true

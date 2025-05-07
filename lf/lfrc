@@ -81,8 +81,8 @@ map Yt $ kitty +kitten clipboard --mime 'text/*' -- ${fx}
 map <enter> rename i
 
 #: Deletion
-map u % rip --unbury
-map r % rip --force ${fx} # remaps default rename
+map U % rip --unbury
+map R % rip --force ${fx}
 map D delete
 
 #: Create file or directory
@@ -97,7 +97,7 @@ cmd create ${{
     # lf -remote "send ${id} select ${1}"
   fi
 }}
-# map n push :create<space>
+map Bn push :create<space>
 
 #: Create directory with selected files
 cmd mkdir-mv ${{
