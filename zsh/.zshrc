@@ -135,15 +135,8 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
-    atload"
-      lf () { command lf -log \${TMPDIR:-/tmp}/lf.log \$(command zoxide query --list \"\$@\" | head -1) }
-      lf-zoxide-widget () {
-        local d=\"\$(command zoxide query --interactive)\" || return
-        [ -n \"\$d\" ] && command lf -log \${TMPDIR:-/tmp}/lf.log \"\$d\"
-      }
-      zle -N lf-zoxide-widget
-      bindkey '^O' lf-zoxide-widget
-    " lbin"!lf" \
+    atload"zle -N lf-zoxide-widget; bindkey '^O' lf-zoxide-widget" \
+    lbin"!lf" \
   gokcehan/lf \
     extract'!' \
     lbin'!lazygit' \
