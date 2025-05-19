@@ -33,8 +33,6 @@
         python313Packages.pip
         python313Packages.virtualenv
         rclone
-
-        nix-ld
       ];
 
       nix.settings.experimental-features = "nix-command flakes";
