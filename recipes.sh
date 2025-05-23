@@ -17,7 +17,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/curl
-  VER=8.3.0
+  VER=8.13.0
 
   mkdir -p $SRC
   curl -sL https://curl.se/download/curl-${VER}.tar.gz |
@@ -85,7 +85,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/eza
-  VER=0.20.22
+  VER=0.21.3
   ARCH=$(uname -m)
 
   mkdir -p $SRC
@@ -105,7 +105,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: fzf
 (
-  VER=0.60.2
+  VER=0.62.0
 
   curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz |
     tar -C $PREFIX/bin -xvz
@@ -117,7 +117,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/git
-  VER=2.42.0
+  VER=2.49.0
 
   mkdir -p $SRC
   curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz |
@@ -169,7 +169,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: lazygit
 (
-  VER=0.47.2
+  VER=0.51.1
   ARCH=$(uname -m)
 
   curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz |
@@ -202,7 +202,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: paraview
 (
   set -euo pipefail
-  VER=5.13.2
+  VER=5.13.3
 
   mkdir -p "${PREFIX}/opt/paraview"
   curl -sL "https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v${VER%.*}&type=binary&os=Linux&downloadFile=ParaView-${VER}-osmesa-MPI-Linux-Python3.10-x86_64.tar.gz" |
