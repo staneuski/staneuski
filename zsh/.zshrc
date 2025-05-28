@@ -145,7 +145,15 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     atclone"./navi widget zsh >init.zsh" atpull"%atclone" \
     src"init.zsh" nocompile'!' \
     lbin'!navi' \
-  denisidoro/navi
+  denisidoro/navi \
+    if"[[ $(uname) == 'Darwin' ]]" \
+    extract'!' \
+    lbin'!nvim' lman"share/man/man1/nvim.1" \
+  neovim/neovim \
+    if"[[ $(uname) == 'Linux' ]]" bpick"*.tar.gz" \
+    extract'!' \
+    lbin'!nvim' lman"share/man/man1/nvim.1" id-as"neovim" \
+  neovim/neovim-releases
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \

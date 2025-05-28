@@ -27,7 +27,6 @@
         git-lfs
         helix
         mc
-        neovim
         python313
         python313Packages.ipykernel
         python313Packages.pip
