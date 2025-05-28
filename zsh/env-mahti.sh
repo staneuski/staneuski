@@ -1,8 +1,6 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 #$ ln -sfn env-mahti.sh $HOME/.config/zsh/.zprofile
 
-export EDITOR="$(which vim)"
-
 export SBATCH_ACCOUNT='project_2004997'
 export SBATCH_ALLOC="${SBATCH_ACCOUNT}"
 

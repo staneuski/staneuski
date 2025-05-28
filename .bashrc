@@ -88,6 +88,12 @@ if [ ${TERM} == 'xterm-kitty' ]; then
   alias kitty-theme='kitty +kitten themes'
 fi
 
+#: neovim
+if command -v nvim >/dev/null; then
+  export EDITOR='nvim -u ${HOME}/.vim/init.lua'
+  alias vi="${EDITOR}"
+fi
+
 #: lazygit
 command -v lazygit >/dev/null &&
   alias lg='lazygit'

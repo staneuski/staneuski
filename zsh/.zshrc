@@ -188,8 +188,7 @@ zinit wait"3" lucid for \
   OMZP::git \
   OMZP::kitty
 zinit wait"3a" lucid for \
-    if"[[ $(uname) == 'Darwin' ]]" \
-    atload"
+    if"[[ $(uname) == 'Darwin' ]]" atload"
       alias cattysh='caffeinate -ims kitty +kitten ssh'
       alias tar='COPYFILE_DISABLE=1 tar'
     " \
@@ -208,6 +207,11 @@ zinit wait"3a" lucid for \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
     has"lf" as"null" lman"lf.1" \
   https://github.com/gokcehan/lf/blob/master/lf.1 \
+    has"nvim" atload"
+      export EDITOR='nvim -u \${HOME}/.vim/init.lua'
+      alias vi=\"\${EDITOR}\"
+    " \
+  @zdharma-continuum/null \
     has"yq" from"gh-r" bpick"*man_page_only*" \
     as"null" extract'!' \
     lman"yq.1" id-as"yq/man" \
