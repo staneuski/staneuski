@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 #$ ln -sfn env-stargate.sh $HOME/.config/zsh/.zprofile
 
-export EDITOR='nvim -u "${HOME}/.vim/init.lua"'
+export EDITOR='nvim -u ${HOME}/.vim/init.lua'
 alias vi="${EDITOR}"
 
 export RIP_GRAVEYARD="/noback/${USER}/.graveyard"
