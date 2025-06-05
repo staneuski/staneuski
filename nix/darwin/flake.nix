@@ -37,7 +37,7 @@
         vscode
 
         kitty
-        syncthing
+        # syncthing
         zotero
 
         eza
@@ -51,6 +51,7 @@
         enable = true;
         brews = [
           "gawk"
+          "syncthing"
           "wget"
 
           "ffmpeg"
@@ -87,6 +88,7 @@
       ];
 
       # https://mynixos.com/nix-darwin/options/system 
+      system.primaryUser = user;
       system.defaults = {
         dock.autohide = true;
         dock.autohide-delay = 0.1;
@@ -110,15 +112,15 @@
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.KeyRepeat = 2;
       };
-      system.activationScripts.script.text = pkgs.lib.mkForce ''
-        #!/usr/bin/env sh
-        curl -sLo "/Users/${user}/Library/LaunchAgents/syncthing.plist" \
-          https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
-        sed -i "" "
-          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
-          s|USERNAME|${user}|g
-        " "/Users/${user}/Library/LaunchAgents/syncthing.plist" 
-      '';
+      # system.activationScripts.script.text = pkgs.lib.mkForce ''
+      #   #!/usr/bin/env sh
+      #   curl -sLo "/Users/${user}/Library/LaunchAgents/syncthing.plist" \
+      #     https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
+      #   sed -i "" "
+      #     s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
+      #     s|USERNAME|${user}|g
+      #   " "/Users/${user}/Library/LaunchAgents/syncthing.plist" 
+      # '';
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
