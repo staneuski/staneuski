@@ -69,6 +69,7 @@
           "paraview"
 
           "amethyst"
+          "anydesk"
           "coconutbattery"
           "hammerspoon"
           "logi-options+"
