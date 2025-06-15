@@ -67,6 +67,7 @@
           "logseq"
           "meshlab"
           "paraview"
+          "zen"
 
           "amethyst"
           "anydesk"
