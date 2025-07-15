@@ -17,7 +17,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/curl
-  VER=8.13.0
+  VER=8.14.1
 
   mkdir -p $SRC
   curl -sL https://curl.se/download/curl-${VER}.tar.gz |
@@ -85,7 +85,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/eza
-  VER=0.21.3
+  VER=0.22.1
   ARCH=$(uname -m)
 
   mkdir -p $SRC
@@ -105,7 +105,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: fzf
 (
-  VER=0.62.0
+  VER=0.64.0
 
   curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz |
     tar -C $PREFIX/bin -xvz
@@ -117,7 +117,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/git
-  VER=2.49.0
+  VER=2.50.1
 
   mkdir -p $SRC
   curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz |
@@ -139,7 +139,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git-lfs
 (
   SRC=/tmp/$USER/git-lfs
-  VER=3.6.1
+  VER=3.7.0
   ARCH=$(uname -m)
 
   mkdir -p $SRC
@@ -157,7 +157,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: jq
 (
   set -euo pipefail
-  VER=1.7.1
+  VER=1.8.1
 
   curl -L https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-linux-amd64 \
     --output $PREFIX/bin/jq
@@ -169,7 +169,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: lazygit
 (
-  VER=0.51.1
+  VER=0.53.0
   ARCH=$(uname -m)
 
   curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz |
@@ -194,9 +194,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: neovim
 (
-  curl -L https://github.com/neovim/neovim-releases/releases/download/stable/nvim-linux-x86_64.appimage \
-    --output $PREFIX/bin/nvim
-  chmod +x $PREFIX/bin/nvim
+  curl -sL https://github.com/neovim/neovim-releases/releases/download/stable/nvim-linux-x86_64.tar.gz |
+    tar -C $PREFIX --strip-components=1 -xvz
 )
 
 #: paraview
