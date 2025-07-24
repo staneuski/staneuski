@@ -26,7 +26,6 @@
 
         git
         git-lfs
-        helix
         mc
         python313
         python313Packages.ipykernel
@@ -34,10 +33,10 @@
         python313Packages.virtualenv
         rclone
 
-        vscode
-
         kitty
-        # syncthing
+        logseq
+        syncthing
+        vscode
         zotero
 
         eza
@@ -51,12 +50,11 @@
         enable = true;
         brews = [
           "gawk"
-          "syncthing"
           "wget"
 
           "ffmpeg"
           "imagemagick"
-          "node@22"
+          "node@24"
 
           "mas"
         ];
@@ -64,7 +62,6 @@
           "vlc"
 
           "inkscape"
-          "logseq"
           "meshlab"
           "paraview"
           "zen"
@@ -102,7 +99,7 @@
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          "/Applications/Logseq.app"
+          "${pkgs.logseq}/Logseq.app"
         ];
         dock.persistent-others = [
           "${config.system.build.applications}/Applications"
@@ -114,15 +111,15 @@
         NSGlobalDomain.AppleICUForce24HourTime = true;
         NSGlobalDomain.KeyRepeat = 2;
       };
-      # system.activationScripts.script.text = pkgs.lib.mkForce ''
-      #   #!/usr/bin/env sh
-      #   curl -sLo "/Users/${user}/Library/LaunchAgents/syncthing.plist" \
-      #     https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
-      #   sed -i "" "
-      #     s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
-      #     s|USERNAME|${user}|g
-      #   " "/Users/${user}/Library/LaunchAgents/syncthing.plist" 
-      # '';
+      system.activationScripts.script.text = pkgs.lib.mkForce ''
+        #!/usr/bin/env sh
+        curl -sLo "/Users/${user}/Library/LaunchAgents/syncthing.plist" \
+          https://raw.githubusercontent.com/syncthing/syncthing/refs/heads/main/etc/macos-launchd/syncthing.plist &&
+        sed -i "" "
+          s|/Users/USERNAME/bin/syncthing|${pkgs.syncthing}/bin/syncthing|g;
+          s|USERNAME|${user}|g
+        " "/Users/${user}/Library/LaunchAgents/syncthing.plist" 
+      '';
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -130,7 +127,6 @@
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs = {
         zsh.enable = true;
-        # fish.enable = true;
       };
 
       # Set Git commit hash for darwin-version.

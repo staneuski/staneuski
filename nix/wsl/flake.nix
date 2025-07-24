@@ -25,7 +25,6 @@
         ffmpeg
         git
         git-lfs
-        helix
         mc
         python313
         python313Packages.ipykernel
