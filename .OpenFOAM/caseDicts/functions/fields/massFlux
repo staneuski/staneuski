@@ -1,0 +1,43 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Caches and writes mass flux
+
+\*---------------------------------------------------------------------------*/
+
+type            coded;
+libs            ( "libutilityFunctionObjects.so" );
+
+executeControl  writeTime;
+writeControl    writeTime;
+
+codeInclude
+#{
+    #include "fvcFlux.H"
+#};
+
+codeFields
+#{
+    fields.append("rho");
+    fields.append("U");
+#};
+
+codeExecute
+#{
+    const surScalarField& rho = mesh().lookupObject<volScalarField>("rho");
+    const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+
+    store("rhoPhi", linearInterpolate(rho*U) & mesh().Sf());
+#};
+
+codeWrite
+#{
+    return writeObject("rhoPhi");
+#};
+
+// ************************************************************************* //
