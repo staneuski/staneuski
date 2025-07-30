@@ -9,7 +9,7 @@
 /ParaView/ParaView*.*.*.ini
 
 #: rclone
-/rclone
+/rclone/rclone.conf
 
 #: zsh
 .zcompdump*
