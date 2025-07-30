@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#$ -pe orte 216
+#$ -cwd
+#$ -o log.run
+#$ -j y
+#$ -M stanislau.stasheuski@wartsila.com
+
+function getLatestTime()
+{
+    if ls -d processor*/*[0-9]* &>/dev/null
+    then
+        local timeSteps=$(ls -d $(ls -d processor* | head -1)/*[0-9]*)
+    else
+        local timeSteps=$(ls -d *[0-9]* | sort -g | tail -1)
+    fi
+  
+    echo "${timeSteps}" | awk -F/ '{print $NF}' | sort -g | tail -1
+}
+
+[ -z ${OMP_NUM_THREADS+x} ] &&
+    export OMP_NUM_THREADS=18
+module --force purge
+
+nTasks="${NSLOTS}"
+nTasksPerNode=36
+nNodes=$((${nTasks} / ${nTasksPerNode}))
+
+export PAR_ARGS=( -fileHandler collated -ioRanks "( $(seq -s ' ' 0 ${nTasksPerNode} ${nTasks}) )" )
+
+latestTime=$(getLatestTime)
+printf "
+/*------------------------------------------------------------*\\
+ SGE_CLUSTER_NAME=${SGE_O_HOST}
+ FOAM_CASE=${PWD}
+ JOB_ID=${JOB_ID}
+\\*------------------------------------------------------------*/\n
+Time = ${latestTime}\n\n"
+
+# <stargate.env>
+
+# Source tutorial run functions
+. $HOME/.OpenFOAM/caseDict/general/workflow/RunFunctions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# <Allrun>
