@@ -86,7 +86,12 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
 #: }}}
 
 #: CLIs, plugins {{{
+    # atclone"./direnv* hook >init.zsh" atpull"%atclone" \
 zinit wait"1" lucid as"none" for \
+    from"gh-r" mv'direnv* -> direnv' \
+    atclone"./direnv hook zsh >init.zsh" atpull"%atclone" \
+    src"init.zsh" id-as \
+  direnv/direnv \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
@@ -114,9 +119,8 @@ zinit wait"1" lucid as"none" for \
     " src"init.zsh" id-as \
     lbin'!fzf' \
   junegunn/fzf \
-    from"gh-r" extract'!' \
+    from"gh-r" extract'!' mv'yq* -> yq' \
     atclone"./yq completion zsh >_yq" atpull"%atclone" \
-    mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq
 # Load atuin after fzf to overwrite key bindings

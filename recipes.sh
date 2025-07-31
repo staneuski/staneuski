@@ -62,6 +62,15 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   chmod -R go-w "$($HOMEBREW_PREFIX/bin/brew --prefix)/share/zsh"
 )
 
+#: direnv
+(
+  set -euo pipefail
+  ARCH=$(uname | tr '[:upper:]' '[:lower:]')
+
+  curl -sL https://github.com/direnv/direnv/releases/latest/download/direnv.linux-amd64 \
+    --output $PREFIX/direnv
+)
+
 #: entr
 (
   set -euo pipefail
