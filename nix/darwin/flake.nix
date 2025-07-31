@@ -31,10 +31,10 @@
         python313Packages.ipykernel
         python313Packages.pip
         python313Packages.virtualenv
-        rclone
 
-        kitty
+        # archivebox
         logseq
+        kitty
         syncthing
         vscode
         zotero

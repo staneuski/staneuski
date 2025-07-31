@@ -95,6 +95,10 @@ zinit wait"1" lucid as"none" for \
     lbin'!rip' id-as \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
+    atclone"./rclone completion zsh _rclone" atpull"%atclone" \
+    lbin'!rclone' lman"rclone.1" id-as \
+  rclone/rclone \
+    from"gh-r" extract'!' \
     lbin'!rg' lman"rg.1" id-as \
   BurntSushi/ripgrep \
     extract'!' \

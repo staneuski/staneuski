@@ -28,7 +28,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   make -j$(nproc)
   make install
   cd -
-
   rm -rf $SRC
 )
 
@@ -77,7 +76,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   $SRC/./configure
   PREFIX=$PREFIX make install
   cd -
-
   rm -rf $SRC
 )
 
@@ -132,7 +130,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ./configure --prefix=$PREFIX --with-curl=$PREFIX
   make prefix=$PREFIX install
   cd -
-
   rm -rf $SRC
 )
 
@@ -231,6 +228,28 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ln -sfn {$PYENV_ROOT,$PREFIX/share}/man/man1/pyenv.1
 )
 
+#: rclone
+(
+  set -euo pipefail
+  SRC=/tmp/$USER/rclone
+  VER=1.70.3
+  ARCH=$(uname | tr '[:upper:]' '[:lower:]')
+  [ "$ARCH" = "darwin" ] && ARCH="osx"
+
+  echo "Installing rclone $VER for $ARCH"
+
+  mkdir -p $SRC
+  curl -sL https://github.com/rclone/rclone/releases/download/v${VER}/rclone-v${VER}-${ARCH}-amd64.zip \
+    --output rclone.zip
+  unzip -j -q rclone.zip -d $SRC
+
+  mv -f $SRC/rclone $PREFIX/bin/
+  mv -f $SRC/*.1 $PREFIX/share/man/man1/
+  rm -rf $SRC
+
+  rclone completion bash $BASH_COMPLETION_USER_DIR/rclone.bash
+)
+
 #: rip
 (
   set -euo pipefail
@@ -290,7 +309,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   $SRC/./configure --prefix=$PREFIX
   make install
   cd -
-
   rm -rf $SRC
 )
 
