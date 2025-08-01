@@ -27,7 +27,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ./configure --prefix=$HOME/.local --with-openssl
   make -j$(nproc)
   make install
-  cd -
+
   rm -rf $SRC
 )
 
@@ -45,6 +45,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/bat $PREFIX/bin/
   mv -f $SRC/*.1 $PREFIX/share/man/man1/
   mv -f $SRC/autocomplete/bat.bash $BASH_COMPLETION_USER_DIR/
+
   rm -rf $SRC
 )
 
@@ -81,10 +82,10 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   curl -sL https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz |
     tar -C $SRC/ --strip-components=1 -xvz
 
-  cd $SRC
   $SRC/./configure
+  cd $SRC
   PREFIX=$PREFIX make install
-  cd -
+
   rm -rf $SRC
 )
 
@@ -107,6 +108,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/completions/eza $BASH_COMPLETION_USER_DIR/eza.bash
   mv -f $SRC/man/*.1 $PREFIX/share/man/man1/
   mv -f $SRC/man/*.5 $PREFIX/share/man/man5/
+
   rm -rf $SRC
 )
 
@@ -136,9 +138,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
 
   cd $SRC
-  ./configure --prefix=$PREFIX --with-curl=$PREFIX
+  $SRC/./configure --prefix=$PREFIX --with-curl=$PREFIX
   make prefix=$PREFIX install
-  cd -
+
   rm -rf $SRC
 )
 
@@ -157,6 +159,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/man/man1/* $PREFIX/share/man/man1/
   mv -f $SRC/man/man5/* $PREFIX/share/man/man5/
   mv -f $SRC/man/man7/* $PREFIX/share/man/man7/
+
   rm -rf $SRC
 )
 
@@ -214,6 +217,26 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     tar -C "${PREFIX}/opt/paraview" --strip-components 1 -xvz
 )
 
+#: pigz
+(
+  set -euo pipefail
+
+  SRC=/tmp/$USER/pigz
+  VER=2.8
+
+  mkdir -p $SRC
+  curl -sL https://github.com/madler/pigz/archive/refs/tags/v${VER}.tar.gz |
+    tar -C $SRC/ --strip-components=1 -xvz
+
+  cd $SRC
+  make
+
+  mv -f $SRC/{,un}pigz $PREFIX/bin/
+  mv -f $SRC/*.1 $PREFIX/share/man/man1/
+
+  rm -rf $SRC
+)
+
 #: pipx
 (
   set -euo pipefail
@@ -254,6 +277,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
   mv -f $SRC/rclone $PREFIX/bin/
   mv -f $SRC/*.1 $PREFIX/share/man/man1/
+
   rm -rf $SRC
 
   rclone completion bash $BASH_COMPLETION_USER_DIR/rclone.bash
@@ -284,6 +308,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/rg $PREFIX/bin/
   mv -f $SRC/complete/rg.bash $BASH_COMPLETION_USER_DIR/
   mv -f $SRC/doc/rg.1 $PREFIX/share/man/man1/
+
   rm -rf $SRC
 )
 
@@ -292,7 +317,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   # set -euo pipefail
   # VER=0.18
 
-  # git clone -c feature.manyFiles=true --depth=2 --branch=releases/v${VER} \
+  # git clone -c feature.manyFiles=true --depth=2 --branch=releases/latest \
   #   https://github.com/spack/spack.git $SPACK_ROOT
 )
 
@@ -317,7 +342,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   cd $SRC
   $SRC/./configure --prefix=$PREFIX
   make install
-  cd -
+
   rm -rf $SRC
 )
 

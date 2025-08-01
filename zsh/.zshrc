@@ -86,30 +86,10 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
 #: }}}
 
 #: CLIs, plugins {{{
-    # atclone"./direnv* hook >init.zsh" atpull"%atclone" \
 zinit wait"1" lucid as"none" for \
-    from"gh-r" mv'direnv* -> direnv' \
-    atclone"./direnv hook zsh >init.zsh" atpull"%atclone" \
-    src"init.zsh" id-as \
-  direnv/direnv \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
-    from"gh-r" extract'!' \
-    atclone"./rip completions zsh >_rip" atpull"%atclone" \
-    lbin'!rip' id-as \
-  MilesCranmer/rip2 \
-    from"gh-r" extract'!' \
-    atclone"./rclone completion zsh _rclone" atpull"%atclone" \
-    lbin'!rclone' lman"rclone.1" id-as \
-  rclone/rclone \
-    from"gh-r" extract'!' \
-    lbin'!rg' lman"rg.1" id-as \
-  BurntSushi/ripgrep \
-    extract'!' \
-    configure make"install PREFIX=${ZPFX}" \
-    id-as"gstow" \
-  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
     from"gh-r" \
     atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
     atload"
@@ -119,8 +99,23 @@ zinit wait"1" lucid as"none" for \
     " src"init.zsh" id-as \
     lbin'!fzf' \
   junegunn/fzf \
-    from"gh-r" extract'!' mv'yq* -> yq' \
+    make \
+    lbin'!pigz' lman"pigz.1" id-as \
+  madler/pigz \
+    from"gh-r" extract'!' \
+    atclone"./rip completions zsh >_rip" atpull"%atclone" \
+    lbin'!rip' id-as \
+  MilesCranmer/rip2 \
+    from"gh-r" extract'!' \
+    lbin'!rg' lman"rg.1" id-as \
+  BurntSushi/ripgrep \
+    extract'!' \
+    configure make"install PREFIX=${ZPFX}" \
+    id-as"gstow" \
+  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
+    from"gh-r" extract'!' \
     atclone"./yq completion zsh >_yq" atpull"%atclone" \
+    mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq
 # Load atuin after fzf to overwrite key bindings
