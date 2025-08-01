@@ -103,6 +103,10 @@ zinit wait"1" lucid as"none" for \
     lbin'!pigz' lman"pigz.1" id-as \
   madler/pigz \
     from"gh-r" extract'!' \
+    atclone"./rclone completion zsh _rclone" atpull"%atclone" \
+    lbin'!rclone' lman"rclone.1" id-as \
+  rclone/rclone \
+    from"gh-r" extract'!' \
     atclone"./rip completions zsh >_rip" atpull"%atclone" \
     lbin'!rip' id-as \
   MilesCranmer/rip2 \
