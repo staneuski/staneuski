@@ -5,6 +5,9 @@
 #: htop
 /htop
 
+#: nix
+flake.lock
+
 #: ParaView
 /ParaView/ParaView*.*.*.ini
 
