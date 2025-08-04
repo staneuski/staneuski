@@ -212,8 +212,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     --output $PREFIX/bin/nix-user-chroot
   chmod +x $PREFIX/bin/nix-user-chroot
 
-  [ -z ${NIX_PREFIX+x} ] &&
-    nix-user-chroot $NIX_PREFIX bash -c "curl -L https://nixos.org/nix/install | bash"
+  nix-user-chroot $NIX_PREFIX bash -c "curl -L https://nixos.org/nix/install | bash"
 )
 
 #: neovim
