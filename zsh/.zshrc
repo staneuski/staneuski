@@ -99,6 +99,7 @@ zinit wait"1" lucid as"none" for \
     " src"init.zsh" id-as \
     lbin'!fzf' \
   junegunn/fzf \
+    if'! (( $+commands[pigz] ))' \
     make \
     lbin'!pigz' lman"pigz.1" id-as \
   madler/pigz \

@@ -4,9 +4,11 @@
     file
     gcc
     gnumake
+    pigz
     toybox
     unzip
     vim
+    zlib
 
     ffmpeg
     gawk

@@ -39,6 +39,8 @@
       python313Packages.virtualenv
       htop
       zsh
+
+      zlib
     ];
 
     commonSettings = {
