@@ -1,5 +1,4 @@
 # vim:fileencoding=utf-8:foldmethod=marker
-
 #: Environment {{{
 #: zsh dotfiles
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
@@ -67,7 +66,4 @@ function lf-zoxide-widget() {
   local dir="$(command zoxide query --interactive)" || return
   [ -n "${dir}" ] && command lf -log "${TMPDIR:-/tmp}/lf.log" "${dir}"
 }
-
 #: }}}
-
-if [ -e /u/42/stashes1/unix/.nix-profile/etc/profile.d/nix.sh ]; then . /u/42/stashes1/unix/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

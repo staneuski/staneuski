@@ -1,4 +1,4 @@
-# vim:fileencoding=utf-8:foldmethod=marker
+# vim:fileencoding=utf-8:foldmethod=marker:ts=2:sw=2:sts=2:expandtab
 
 #: Source global definitions {{{
 [ -f "${HOME}/.zshenv" ] && (( $+commands[opt-load] )) ||
@@ -153,6 +153,10 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     src"init.zsh" nocompile'!' \
     lbin'!navi' \
   denisidoro/navi \
+    if"[[ $(uname) == 'Linux' ]]" \
+    mv'nix-user-chroot* -> nix-user-chroot' \
+    lbin'!nix-user-chroot' \
+  nix-community/nix-user-chroot \
     if"[[ $(uname) == 'Darwin' ]]" \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \

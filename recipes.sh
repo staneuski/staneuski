@@ -2,6 +2,7 @@
 
 export PREFIX=${PREFIX:-$HOME/.local}
 export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
+export NIX_PREFIX=${NIX_PREFIX:-$PREFIX/nix}
 export PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
 export PYENV_ROOT=${PYENV_ROOT:-$PREFIX/opt/pyenv}
 
@@ -199,6 +200,20 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
   curl -sL https://github.com/denisidoro/navi/releases/download/v${VER}/navi-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
     tar -C $PREFIX/bin -xvz
+)
+
+#: nix
+(
+  set -euo pipefail
+  VER=1.2.2
+  ARCH=$(uname -m)
+
+  curl -sL https://github.com/nix-community/nix-user-chroot/releases/download/${VER}/nix-user-chroot-bin-${VER}-x86_64-unknown-linux-musl \
+    --output $PREFIX/bin/nix-user-chroot
+  chmod +x $PREFIX/bin/nix-user-chroot
+
+  [ -z ${NIX_PREFIX+x} ] &&
+    nix-user-chroot $NIX_PREFIX bash -c "curl -L https://nixos.org/nix/install | bash"
 )
 
 #: neovim
