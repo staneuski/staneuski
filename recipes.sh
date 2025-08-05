@@ -18,14 +18,14 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   SRC=/tmp/$USER/curl
-  VER=8.14.1
+  VER=8.15.0
 
   mkdir -p $SRC
   curl -sL https://curl.se/download/curl-${VER}.tar.gz |
     tar -C $SRC/ --strip-components=1 -xvz
 
   cd $SRC
-  ./configure --prefix=$HOME/.local --with-openssl
+  ./configure --prefix=$PREFIX --with-openssl
   make -j$(nproc)
   make install
 

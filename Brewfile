@@ -1,30 +1,27 @@
+# https://docs.brew.sh/Brew-Bundle-and-Brewfile
 # https://gist.github.com/ChristopherA/a579274536aab36ea9966f301ff14f3f
 
 tap "homebrew/bundle"
 
-def brew_if(condition, *packages)
-  packages.each { |pkg| brew pkg if condition }
-end
+brew "openssl@3"
 
-brew_if OS.linux?,
-  "bat",
-  "entr",
-  "eza",
-  "fzf",
-  "gcc",
-  "git-lfs",
-  "jq",
-  "lazygit",
-  "lf",
-  "numpy",
-  "openssl@3",
-  "perl",
-  "pigz",
-  "python@3.13",
-  "rclone",
-  "rip2",
-  "ripgrep",
-  "starship",
-  "virtualenv",
-  "yq",
-  "zoxide"
+brew "bat"
+brew "entr"
+brew "eza"
+brew "fzf"
+brew "gcc"
+brew "git-lfs"
+brew "jq"
+brew "lazygit"
+brew "lf"
+brew "numpy"
+brew "perl"
+brew "pigz"
+brew "python@3.13", link: :overwrite
+brew "rclone"
+brew "rip2"
+brew "ripgrep"
+brew "starship"
+brew "virtualenv"
+brew "yq"
+brew "zoxide"
