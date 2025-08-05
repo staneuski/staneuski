@@ -1,0 +1,39 @@
+#: FOAM_CASE {{{
+#: Root
+/[0-9]*/
+/{constant,system}/mesh{es,ToMesh_*}/
+/*.blockMesh
+/*.foam
+/*.OpenFOAM
+/dynamicCode/
+/log.tar*
+/logs/
+/mesh.tar.xz
+/postProcessing*/
+/processor*.tar
+/processor*/
+/times.tar
+/VTK/
+
+#: Anywhere
+*.err
+*.log
+*.out
+log.*
+polyMesh
+
+#: Exclusions
+# Track only .orig-files in the ICs folder
+!/0/
+/0/*
+!/0/*.orig
+!/0.orig
+# }}}
+
+#: Virtual Lab {{{
+constant/geometry/*.slb
+constant/geometry/*.x_t
+constant/geometry/*LogFile.txt
+
+#: Exclusions
+#: }}}
