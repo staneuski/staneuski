@@ -112,7 +112,7 @@ zinit wait"1" lucid as"none" for \
     lbin'!rip' id-as \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
-    lbin'!rg' lman"rg.1" id-as \
+    lbin'!rg' lman"doc/rg.1" id-as \
   BurntSushi/ripgrep \
     extract'!' \
     configure make"install PREFIX=${ZPFX}" \
