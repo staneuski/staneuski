@@ -1,10 +1,20 @@
-{ pkgs, config, userName, commonPackages, ... }: {
-  environment.systemPackages = commonPackages.cli ++ commonPackages.gui ++(with pkgs; [
-    eza
-    ice-bar
-    maccy
-    monitorcontrol
-  ]);
+{
+  pkgs,
+  config,
+  userName,
+  commonPackages,
+  ...
+}:
+{
+  environment.systemPackages =
+    commonPackages.cli
+    ++ commonPackages.gui
+    ++ (with pkgs; [
+      eza
+      ice-bar
+      maccy
+      monitorcontrol
+    ]);
   fonts.packages = commonPackages.fonts;
 
   homebrew = {

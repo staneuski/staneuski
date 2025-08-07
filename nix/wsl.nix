@@ -1,18 +1,25 @@
-{ config, pkgs, commonPackages, user, ... }: {
-  environment.systemPackages = commonPackages ++ (with pkgs; [
-    bc
-    file
-    gcc
-    gnumake
-    pigz
-    toybox
-    unzip
-    vim
-    zlib
-
-    ffmpeg
-    gawk
-    wget
+{
+  pkgs,
+  config,
+  userName,
+  commonPackages,
+  toPkgs,
+  ...
+}:
+{
+  environment.systemPackages =
+    commonPackages.cli
+    ++ toPkgs pkgs commonPackages.brews
+    ++ (with pkgs; [
+      bc
+      file
+      gcc
+      gnumake
+      pigz
+      toybox
+      unzip
+      vim
+      zlib
   ]);
 
   system.stateVersion = "25.11";
@@ -23,4 +30,3 @@
   wsl.defaultUser = "SST055"; # TODO: user;
   wsl.enable = true;
 }
-
