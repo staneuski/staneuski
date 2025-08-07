@@ -36,8 +36,8 @@ cmd on-cd &{{
 #: Jump to current directory in graveyard if exists
 cmd jump-graveyard % {{
   set -f
-  [ -d "$(rip graveyard)${PWD}" ] &&
-    lf -remote "send ${id} cd $(rip graveyard)${PWD}" ||
+  [ -d "$(rip graveyard)$(realpath ${PWD})" ] &&
+    lf -remote "send ${id} cd $(rip graveyard)$(realpath ${PWD})" ||
     lf -remote "send ${id} echoerr No such directory: $(rip graveyard)$(pwd -P)"
 }}
 map gr jump-graveyard
