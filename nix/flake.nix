@@ -18,78 +18,67 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, nix-homebrew, mac-app-util, nixos-wsl, ... }:
   let
-    user = "stasta";
-    systems = {
-      wsl = "x86_64-linux";
-      darwin = "x86_64-darwin";
-    };
+    system = "x86_64-darwin";
+    userName = "stasta";
 
-    pkgsFor = name: import nixpkgs {
-      system = systems.${name};
+    pkgs = import nixpkgs {
+      inherit system;
+      hostPlatform = system;
       config.allowUnfree = true;
     };
 
-    commonPackages = pkgs: with pkgs; [
-      git
-      git-lfs
-      mc
-      python313
-      python313Packages.ipykernel
-      python313Packages.pip
-      python313Packages.virtualenv
-      htop
-      zsh
-
-      zlib
-    ];
-
-    commonSettings = {
+    configuration = { pkgs, config, ... }: {
       nix.settings.experimental-features = "nix-command flakes";
-
+      nixpkgs.config.allowUnfree = true;
       programs.zsh.enable = true;
-
-      # Set Git commit hash for Nix version
       system.configurationRevision = self.rev or self.dirtyRev or null;
     };
+
+    commonPackages = {
+      #: nix
+      cli = with pkgs; [
+        git
+        git-lfs
+        # mc
+        python313
+        python313Packages.ipykernel
+        python313Packages.pip
+        python313Packages.virtualenv
+        htop
+        # zlib
+        zsh
+      ];
+      gui = with pkgs; [
+        logseq
+        kitty
+        syncthing
+        vscode
+        zotero
+      ];
+      fonts = with pkgs; [ nerd-fonts.jetbrains-mono ];
+
+      #: homebrew
+      brews = [ "imagemagick" "ffmpeg" "gawk" "wget" ];
+      casks = [ "inkscape" "meshlab" "paraview" "vlc" ];
+    };
   in {
-    darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
-      system = systems.darwin;
+    darwinConfigurations."${system}" = nix-darwin.lib.darwinSystem {
+      system = system;
       modules = [
-        commonSettings
+        configuration
         ./darwin.nix
         nix-homebrew.darwinModules.nix-homebrew {
           nix-homebrew = {
             enable = true;
-            user = user;
+            user = userName;
             autoMigrate = true;
           };
         }
         mac-app-util.darwinModules.default
       ];
       specialArgs = {
-        pkgs = pkgsFor "darwin";
-        commonPackages = commonPackages (import nixpkgs {
-          system = systems.darwin;
-          config.allowUnfree = true;
-        });
-      };
-    };
-
-    nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
-      system = systems.wsl;
-      modules = [
-        commonSettings
-        ./wsl.nix
-        nixos-wsl.nixosModules.default
-        {
-          nixpkgs.config.allowUnfree = true;
-        }
-      ];
-      specialArgs = {
-        commonPackages = commonPackages (import nixpkgs {
-          system = systems.wsl;
-          config.allowUnfree = true;
-        });
+        userName = userName;
+        commonPackages = commonPackages;
       };
     };
   };

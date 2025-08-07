@@ -1,4 +1,4 @@
-{ config, pkgs, commonPackages, ... }: {
+{ config, pkgs, commonPackages, user, ... }: {
   environment.systemPackages = commonPackages ++ (with pkgs; [
     bc
     file
@@ -15,14 +15,12 @@
     wget
   ]);
 
-  programs.nix-ld.enable = true;
-
   system.stateVersion = "25.11";
 
+  programs.nix-ld.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  wsl.defaultUser = "SST055"; # TODO: Same user-name for all configuratuins
-
+  wsl.defaultUser = "SST055"; # TODO: user;
   wsl.enable = true;
 }
 
