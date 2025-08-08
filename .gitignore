@@ -1,20 +1,48 @@
+*
+!*/
+
+#: Executables
+!*.env
+!*.lua
+!*.nix
+!*.ps1
+!*.py
+!*.sh
+
+#: Configs
+!.git*
+!*rc
+!config.toml
+
+#: Projects
+!/apt.yaml
+!/atuin/
+!/bat/
+!/.bash_logout
+!/.bash_profile
+!/Brewfile
+/Code/
+/inkscape/
+/htop/
+!/kitty/
+!/mc/
+!/nix*/
+!/nvim/
+!/.OpenFOAM/
+!/ParaView/
+!/powershell/
+!/requirements.txt
+!/scoop/
+!/starship.toml
+!/.stow-local-ignore
+!/.vim/
+/vlc/
+!/zsh/
+!/.zshenv
+
 *.bak
 *.old
 *.prev
 
-#: htop
-/htop
-
-#: nix
-flake.lock
-
-#: ParaView
-/ParaView/ParaView*.*.*.ini
-
-#: rclone
-/rclone/rclone.conf
-
-#: zsh
-.zcompdump*
-.zsh_history*
-.zsh_sessions*
+#: Enforced
+Code/
