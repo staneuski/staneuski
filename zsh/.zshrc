@@ -165,7 +165,10 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     if"[[ $(uname) == 'Linux' ]]" bpick"*.tar.gz" \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" id-as"neovim" \
-  neovim/neovim-releases
+  neovim/neovim-releases \
+    extract'!' \
+    lbin'!tone' \
+  sandreas/tone
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
