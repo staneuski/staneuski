@@ -137,14 +137,16 @@ zinit wait"1" lucid light-mode for \
   MichaelAquilina/zsh-you-should-use
 #: }}}
 
-#: TUIs {{{
+#: TUIs, package managers {{{
 zinit wait"2" lucid as"none" from"gh-r" id-as for \
     extract'!' cp"autocomplete/bat.zsh -> _bat" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
-    atload"zle -N lf-zoxide-widget; bindkey '^O' lf-zoxide-widget" \
-    lbin"!lf" \
+    atload"
+      zle -N lf-zoxide-widget
+      bindkey '^O' lf-zoxide-widget
+    " lbin"!lf" \
   gokcehan/lf \
     extract'!' \
     lbin'!lazygit' \
@@ -162,10 +164,14 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
   neovim/neovim \
+    if'! (( $+commands[node] ))' from"gh" \
+    atinit'export NVM_DIR=$ZINIT[PLUGINS_DIR]/nvm' \
+    pick'nvm.sh' atload'source bash_completion' nocompile \
+  nvm-sh/nvm \
     if"[[ $(uname) == 'Linux' ]]" bpick"*.tar.gz" \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" id-as"neovim" \
-  neovim/neovim-releases \
+  neovim/neovim-releases
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
