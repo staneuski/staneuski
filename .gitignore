@@ -7,6 +7,7 @@
 !*.nix
 !*.ps1
 !*.py
+!*.rb
 !*.sh
 
 #: Configs
@@ -20,7 +21,7 @@
 !/bat/
 !/.bash_logout
 !/.bash_profile
-!/Brewfile
+!Brewfile
 /Code/
 /inkscape/
 /htop/

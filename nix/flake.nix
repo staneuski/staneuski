@@ -62,8 +62,9 @@
           zsh
         ];
         gui = with pkgs; [
-          logseq
           kitty
+          logseq
+          # paraview
           syncthing
           vscode
           zotero
@@ -80,7 +81,6 @@
         casks = [
           "inkscape"
           "meshlab"
-          "paraview"
           "vlc"
         ];
       };

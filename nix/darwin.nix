@@ -20,9 +20,6 @@
   homebrew = {
     enable = true;
     brews = commonPackages.brews ++ [
-      # archivebox
-      "node@24"
-
       "mas"
     ];
     casks = commonPackages.casks ++ [
@@ -33,6 +30,8 @@
       "logi-options+"
       "xquartz"
       "zen"
+
+      "/Users/${userName}/.config/homebrew/Casks/p/paraview@5.13.rb"
     ];
     masApps = {
       "Hush" = 1544743900;
