@@ -90,6 +90,9 @@ zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
     lbin'!entr' lman"entr.1" id-as \
   eradman/entr \
+    from"gh-r" extract'!' \
+    lbin'!fd' lman'fd.1' id-as \
+  @sharkdp/fd \
     from"gh-r" \
     atclone"./fzf --zsh >init.zsh" atpull"%atclone" \
     atload"
@@ -123,6 +126,7 @@ zinit wait"1" lucid as"none" for \
     mv'yq* -> yq' \
     lbin'!yq' id-as \
   mikefarah/yq
+
 # Load atuin after fzf to overwrite key bindings
 zinit wait"1b" lucid as"none" for \
     from"gh-r" bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
