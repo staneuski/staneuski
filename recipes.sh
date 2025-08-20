@@ -221,6 +221,15 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     tar -C $PREFIX --strip-components=1 -xvz
 )
 
+#: nvm
+(
+  set -euo pipefail
+  VER=0.40.3
+
+  mkdir -p $NVM_DIR
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$VER/install.sh | NVM_DIR=$NVM_DIR bash
+)
+
 #: paraview
 (
   set -euo pipefail
