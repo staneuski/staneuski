@@ -1,5 +1,5 @@
 {
-  description = "Unified macOS and NixOS (inc. WSL) system flake";
+  description = "Unified macOS and NixOS (inc. WSL) system flake (WIP)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -36,7 +36,11 @@
         {
           "${hostname}" = libSystem {
             inherit system;
-            specialArgs = inputs;
+            specialArgs = inputs // {
+              info = {
+                inherit system userName;
+              };
+            };
             modules = modules ++ [
               systemModule
             ];
@@ -51,10 +55,16 @@
             nix-homebrew = {
               autoMigrate = true;
               enable = true;
-              # enableRosetta = false;
+              enableRosetta = false;
               user = userName;
             };
           }
+        ]
+      );
+
+      nixosConfigurations = (
+        mkConfig "x86_64-linux" "wsl" [
+          nixos-wsl.nixosModules.default
         ]
       );
     };

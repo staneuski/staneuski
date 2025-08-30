@@ -3,21 +3,14 @@
   config,
   pkgs,
   self,
+  info,
   ...
 }:
-let
-  userName = "stasta"; # FIXME: define once
-in
 {
   imports = [
     ../common
   ];
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "x86_64-darwin";
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = lib.mkAfter (
     with pkgs;
     [
@@ -54,8 +47,6 @@ in
       "logi-options+"
       "xquartz"
       "zen"
-
-      # "/Users/${userConfig.name}/.config/homebrew/Casks/paraview@5.13.rb"
     ];
     masApps = {
       "Hush" = 1544743900;
@@ -89,7 +80,7 @@ in
         "${pkgs.logseq}/Applications/Logseq.app"
       ];
       persistent-others = [
-        "/Users/${userName}/Downloads"
+        "/Users/${info.userName}/Downloads"
       ];
     };
     finder = {
@@ -99,25 +90,19 @@ in
     loginwindow.GuestEnabled = false;
   };
 
-  launchd = {
-    user = {
-      agents = {
-        # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
-        syncthing = {
-          command = "${pkgs.syncthing}/bin/syncthing";
-          serviceConfig = {
-            EnvironmentVariables = {
-              HOME = "/Users/${userName}";
-              STNORESTART = "1";
-            };
-            KeepAlive = true;
-            LowPriorityIO = true;
-            ProcessType = "Background";
-            StandardOutPath = "/Users/${userName}/Library/Logs/Syncthing.log";
-            StandardErrorPath = "/Users/${userName}/Library/Logs/Syncthing-Errors.log";
-          };
-        };
+  # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
+  launchd.user.agents.syncthing = {
+    command = "${pkgs.syncthing}/bin/syncthing";
+    serviceConfig = {
+      EnvironmentVariables = {
+        HOME = "/Users/${info.userName}";
+        STNORESTART = "1";
       };
+      KeepAlive = true;
+      LowPriorityIO = true;
+      ProcessType = "Background";
+      StandardOutPath = "/Users/${info.userName}/Library/Logs/Syncthing.log";
+      StandardErrorPath = "/Users/${info.userName}/Library/Logs/Syncthing-Errors.log";
     };
   };
 }
