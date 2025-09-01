@@ -21,13 +21,6 @@
     python313Packages.virtualenv
     vim
     zsh
-
-    #: Common, GUI
-    kitty
-    logseq
-    syncthing
-    # vscode
-    zotero
   ];
 
   fonts.packages = with pkgs; [
@@ -48,13 +41,6 @@
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true; # darwin?
 
-  system = {
-    primaryUser = info.userName;
-    # Set Git commit hash for darwin-version.
-    configurationRevision = self.rev or self.dirtyRev or null;
-
-    # Used for backwards compatibility, please read the changelog before changing.
-    # $ darwin-rebuild changelog
-    stateVersion = 5; # FIXME: "25.11" for WSL?
-  };
+  # Set Git commit hash for darwin-version.
+  system.configurationRevision = self.rev or self.dirtyRev or null;
 }

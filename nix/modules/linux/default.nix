@@ -34,8 +34,7 @@
 
   programs.nix-ld.enable = true;
 
-  users.defaultUserShell = pkgs.zsh;
+  system.stateVersion = "25.11";
 
-  wsl.defaultUser = "SST055"; # FIXME: info.userName;
-  wsl.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 }
