@@ -168,14 +168,15 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
   neovim/neovim \
-    if'! (( $+commands[node] ))' from"gh" \
-    atinit'export NVM_DIR=$ZINIT[PLUGINS_DIR]/nvm' \
-    pick'nvm.sh' atload'source bash_completion' nocompile \
-  nvm-sh/nvm \
     if"[[ $(uname) == 'Linux' ]]" bpick"*.tar.gz" \
     extract'!' \
-    lbin'!nvim' lman"share/man/man1/nvim.1" id-as"neovim" \
-  neovim/neovim-releases
+    lbin'!nvim' lman"share/man/man1/nvim.1" \
+    id-as"neovim" \
+  neovim/neovim-releases \
+   if'! (( $+commands[node] ))' from"gh" \
+    atinit'export NVM_DIR=$ZINIT[PLUGINS_DIR]/nvm' \
+    pick'nvm.sh' atload'source bash_completion' nocompile \
+  nvm-sh/nvm
 
 # requires python's argcomplete
 zinit wait"2" lucid as"completions" from"gh-r" id-as for \
@@ -230,8 +231,8 @@ zinit wait"3a" lucid for \
     has"lf" as"null" lman"lf.1" \
   https://github.com/gokcehan/lf/blob/master/lf.1 \
     has"nvim" atload"
-      export EDITOR='nvim -u \${HOME}/.vim/init.lua'
-      alias vi=\"\${EDITOR}\"
+      export EDITOR=\"\$(which nvim)\"
+      alias vi='nvim -u \${HOME}/.vim/init.lua'
     " \
   @zdharma-continuum/null \
     has"yq" from"gh-r" bpick"*man_page_only*" \

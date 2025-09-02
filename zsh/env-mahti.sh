@@ -11,6 +11,3 @@ export USER_SPACK_ROOT="/projappl/${SBATCH_ACCOUNT}/spack"
 export PYTHONUSERBASE="/projappl/${SBATCH_ACCOUNT}/${USER}/pyenv"
 export PYTHONPATH=${PYTHONUSERBASE}/lib/python3.*/site-packages
 export PATH="${PYTHONUSERBASE}/bin:${PATH}"
-
-export PIPX_HOME="/projappl/${SBATCH_ACCOUNT}/${USER}/pipx"
-export VENV_HOME="/projappl/${SBATCH_ACCOUNT}/${USER}/venv"

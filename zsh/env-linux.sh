@@ -3,7 +3,3 @@
 
 export NIX_PREFIX="/l/nix"
 export SPACK_ROOT="${HOME}/.local/opt/spack"
-
-export PIPX_HOME="${HOME}/.local/share/pipx"
-export PYENV_ROOT="${HOME}/.local/share/pyenv"
-export VENV_HOME="${HOME}/.local/share/venv"
