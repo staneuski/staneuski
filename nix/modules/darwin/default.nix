@@ -103,21 +103,21 @@
       };
       loginwindow.GuestEnabled = false;
     };
+  };
 
-    # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
-    launchd.user.agents.syncthing = {
-      command = "${pkgs.syncthing}/bin/syncthing";
-      serviceConfig = {
-        EnvironmentVariables = {
-          HOME = "/Users/${info.userName}";
-          STNORESTART = "1";
-        };
-        KeepAlive = true;
-        LowPriorityIO = true;
-        ProcessType = "Background";
-        StandardOutPath = "/Users/${info.userName}/Library/Logs/Syncthing.log";
-        StandardErrorPath = "/Users/${info.userName}/Library/Logs/Syncthing-Errors.log";
+  # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
+  launchd.user.agents.syncthing = {
+    command = "${pkgs.syncthing}/bin/syncthing";
+    serviceConfig = {
+      EnvironmentVariables = {
+        HOME = "/Users/${info.userName}";
+        STNORESTART = "1";
       };
+      KeepAlive = true;
+      LowPriorityIO = true;
+      ProcessType = "Background";
+      StandardOutPath = "/Users/${info.userName}/Library/Logs/Syncthing.log";
+      StandardErrorPath = "/Users/${info.userName}/Library/Logs/Syncthing-Errors.log";
     };
   };
 }

@@ -3,4 +3,3 @@ black
 git+https://github.com/staneuski/foamio.git
 isort
 meshio
-yt-dlp
