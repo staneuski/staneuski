@@ -231,8 +231,8 @@ zinit wait"3a" lucid for \
     has"lf" as"null" lman"lf.1" \
   https://github.com/gokcehan/lf/blob/master/lf.1 \
     has"nvim" atload"
-      export EDITOR=\"\$(which nvim)\"
-      alias vi='nvim -u \${HOME}/.vim/init.lua'
+      export EDITOR='nvim -u \${HOME}/.vim/init.lua'
+      alias vi=\"\${EDITOR}\"
     " \
   @zdharma-continuum/null \
     has"yq" from"gh-r" bpick"*man_page_only*" \
