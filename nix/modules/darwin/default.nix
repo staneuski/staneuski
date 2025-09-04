@@ -20,6 +20,8 @@
       syncthing
       # vscode
       zotero
+      # (import ../../packages/paraview/package.nix)
+      (pkgs.callPackage ../../packages/paraview/package.nix { })
 
       #: Darwin, CLI
       eza
