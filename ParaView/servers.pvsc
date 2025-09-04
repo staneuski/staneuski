@@ -1,0 +1,5 @@
+<Servers>
+  <Server name="ssh tunnel" configuration="" resource="cs://localhost:16384" timeout="60">
+    <ManualStartup/>
+  </Server>
+</Servers>

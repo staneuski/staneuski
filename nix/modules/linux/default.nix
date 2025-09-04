@@ -28,6 +28,7 @@
       pigz
       toybox
       unzip
+      vim
       zlib
     ]
   );

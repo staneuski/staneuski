@@ -11,8 +11,9 @@
 !*.sh
 
 #: Configs
-!.git*
+!*.pvsc
 !*rc
+!.git*
 !config.toml
 
 #: Projects

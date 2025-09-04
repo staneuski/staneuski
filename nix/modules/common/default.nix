@@ -19,7 +19,9 @@
     python313Packages.ipykernel
     python313Packages.pip
     python313Packages.virtualenv
-    vim
+    uutils-coreutils-noprefix
+    uutils-diffutils
+    uutils-findutils
     zsh
   ];
 
