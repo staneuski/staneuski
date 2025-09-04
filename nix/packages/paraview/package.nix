@@ -7,12 +7,11 @@
 
 let
   pname = "paraview";
-  version = "6.0.0";
+  version = "5.13.3";
   meta = {
     homepage = "https://www.paraview.org";
     description = "3D Data analysis and visualization application";
     mainProgram = "paraview";
-    # sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
     license = lib.licenses.bsd3;
     platforms = lib.platforms.unix;
     maintainers = with lib.maintainers; [

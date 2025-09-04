@@ -12,14 +12,14 @@
 }:
 let
   osxVersion = if stdenv.hostPlatform.isArmv7 then "11.0" else "10.15";
-  pyVersion = "3.12";
+  pyVersion = "3.10";
 in
 stdenv.mkDerivation rec {
   inherit pname version meta;
 
   src = fetchurl {
     url = "${meta.homepage}/files/v${lib.versions.majorMinor version}/ParaView-${version}-MPI-OSX${osxVersion}-Python${pyVersion}-${stdenv.hostPlatform.darwinArch}.dmg";
-    hash = "sha256-YnINeE14k5FMBfut0qA01KFpbnPcidOil/eCBVm1g0o=";
+    hash = "sha256-7bCAd9gDKhBswyrX724fs0QKm+k8OcISl1s9RPrhvXI=";
   };
   sourceRoot = ".";
 
