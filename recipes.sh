@@ -234,10 +234,13 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   set -euo pipefail
   VER=5.13.3
+  PY=3.10
+  RENDERING="-egl" # "" | "-egl" | "-osmesa"
 
-  mkdir -p "${PREFIX}/opt/paraview"
-  curl -sL "https://www.paraview.org/paraview-downloads/download.php?submit=Download&version=v${VER%.*}&type=binary&os=Linux&downloadFile=ParaView-${VER}-osmesa-MPI-Linux-Python3.10-x86_64.tar.gz" |
-    tar -C "${PREFIX}/opt/paraview" --strip-components 1 -xvz
+  DEST="${PREFIX}/opt/ParaView-${VER}"
+  mkdir -p "${DST}"
+  curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}${RENDERING}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
+    tar -C "${DST}" --strip-components 1 -xvz
 )
 
 #: pigz
