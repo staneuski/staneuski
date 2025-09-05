@@ -233,14 +233,23 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: paraview
 (
   set -euo pipefail
-  VER=5.13.3
-  PY=3.10
-  RENDERING="-egl" # "" | "-egl" | "-osmesa"
+  VER=6.0.0
+  PY=3.12
+  RENDERING="" # "" | "-egl" | "-osmesa"
 
-  DEST="${PREFIX}/opt/ParaView-${VER}"
+  DEST="${PREFIX}/opt/ParaView-${VER%.*}"
   mkdir -p "${DST}"
   curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}${RENDERING}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
     tar -C "${DST}" --strip-components 1 -xvz
+
+  command -v desktop-file-edit >/dev/null &&
+    desktop-file-install --dir="${HOME}/.local/share/applications" \
+      --set-name="ParaView v${VER%.*}" \
+      --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
+      --set-key=Exec --set-value="${DST}/bin/paraview %f" \
+      --set-key=TryExec --set-value="${DST}/bin/paraview" \
+      --set-key=StartupWMClass --set-value="${DST}/bin/paraview" \
+      "${DST}/share/applications/org.paraview.ParaView.desktop"
 )
 
 #: pigz

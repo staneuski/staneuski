@@ -18,7 +18,7 @@ let
   doc = fetchurl {
     url = "${meta.homepage}/files/v${lib.versions.majorMinor version}/ParaViewGettingStarted-${version}.pdf";
     name = "GettingStarted.pdf";
-    hash = "sha256-ptPQA8By8Hj0qI5WRtw3ZhklelXeYeJwVaUdfd6msJM=";
+    hash = "sha256-2ghvb0UXa0Z/YGWzCchB1NKowRdlC/ZQCI3y0tZUdbo=";
   };
   examples = fetchurl {
     # see https://gitlab.kitware.com/paraview/paraview-superbuild/-/blob/v6.0.0/versions.cmake?ref_type=tags#L21
@@ -31,7 +31,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "${meta.homepage}/files/v${lib.versions.majorMinor version}/ParaView-v${version}.tar.xz";
-    hash = "sha256-3bd31bb56e07aa2af2a379895745bbc430c565518a3=";
+    hash = "sha256-DuB65jd+Xpd2auv4WOuXWGaKUt8EHzGefJdQN6Y78Yk=";
   };
 
   # When building paraview with external vtk, we can not infer resource_dir
