@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 export PREFIX=${PREFIX:-$HOME/.local}
+export TMPDIR=${TMPDIR:-/tmp}
+
 export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
 export NIX_PREFIX=${NIX_PREFIX:-$PREFIX/nix}
 export PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
@@ -17,7 +19,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: curl
 (
   set -euo pipefail
-  SRC=/tmp/$USER/curl
+  SRC="${TMPDIR}/${USER}/curl"
   VER=8.15.0
 
   mkdir -p $SRC
@@ -35,7 +37,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: bat
 (
   set -euo pipefail
-  SRC=/tmp/$USER/bat
+  SRC="${TMPDIR}/${USER}/bat"
   VER=0.25.0
   ARCH=$(uname -m)
 
@@ -76,7 +78,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: entr
 (
   set -euo pipefail
-  SRC=/tmp/$USER/entr
+  SRC="${TMPDIR}/${USER}/entr"
   VER=5.7
 
   mkdir -p $SRC
@@ -93,7 +95,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: eza
 (
   set -euo pipefail
-  SRC=/tmp/$USER/eza
+  SRC="${TMPDIR}/${USER}/eza"
   VER=0.22.1
   ARCH=$(uname -m)
 
@@ -126,7 +128,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git
 (
   set -euo pipefail
-  SRC=/tmp/$USER/git
+  SRC="${TMPDIR}/${USER}/git"
   VER=2.50.1
 
   mkdir -p $SRC
@@ -147,7 +149,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: git-lfs
 (
-  SRC=/tmp/$USER/git-lfs
+  set -euo pipefail
+  SRC="${TMPDIR}/${USER}/git-lfs"
   VER=3.7.0
   ARCH=$(uname -m)
 
@@ -233,30 +236,29 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: paraview
 (
   set -euo pipefail
+  SRC="${PREFIX}/opt/ParaView-${VER%.*}"
   VER=6.0.0
   PY=3.12
   RENDERING="" # "" | "-egl" | "-osmesa"
 
-  DEST="${PREFIX}/opt/ParaView-${VER%.*}"
-  mkdir -p "${DST}"
+  mkdir -p "${SRC}"
   curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}${RENDERING}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
-    tar -C "${DST}" --strip-components 1 -xvz
+    tar -C "${SRC}" --strip-components 1 -xvz
 
   command -v desktop-file-edit >/dev/null &&
     desktop-file-install --dir="${HOME}/.local/share/applications" \
       --set-name="ParaView v${VER%.*}" \
-      --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
-      --set-key=Exec --set-value="${DST}/bin/paraview %f" \
-      --set-key=TryExec --set-value="${DST}/bin/paraview" \
-      --set-key=StartupWMClass --set-value="${DST}/bin/paraview" \
-      "${DST}/share/applications/org.paraview.ParaView.desktop"
+      --set-icon="${SRC}/share/icons/hicolor/96x96/apps/paraview.png" \
+      --set-key=Exec --set-value="${SRC}/bin/paraview %f" \
+      --set-key=TryExec --set-value="${SRC}/bin/paraview" \
+      --set-key=StartupWMClass --set-value="${SRC}/bin/paraview" \
+      "${SRC}/share/applications/org.paraview.ParaView.desktop"
 )
 
 #: pigz
 (
   set -euo pipefail
-
-  SRC=/tmp/$USER/pigz
+  SRC="${TMPDIR}/${USER}/pigz"
   VER=2.8
 
   mkdir -p $SRC
@@ -298,7 +300,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: rclone
 (
   set -euo pipefail
-  SRC=/tmp/$USER/rclone
+  SRC="${TMPDIR}/${USER}/rclone"
   VER=1.70.3
   ARCH=$(uname | tr '[:upper:]' '[:lower:]')
   [ "$ARCH" = "darwin" ] && ARCH="osx"
@@ -332,7 +334,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: ripgrep
 (
   set -euo pipefail
-  SRC=/tmp/$USER/ripgrep
+  SRC="${TMPDIR}/${USER}/ripgrep"
   VER=14.1.1
   ARCH=$(uname -m)
 
@@ -366,7 +368,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: stow
 (
   set -euo pipefail
-  SRC=/tmp/$USER/gstow
+  SRC="${TMPDIR}/${USER}/gstow"
 
   # cpan Test::Output
 

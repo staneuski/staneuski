@@ -7,7 +7,7 @@
 
 let
   pname = "paraview";
-  version = "5.13.3";
+  version = "6.0.0";
   meta = {
     homepage = "https://www.paraview.org";
     description = "3D Data analysis and visualization application";

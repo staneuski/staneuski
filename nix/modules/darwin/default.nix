@@ -16,7 +16,6 @@
     [
       #: Common, GUI
       kitty
-      logseq
       (pkgs.callPackage ../../packages/paraview/package.nix { })
       syncthing
       # vscode
@@ -44,6 +43,7 @@
     ];
     casks = [
       "inkscape"
+      "logseq"
       "meshlab"
       "visual-studio-code"
       "vlc"
@@ -92,7 +92,7 @@
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
           "/Applications/Visual Studio Code.app"
-          "${pkgs.logseq}/Applications/Logseq.app"
+          "/Applications/Logseq.app"
         ];
         persistent-others = [
           "/Users/${info.userName}/Downloads"
