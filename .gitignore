@@ -16,13 +16,9 @@
 !.git*
 !config.toml
 
-#: Projects
-
+#: Project folders
 !/atuin/**
 !/bat/**
-/Code/**
-/inkscape/**
-/htop/**
 !/kitty/**
 !/mc/**
 !/nix*/
@@ -32,9 +28,9 @@
 !/powershell/**
 !/scoop/**
 !/.vim/**
-/vlc/**
 !/zsh/**
 
+#: Project files
 !/apt.yaml
 !/.bash_logout
 !/.bash_profile
@@ -44,9 +40,13 @@
 !/requirements.txt
 !/starship.toml
 
+#: Enforced folders
+Code/**
+/inkscape/**
+/htop/**
+/vlc/**
+
+#: Enforced files
 *.bak
 *.old
 *.prev
-
-#: Enforced
-Code/
