@@ -19,8 +19,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: curl
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/curl"
   VER=8.15.0
+  SRC="${TMPDIR}/${USER}/curl"
 
   mkdir -p $SRC
   curl -sL https://curl.se/download/curl-${VER}.tar.gz |
@@ -37,9 +37,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: bat
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/bat"
   VER=0.25.0
   ARCH=$(uname -m)
+  SRC="${TMPDIR}/${USER}/bat"
 
   mkdir -p $SRC
   curl -sL https://github.com/sharkdp/bat/releases/download/v${VER}/bat-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
@@ -78,8 +78,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: entr
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/entr"
   VER=5.7
+  SRC="${TMPDIR}/${USER}/entr"
 
   mkdir -p $SRC
   curl -sL https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz |
@@ -95,9 +95,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: eza
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/eza"
   VER=0.22.1
   ARCH=$(uname -m)
+  SRC="${TMPDIR}/${USER}/eza"
 
   mkdir -p $SRC
   curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/eza_${ARCH}-unknown-linux-musl.tar.gz |
@@ -128,8 +128,8 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/git"
   VER=2.50.1
+  SRC="${TMPDIR}/${USER}/git"
 
   mkdir -p $SRC
   curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz |
@@ -150,9 +150,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git-lfs
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/git-lfs"
   VER=3.7.0
   ARCH=$(uname -m)
+  SRC="${TMPDIR}/${USER}/git-lfs"
 
   mkdir -p $SRC
   curl -sL https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz |
@@ -224,6 +224,21 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     tar -C $PREFIX --strip-components=1 -xvz
 )
 
+#: NerdFonts
+(
+  set -euo pipefail
+  FONT=JetBrainsMono
+  SRC="${TMPDIR}/${USER}/"
+  DST="${PREFIX}/share/fonts/"
+
+  mkdir -p "${SRC}" "${DST}"
+  curl -LO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$FONT.zip \
+    --create-dirs --output-dir "${SRC}"
+  unzip -j -q "${SRC}/${FONT}.zip" -d "${DST}"
+
+  # rm -rf "${SRC}/${FONT}.zip"
+)
+
 #: nvm
 (
   set -euo pipefail
@@ -236,30 +251,32 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: paraview
 (
   set -euo pipefail
-  SRC="${PREFIX}/opt/ParaView-${VER%.*}"
   VER=6.0.0
   PY=3.12
   RENDERING="" # "" | "-egl" | "-osmesa"
+  DST="${PREFIX}/opt/ParaView-${VER%.*}"
 
-  mkdir -p "${SRC}"
+  mkdir -p "${DST}"
   curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}${RENDERING}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
-    tar -C "${SRC}" --strip-components 1 -xvz
+    tar -C "${DST}" --strip-components 1 -xvz
+
+  ln -sf "${DST}/bin/"* "${PREFIX}/bin/"
 
   command -v desktop-file-edit >/dev/null &&
     desktop-file-install --dir="${HOME}/.local/share/applications" \
       --set-name="ParaView v${VER%.*}" \
-      --set-icon="${SRC}/share/icons/hicolor/96x96/apps/paraview.png" \
-      --set-key=Exec --set-value="${SRC}/bin/paraview %f" \
-      --set-key=TryExec --set-value="${SRC}/bin/paraview" \
-      --set-key=StartupWMClass --set-value="${SRC}/bin/paraview" \
-      "${SRC}/share/applications/org.paraview.ParaView.desktop"
+      --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
+      --set-key=Exec --set-value="${DST}/bin/paraview %f" \
+      --set-key=TryExec --set-value="${DST}/bin/paraview" \
+      --set-key=StartupWMClass --set-value="${DST}/bin/paraview" \
+      "${DST}/share/applications/org.paraview.ParaView.desktop"
 )
 
 #: pigz
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/pigz"
   VER=2.8
+  SRC="${TMPDIR}/${USER}/pigz"
 
   mkdir -p $SRC
   curl -sL https://github.com/madler/pigz/archive/refs/tags/v${VER}.tar.gz |
@@ -300,9 +317,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: rclone
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/rclone"
   VER=1.70.3
   ARCH=$(uname | tr '[:upper:]' '[:lower:]')
+  SRC="${TMPDIR}/${USER}/rclone"
   [ "$ARCH" = "darwin" ] && ARCH="osx"
 
   echo "Installing rclone $VER for $ARCH"
@@ -334,9 +351,9 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: ripgrep
 (
   set -euo pipefail
-  SRC="${TMPDIR}/${USER}/ripgrep"
   VER=14.1.1
   ARCH=$(uname -m)
+  SRC="${TMPDIR}/${USER}/ripgrep"
 
   mkdir -p $SRC
   curl -sL https://github.com/BurntSushi/ripgrep/releases/download/${VER}/ripgrep-${VER}-${ARCH}-unknown-linux-musl.tar.gz |
@@ -381,6 +398,18 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   make install
 
   rm -rf $SRC
+)
+
+#: vscode
+( 
+  set -euo pipefail
+  DST="${PREFIX}/opt/vscode"
+
+  mkdir -p "${DST}"
+  curl -sL 'https://code.visualstudio.com/sha/download?build=stable&os=linux-x64' |
+    tar -C "${DST}" --strip-components 1 -xvz
+
+  ln -sf "${DST}/code" "${PREFIX}/bin/"
 )
 
 #: yq

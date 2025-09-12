@@ -1,37 +1,22 @@
 #$ aptdcon --install "$(yq '.[]' ~/.config/apt.yaml | xargs)"
+#$ ln -sf /usr/share/applications/syncthing-start.desktop ~/.config/autostart/
 ---
-# ~formulae
-- curl
-- htop
-- jq
-- wget
-
 - ffmpeg
-- git
 - git-lfs
 - imagemagick
-- mc
+- libxcb-cursor0
+- openfoam12
+- openfoam13
 - python3-ipykernel
 - python3-pip
 - python3-virtualenv
-- openfoam-dev
-- openfoam12
-- openfoam13
 
-#: ~casks
-- vlc
-
-- inkscape
 - kitty
-- paraview
 - syncthing
-- vlc-plugin-bittorrent
 
-#: extras
 - caffeine
 - chrome-gnome-shell
-- copyq
 - flatpak
 - gnome-sushi
-- paraviewopenfoam510
+- vlc-plugin-bittorrent
 - wl-clipboard
