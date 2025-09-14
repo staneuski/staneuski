@@ -45,6 +45,7 @@
       "inkscape"
       "logseq"
       "meshlab"
+      "ungoogled-chromium"
       "visual-studio-code"
       "vlc"
 
