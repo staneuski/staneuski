@@ -18,7 +18,7 @@
       kitty
       (pkgs.callPackage ../../packages/paraview/package.nix { })
       syncthing
-      # vscode
+      vscode
       zotero
 
       #: Darwin, CLI
@@ -43,10 +43,8 @@
     ];
     casks = [
       "inkscape"
-      "logseq"
       "meshlab"
       "ungoogled-chromium"
-      "visual-studio-code"
       "vlc"
 
       "amethyst"
@@ -55,7 +53,6 @@
       "hammerspoon"
       "logi-options+"
       "xquartz"
-      "zen"
     ];
     masApps = {
       "Hush" = 1544743900;
@@ -92,8 +89,8 @@
           "/System/Cryptexes/App/System/Applications/Safari.app"
           "/System/Applications/Mail.app"
           "${pkgs.kitty}/Applications/Kitty.app"
-          "/Applications/Visual Studio Code.app"
-          "/Applications/Logseq.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
+          "/Applications/Chromium.app"
         ];
         persistent-others = [
           "/Users/${info.userName}/Downloads"
