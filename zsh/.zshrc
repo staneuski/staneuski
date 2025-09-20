@@ -160,10 +160,6 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     src"init.zsh" nocompile'!' \
     lbin'!navi' \
   denisidoro/navi \
-    if"[[ $(uname) == 'Linux' ]]" \
-    mv'nix-user-chroot* -> nix-user-chroot' \
-    lbin'!nix-user-chroot' \
-  nix-community/nix-user-chroot \
     if"[[ $(uname) == 'Darwin' ]]" \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
@@ -173,16 +169,15 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!nvim' lman"share/man/man1/nvim.1" \
     id-as"neovim" \
   neovim/neovim-releases \
-   if'! (( $+commands[node] ))' from"gh" \
+    if'! (( $+commands[node] ))' from"gh" \
     atinit'export NVM_DIR=$ZINIT[PLUGINS_DIR]/nvm' \
     pick'nvm.sh' atload'source bash_completion' nocompile \
-  nvm-sh/nvm
-
-# requires python's argcomplete
-zinit wait"2" lucid as"completions" from"gh-r" id-as for \
-    atclone"register-python-argcomplete pipx >_pipx" atpull"%atclone" \
-    atload'pipx () { python3 "${ZINIT[PLUGINS_DIR]}/pipx/pipx.pyz" "$@" }' \
-  pypa/pipx
+  nvm-sh/nvm \
+    if'! (( $+commands[uv] ))' \
+    extract'!' \
+    atclone"./uv generate-shell-completion zsh >_uv" atpull"%atclone" \
+    lbin'!uv*' \
+  @astral-sh/uv
 #: }}}
 
 #: aliases, completions, docs, key-bindings {{{

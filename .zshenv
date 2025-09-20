@@ -8,11 +8,6 @@ export HISTSIZE=1000000
 export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 export HISTDUP=erase
 export SAVEHIST="$HISTSIZE"
-
-#: Python
-export PIPX_HOME="${HOME}/.local/share/pipx"
-export PYENV_ROOT="${HOME}/.local/share/pyenv"
-export VENV_HOME="${HOME}/.local/share/venv"
 #: }}}
 
 #: Functions {{{
