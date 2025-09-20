@@ -16,12 +16,10 @@
     htop
     nixfmt-tree
     python313
-    python313Packages.ipykernel
-    python313Packages.pip
-    python313Packages.virtualenv
     uutils-coreutils-noprefix
     uutils-diffutils
     uutils-findutils
+    uv
     zsh
   ];
 

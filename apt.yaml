@@ -7,9 +7,6 @@
 - libxcb-cursor0
 - openfoam12
 - openfoam13
-- python3-ipykernel
-- python3-pip
-- python3-virtualenv
 
 - kitty
 - syncthing
