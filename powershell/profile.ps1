@@ -1,7 +1,7 @@
 #: Environment {{{
-$env:DISPLAY = "localhost:0"
-$env:EDITOR = "nvim"
-$env:PAGER = "less"
+$env:DISPLAY = 'localhost:0'
+$env:EDITOR = 'nvim -u "${env:USERPROFILE}\.config\.vim\init.lua"'
+$env:PAGER = 'less'
 #: }}}
 
 #: Aliases {{{
@@ -21,6 +21,9 @@ Function lT { eza --color=always --group-directories-first -l -snewest $args }
 #: git
 Import-Module git-aliases -DisableNameChecking
 Set-Alias -Name lg -Value "lazygit"
+
+#: vi
+Function vi { Invoke-Expression ${env:EDITOR} }
 
 #: zoxide
 Function dq { zoxide query --list $args }

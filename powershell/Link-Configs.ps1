@@ -1,4 +1,3 @@
-# Run with elevation:
 #$ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 #$ & "${env:USERPROFILE}\.config\powershell\Link-Configs.ps1"
 
@@ -30,7 +29,6 @@ New-Item -Force -ItemType SymbolicLink -Target "${env:USERPROFILE}\Documents\.st
   -Path "${env:USERPROFILE}\Developer\.stignore_default"
 New-Item -Force -ItemType SymbolicLink -Target "${env:USERPROFILE}\Documents\.stignore_default" `
   -Path "${env:USERPROFILE}\Files\.stignore_default"
-#TODO: Generate Start Up .lnk-file
 
 #: vcxsrv
 #TODO: Generate Start Up .lnk-file
