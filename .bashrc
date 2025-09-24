@@ -100,8 +100,8 @@ command -v lazygit >/dev/null &&
 
 #: lf
 if command -v lf >/dev/null; then
-  lf () { command lf -log "${TMPDIR:-/tmp}/lf.log" $(command zoxide query --list "$@" | head -1); }
-  lf-zoxide-widget () {
+  lf() { command lf -log "${TMPDIR:-/tmp}/lf.log" $(command zoxide query --list "$@" | head -1); }
+  lf-zoxide-widget() {
     local d="$(command zoxide query --interactive)" || return
     [ -n "$d" ] && command lf -log "${TMPDIR:-/tmp}/lf.log" "$d"
   }
@@ -118,7 +118,7 @@ command -v squeue >/dev/null &&
 
 #: zoxide
 command -v zoxide >/dev/null &&
-  dq () { command zoxide query --list "$@" | head -1; }
+  dq() { command zoxide query --list "$@" | head -1; }
 #: }}}
 
 #: Integrations {{{
@@ -128,13 +128,6 @@ if [[ $- == *i* ]] && command -v fzf >/dev/null; then
   eval "$(fzf --bash)"
   bind -x '"\er":   "__fzf_history__"'
   bind -x '"\C-xr": "__fzf_history__"'
-fi
-
-#: pyenv
-if [ ! -z ${PYENV_ROOT+x} ] && [ -d "${PYENV_ROOT}/bin" ]; then
-  export PATH="${PYENV_ROOT}/bin:${PATH}"
-  eval "$(pyenv init - bash)"
-  # eval "$(pyenv virtualenv-init -)"
 fi
 
 #: starship / prompt

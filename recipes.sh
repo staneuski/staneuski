@@ -5,8 +5,6 @@ export TMPDIR=${TMPDIR:-/tmp}
 
 export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
 export NIX_PREFIX=${NIX_PREFIX:-$PREFIX/nix}
-export PIPX_HOME=${PIPX_HOME:-$PREFIX/opt/pipx}
-export PYENV_ROOT=${PYENV_ROOT:-$PREFIX/opt/pyenv}
 
 mkdir -p $PREFIX/{bin,opt,share/man/man{1,2,3,4,5,6,7,8,9}}
 mkdir -p $BASH_COMPLETION_USER_DIR
@@ -291,29 +289,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   rm -rf $SRC
 )
 
-#: pipx
-(
-  set -euo pipefail
-
-  mkdir -p $PIPX_HOME
-  curl -L https://github.com/pypa/pipx/releases/latest/download/pipx.pyz \
-    --output $PIPX_HOME/pipx.pyz
-
-  printf '#!/usr/bin/env sh\n%s %s "$@"\n' "$(which python3)" "$PIPX_HOME/pipx.pyz" >$PREFIX/bin/pipx
-  chmod +x $PREFIX/bin/pipx
-
-  register-python-argcomplete pipx >$BASH_COMPLETION_USER_DIR/pipx.bash
-)
-
-#: pyenv
-(
-  curl -fsSL https://pyenv.run | bash
-
-  ln -sfn {$PYENV_ROOT,$PREFIX}/bin/pyenv
-  ln -sfn $PYENV_ROOT/completions/pyenv.bash $BASH_COMPLETION_USER_DIR/pyenv.bash
-  ln -sfn {$PYENV_ROOT,$PREFIX/share}/man/man1/pyenv.1
-)
-
 #: rclone
 (
   set -euo pipefail
@@ -401,7 +376,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 )
 
 #: vscode
-( 
+(
   set -euo pipefail
   DST="${PREFIX}/opt/vscode"
 
