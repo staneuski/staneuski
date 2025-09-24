@@ -70,7 +70,7 @@
                 "size": 14
             }
         },
-        "list":
+        "list": 
         [
             {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoLogo",
@@ -81,7 +81,7 @@
             {
                 "guid": "{c397f356-5e7b-55bc-956b-8cb4b9762c26}",
                 "hidden": false,
-                "icon": "%USERPROFILE%\\.config\\powershell\\nix-snowflake.png",
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\nix-snowflake.png",
                 "name": "NixOS",
                 "source": "Windows.Terminal.Wsl"
             },
@@ -89,14 +89,14 @@
                 "commandline": "ssh -Y sst055@fis8045.accdom.for.int",
                 "guid": "{986b5e88-edad-569b-8f6e-0e2fb2312a9a}",
                 "hidden": false,
-                "icon": "%USERPROFILE%\\.config\\powershell\\icon-bg_transparent-primary-64x.png",
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\icon-bg_transparent-primary-64x.png",
                 "name": "StarGate"
             },
             {
                 "commandline": "ssh -Y stanstas@lumi",
                 "guid": "{ec0c16f2-a4fa-51f4-bc48-e1f27d61d6ef}",
                 "hidden": false,
-                "icon": "%USERPROFILE%\\.config\\powershell\\SUSE_Logo-vert_L_Green-pos_sRGB.png",
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\SUSE_Logo-vert_L_Green-pos_sRGB.png",
                 "name": "LUMI"
             },
             {

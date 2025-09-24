@@ -21,6 +21,7 @@
 !/bat/**
 !/kitty/**
 !/mc/**
+!/Microsoft.WindowsTerminal/**
 !/nix*/
 !/nvim/**
 !/.OpenFOAM/**

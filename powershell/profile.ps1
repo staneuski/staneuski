@@ -1,8 +1,7 @@
 #: Environment {{{
 $env:DISPLAY = "localhost:0"
-$env:EDITOR = "hx"
+$env:EDITOR = "nvim"
 $env:PAGER = "less"
-$env:PIPX_HOME = "$env:LOCALAPPDATA\pipx"
 #: }}}
 
 #: Aliases {{{
