@@ -20,7 +20,7 @@
       gawk
       wget
 
-      #: Linux, CLI
+      #: linux, CLI
       bc
       file
       gcc
@@ -30,6 +30,9 @@
       unzip
       vim
       zlib
+
+      #: linux, GUI
+      (pkgs.callPackage ../../packages/openfoam/package.nix { })
     ]
   );
 
