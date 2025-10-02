@@ -12,7 +12,8 @@
 - syncthing
 
 - caffeine
-- chrome-gnome-shell
+- ddcutil
+- gnome-browser-connector
 - flatpak
 - gnome-sushi
 - vlc-plugin-bittorrent
