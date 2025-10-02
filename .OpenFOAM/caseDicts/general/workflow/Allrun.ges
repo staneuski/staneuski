@@ -5,15 +5,13 @@
 #$ -j y
 #$ -M stanislau.stasheuski@wartsila.com
 
-function getLatestTime()
-{
-    if ls -d processor*/*[0-9]* &>/dev/null
-    then
+function getLatestTime() {
+    if ls -d processor*/*[0-9]* &>/dev/null; then
         local timeSteps=$(ls -d $(ls -d processor* | head -1)/*[0-9]*)
     else
         local timeSteps=$(ls -d *[0-9]* | sort -g | tail -1)
     fi
-  
+
     echo "${timeSteps}" | awk -F/ '{print $NF}' | sort -g | tail -1
 }
 
@@ -25,7 +23,7 @@ nTasks="${NSLOTS}"
 nTasksPerNode=36
 nNodes=$((${nTasks} / ${nTasksPerNode}))
 
-export PAR_ARGS=( -fileHandler collated -ioRanks "( $(seq -s ' ' 0 ${nTasksPerNode} ${nTasks}) )" )
+parArgs=(-fileHandler collated -ioRanks "( $(seq -s ' ' 0 ${nTasksPerNode} ${nTasks}) )")
 
 latestTime=$(getLatestTime)
 printf "
