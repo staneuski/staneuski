@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "${meta.homepage}/files/v${lib.versions.majorMinor version}/ParaView-${version}-MPI-OSX${osxVersion}-Python${pyVersion}-${stdenv.hostPlatform.darwinArch}.dmg";
-    hash = "sha256-YnINeE14k5FMBfut0qA01KFpbnPcidOil/eCBVm1g0o=";
+    hash = "sha256-/LLWhsOjtcsJ1i6vLGGq+JM+VXvKrEWipcCLUNA9hyw=";
   };
   sourceRoot = ".";
 
