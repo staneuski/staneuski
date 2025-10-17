@@ -88,7 +88,7 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
 #: CLIs, plugins {{{
 zinit wait"1" lucid as"none" for \
     configure make"PREFIX=${ZPFX}" \
-    lbin'!entr' lman"entr.1" id-as \
+    lbin'!entr' id-as \
   eradman/entr \
     from"gh-r" extract'!' \
     lbin'!fd' lman'fd.1' id-as \

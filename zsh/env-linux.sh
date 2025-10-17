@@ -3,3 +3,7 @@
 
 export NIX_PREFIX="/l/nix"
 export SPACK_ROOT="${HOME}/.local/opt/spack"
+
+function code() {
+    flatpak run --user com.visualstudio.code "$@"
+}

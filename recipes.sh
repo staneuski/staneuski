@@ -17,7 +17,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: curl
 (
   set -euo pipefail
-  VER=8.15.0
+  VER=8.16.0
   SRC="${TMPDIR}/${USER}/curl"
 
   mkdir -p $SRC
@@ -93,7 +93,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: eza
 (
   set -euo pipefail
-  VER=0.22.1
+  VER=0.23.4
   ARCH=$(uname -m)
   SRC="${TMPDIR}/${USER}/eza"
 
@@ -115,7 +115,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: fzf
 (
-  VER=0.64.0
+  VER=0.66.0
 
   curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz |
     tar -C $PREFIX/bin -xvz
@@ -126,7 +126,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git
 (
   set -euo pipefail
-  VER=2.50.1
+  VER=2.51.1
   SRC="${TMPDIR}/${USER}/git"
 
   mkdir -p $SRC
@@ -148,7 +148,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: git-lfs
 (
   set -euo pipefail
-  VER=3.7.0
+  VER=3.7.1
   ARCH=$(uname -m)
   SRC="${TMPDIR}/${USER}/git-lfs"
 
@@ -180,7 +180,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: lazygit
 (
-  VER=0.53.0
+  VER=0.51.1
   ARCH=$(uname -m)
 
   curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz |
@@ -249,7 +249,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: paraview
 (
   set -euo pipefail
-  VER=6.0.0
+  VER=6.0.1
   PY=3.12
   RENDERING="" # "" | "-egl" | "-osmesa"
   DST="${PREFIX}/opt/ParaView-${VER%.*}"
@@ -292,7 +292,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: rclone
 (
   set -euo pipefail
-  VER=1.70.3
+  VER=1.71.1
   ARCH=$(uname | tr '[:upper:]' '[:lower:]')
   SRC="${TMPDIR}/${USER}/rclone"
   [ "$ARCH" = "darwin" ] && ARCH="osx"
@@ -326,7 +326,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 #: ripgrep
 (
   set -euo pipefail
-  VER=14.1.1
+  VER=15.0.0
   ARCH=$(uname -m)
   SRC="${TMPDIR}/${USER}/ripgrep"
 
