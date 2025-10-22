@@ -53,8 +53,6 @@ setopt hist_find_no_dups
 
 setopt extendedglob
 export HISTORY_IGNORE='([b,f]g|clear|cd[, ~, -, ..]|l[,a,s,l]|l[f,g]|h[,istory]|hx|exit|pwd|q[stat,ueue,yaml]|[,n]vi[,m])'
-
-  "",
 function zshaddhistory() {
   emulate -L zsh
   [[ $1 != ${~HISTORY_IGNORE} ]]
