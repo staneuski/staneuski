@@ -51,6 +51,15 @@ setopt hist_ignore_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
+setopt extendedglob
+export HISTORY_IGNORE='([b,f]g|clear|cd[, ~, -, ..]|l[,a,s,l]|l[f,g]|h[,istory]|hx|exit|pwd|q[stat,ueue,yaml]|[,n]vi[,m])'
+
+  "",
+function zshaddhistory() {
+  emulate -L zsh
+  [[ $1 != ${~HISTORY_IGNORE} ]]
+}
+
 #: Prevent complete path deletions
 autoload -U select-word-style
 select-word-style bash
