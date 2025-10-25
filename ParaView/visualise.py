@@ -11,15 +11,18 @@ from typing import Callable
 import paraview.simple as pv
 
 LOGGING_FORMAT = "[foamio:%(levelname)s] (called at %(asctime)s) %(message)s"
+PV_DOCS_LINK = (
+    "https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html"
+)
 
 
 def _load(args: argparse.Namespace) -> pv.ViewLayout:
-    """https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html#paraview.simple.LoadState"""
+    f"""${PV_DOCS_LINK}#paraview.simple.LoadState"""
 
     logging.info(f"loading {args.state=} at {args.case=}")
     pv.LoadState(
         str(args.state),
-        data_directory=str(args.case) if not args.case is None else None,
+        data_directory=str(args.case) if args.case is not None else None,
     )
     return pv.GetLayout()
 
@@ -52,7 +55,7 @@ def timesteps(args: argparse.Namespace) -> list:
 def visualise(args: argparse.Namespace, pv_func: Callable) -> None:
     def get_kwargs(layout: pv.ViewLayout) -> dict:
         kwargs = {"viewOrLayout": layout} if args.layout else {}
-        if not args.dict is None:
+        if args.dict is not None:
             with open(args.dict) as f:
                 kwargs |= json.load(f)
                 logging.info(f"{kwargs=}")
@@ -84,12 +87,12 @@ def main() -> argparse.Namespace:
     )
 
     parent_parser.add_argument(
+        "-C",
         "-c",
         "--case",
         "--dir",
         type=Path,
-        help="directory from where to load files"
-        " https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html#paraview.simple.LoadState",
+        help=f"directory from where to load files ${PV_DOCS_LINK}#paraview.simple.LoadState",
     )
 
     parent_parser.add_argument(
@@ -108,8 +111,7 @@ def main() -> argparse.Namespace:
     #: TimestepValues {{{
     parser = subparsers.add_parser(
         "timesteps",
-        help="output time-steps"
-        "https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html#paraview.simple.GetTimeKeeper",
+        help=f"output time-steps ${PV_DOCS_LINK}#paraview.simple.GetTimeKeeper",
     )
     parser.add_argument(
         "--list",
@@ -129,7 +131,7 @@ def main() -> argparse.Namespace:
     parser = subparsers.add_parser(
         "screenshot",
         aliases=["s"],
-        help="https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html#paraview.simple.SaveScreenshot",
+        help=f"${PV_DOCS_LINK}#paraview.simple.SaveScreenshot",
     )
     add_args(parser, pv.SaveScreenshot)
     parser.set_defaults(func=lambda args: visualise(args, pv.SaveScreenshot))
@@ -139,7 +141,7 @@ def main() -> argparse.Namespace:
     parser = subparsers.add_parser(
         "animate",
         aliases=["a"],
-        help="https://www.paraview.org/paraview-docs/latest/python/paraview.simple.html#paraview.simple.SaveAnimation",
+        help=f"${PV_DOCS_LINK}#paraview.simple.SaveAnimation",
     )
     add_args(parser, pv.SaveAnimation)
     parser.set_defaults(func=lambda args: visualise(args, pv.SaveAnimation))
