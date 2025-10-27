@@ -15,7 +15,7 @@
     git-lfs
     htop
     nixfmt-tree
-    python313
+    python314
     uutils-coreutils-noprefix
     uutils-diffutils
     uutils-findutils
