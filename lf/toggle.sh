@@ -46,12 +46,14 @@ is_gnome() {
 }
 
 toggle() {
-  local gnome="${1}" kitty="${2}" lf="${3}" vim="${4}"
+  local is_dark="${1}" gnome="${2}" kitty="${3}" lf="${4}" vim="${5}"
   local helix="${kitty}"
 
   #: gnome
-  is_gnome &&
+  if is_gnome; then
     gsettings set org.gnome.desktop.interface color-scheme "${gnome}"
+    gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled "${is_dark}"
+  fi
 
   #: helix
   sed -i'.old' "s/^theme.*=.*$/theme = \"${helix}\"/g" \
@@ -71,9 +73,9 @@ toggle() {
 parse_args "$@"
 
 if [ ${MODE} == "dark" ]; then
-  toggle 'prefer-dark' 'tokyonight_moon' 'dark' 'tokyonight-moon'
+  toggle 'true' 'prefer-dark' 'tokyonight_moon' 'dark' 'tokyonight-moon'
 elif [ ${MODE} == "light" ]; then
-  toggle 'prefer-light' 'tokyonight_day' 'light' 'tokyonight-day'
+  toggle 'false' 'prefer-light' 'tokyonight_day' 'light' 'tokyonight-day'
 else
   echo "unknown mode: ${MODE}"
   usage
