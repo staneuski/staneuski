@@ -11,4 +11,4 @@ export RIP_GRAVEYARD="/scratch/${SBATCH_ACCOUNT}/${USER}/.graveyard"
 export EBU_USER_PREFIX="/projappl/${SBATCH_ACCOUNT}/EasyBuild"
 export SPACK_USER_PREFIX="/projappl/${SBATCH_ACCOUNT}/spack"
 
-export WM_PROJECT_SITE="/projappl/${SBATCH_ACCOUNT}/site"
+export WM_PROJECT_SITE="/projappl/${SBATCH_ACCOUNT}/foamSite"
