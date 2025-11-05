@@ -1,3 +1,9 @@
+# KeePassXC OpenSSH agent on Windows
+# [core]
+# 	sshCommand = 'C:\\Windows\\System32\\OpenSSH\\ssh.exe'
+# [gpg "ssh"]
+# 	program = 'C:\\Windows\\System32\\OpenSSH\\ssh-keygen.exe'
+
 [user]
 	name = Stanislau Stasheuski
 	email = stanislau.stasheuski@gmail.com
