@@ -57,11 +57,15 @@ function swap() {
 }
 
 function lf() {
-  [ -z "${@}" ] &&
-    local dir="${PWD}/" ||
+  if [ "${#}" -eq 1 ] && [ -d "${1}" ]; then
+    local dir="${1}/"
+  elif [ "${#}" -ge 1 ]; then
     local dir="$(command zoxide query --list "$@" | head -1)"
+  else
+    local dir="${PWD}/"
+  fi
 
-  command lf -log "${TMPDIR:-/tmp}/lf.log" "${dir:-$@}"
+  command lf -log "${TMPDIR:-/tmp}/lf.log" "${dir}"
 }
 
 function lf-zoxide-widget() {
