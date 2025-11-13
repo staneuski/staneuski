@@ -1,3 +1,4 @@
+
 $settingsFile = "${env:LOCALAPPDATA}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
 if (-Not (Test-Path $settingsFile)) {
   Write-Error "Settings file not found at $settingsFile"
@@ -10,15 +11,22 @@ try {
   exit 1
 }
 
+$registryKey = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+$isDarkMode = (Get-ItemProperty -Path $registryKey).SystemUsesLightTheme
+
+# Auto Dark Mode functionality
+# Set-ItemProperty -Path $registryKey -Name "SystemUsesLightTheme" -Value ($isDarkMode -bxor 1)
+# Set-ItemProperty -Path $registryKey -Name "AppUseLightTheme" -Value ($isDarkMode -bxor 1)
+
 $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
-if ($settings.profiles.defaults.colorScheme -eq "Tokyo Night Moon") {
+if ($isDarkMode) {
   $settings.profiles.defaults.colorScheme = "Tokyo Night Day"
-  (Get-Content "${env:APPDATA}\helix\config.toml").Replace('theme = "tokyonight_moon"', 'theme = "tokyonight_day"') | Set-Content "${env:APPDATA}\helix\config.toml"
   [System.IO.File]::WriteAllLines("${env:USERPROFILE}\.config\.vim\colors\tokyonight.vim", "runtime colors/tokyonight-day.vim", $Utf8NoBomEncoding)
+  (Get-Content "${env:APPDATA}\helix\config.toml").Replace('theme = "tokyonight_moon"', 'theme = "tokyonight_day"') | Set-Content "${env:APPDATA}\helix\config.toml"
 } else {
   $settings.profiles.defaults.colorScheme = "Tokyo Night Moon"
-  (Get-Content "${env:APPDATA}\helix\config.toml").Replace('theme = "tokyonight_day"', 'theme = "tokyonight_moon"') | Set-Content "${env:APPDATA}\helix\config.toml"
   [System.IO.File]::WriteAllLines("${env:USERPROFILE}\.config\.vim\colors\tokyonight.vim", "runtime colors/tokyonight-moon.vim", $Utf8NoBomEncoding)
+  (Get-Content "${env:APPDATA}\helix\config.toml").Replace('theme = "tokyonight_day"', 'theme = "tokyonight_moon"') | Set-Content "${env:APPDATA}\helix\config.toml"
 }
 
 try {
