@@ -163,10 +163,6 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
     lbin'!lazygit' \
     atload"alias lg='lazygit'" \
   jesseduffield/lazygit \
-    atclone"./navi widget zsh >init.zsh" atpull"%atclone" \
-    src"init.zsh" nocompile'!' \
-    lbin'!navi' \
-  denisidoro/navi \
     if"[[ $(uname) == 'Darwin' ]]" \
     extract'!' \
     lbin'!nvim' lman"share/man/man1/nvim.1" \

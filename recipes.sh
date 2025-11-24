@@ -193,16 +193,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     tar -C $PREFIX/bin -xvz
 )
 
-#: navi
-(
-  set -euo pipefail
-  VER=2.24.0
-  ARCH=$(uname -m)
-
-  curl -sL https://github.com/denisidoro/navi/releases/download/v${VER}/navi-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
-    tar -C $PREFIX/bin -xvz
-)
-
 #: nix
 (
   set -euo pipefail
