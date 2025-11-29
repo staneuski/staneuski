@@ -4,4 +4,8 @@ return {
     "catppuccin",
     enabled = false,
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master"
+  },
 }

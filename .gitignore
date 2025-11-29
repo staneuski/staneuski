@@ -27,6 +27,7 @@
 !/nvim/**
 !/.OpenFOAM/**
 !/ParaView/**
+!/lazygit/**
 !/powershell/**
 !/scoop/**
 !/.vim/**
