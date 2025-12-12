@@ -79,18 +79,13 @@
                 "name": "Windows PowerShell"
             },
             {
-                "guid": "{c397f356-5e7b-55bc-956b-8cb4b9762c26}",
-                "hidden": true,
-                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\nix-snowflake.png",
-                "name": "NixOS",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "commandline": "ssh -Y sst055@fis8045.accdom.for.int",
-                "guid": "{986b5e88-edad-569b-8f6e-0e2fb2312a9a}",
-                "hidden": true,
-                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\icon-bg_transparent-primary-64x.png",
-                "name": "StarGate"
+                "commandline": "powershell.exe -NoExit -Command \"&{Import-Module \"\"\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll\"\"\"; Enter-VsDevShell 5d6476ec -SkipAutomaticLocation -DevCmdArguments \"\"\"-arch=x64 -host_arch=x64\"\"\"}\"",
+                "elevate": true,
+                "guid": "{ad74cf28-df01-4995-ac15-f910f1c2e138}",
+                "hidden": false,
+                "icon": "ms-appx:///ProfileIcons/vs-powershell.png",
+                "name": "Developer PowerShell for VS 2022",
+                "startingDirectory": "%USERPROFILE%"
             },
             {
                 "commandline": "ssh -Y stashes1@lumi -t zsh",
@@ -100,46 +95,29 @@
                 "name": "LUMI"
             },
             {
+                "guid": "{c397f356-5e7b-55bc-956b-8cb4b9762c26}",
+                "hidden": true,
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\nix-snowflake.png",
+                "name": "NixOS",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
                 "commandline": "%SystemRoot%\\System32\\cmd.exe",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": false,
+                "hidden": true,
                 "name": "Command Prompt"
             },
             {
-                "commandline": "powershell.exe -NoExit -Command \"&{Import-Module \"\"\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll\"\"\"; Enter-VsDevShell 5d6476ec -SkipAutomaticLocation -DevCmdArguments \"\"\"-arch=x64 -host_arch=x64\"\"\"}\"",
-                "guid": "{ad74cf28-df01-4995-ac15-f910f1c2e138}",
-                "hidden": false,
-                "icon": "ms-appx:///ProfileIcons/vs-powershell.png",
-                "name": "Developer PowerShell for VS 2022",
-                "startingDirectory": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional"
+                "commandline": "ssh -Y sst055@fis8045.accdom.for.int",
+                "guid": "{986b5e88-edad-569b-8f6e-0e2fb2312a9a}",
+                "hidden": true,
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\icon-bg_transparent-primary-64x.png",
+                "name": "StarGate"
             }
         ]
     },
     "schemes": 
     [
-        {
-            "background": "#EFF1F5",
-            "black": "#5C5F77",
-            "blue": "#1E66F5",
-            "brightBlack": "#6C6F85",
-            "brightBlue": "#1E66F5",
-            "brightCyan": "#179299",
-            "brightGreen": "#40A02B",
-            "brightPurple": "#EA76CB",
-            "brightRed": "#D20F39",
-            "brightWhite": "#BCC0CC",
-            "brightYellow": "#DF8E1D",
-            "cursorColor": "#DC8A78",
-            "cyan": "#179299",
-            "foreground": "#4C4F69",
-            "green": "#40A02B",
-            "name": "Catppuccin Latte",
-            "purple": "#EA76CB",
-            "red": "#D20F39",
-            "selectionBackground": "#ACB0BE",
-            "white": "#ACB0BE",
-            "yellow": "#DF8E1D"
-        },
         {
             "background": "#383838",
             "black": "#2B2B2B",
