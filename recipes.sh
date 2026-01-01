@@ -6,7 +6,7 @@ export TMPDIR=${TMPDIR:-/tmp}
 export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
 export NIX_PREFIX=${NIX_PREFIX:-$PREFIX/nix}
 
-mkdir -p $PREFIX/{bin,opt,share/man/man{1,2,3,4,5,6,7,8,9}}
+mkdir -p $PREFIX/{bin,opt,share/{applications,man/man{1,2,3,4,5,6,7,8,9}}}
 mkdir -p $BASH_COMPLETION_USER_DIR
 
 #: atuin
@@ -251,7 +251,7 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   ln -sf "${DST}/bin/"* "${PREFIX}/bin/"
 
   command -v desktop-file-edit >/dev/null &&
-    desktop-file-install --dir="${HOME}/.local/share/applications" \
+    desktop-file-install --dir="${PREFIX}/share/applications" \
       --set-name="ParaView v${VER%.*}" \
       --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
       --set-key=Exec --set-value="${DST}/bin/paraview %f" \
@@ -373,8 +373,19 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mkdir -p "${DST}"
   curl -sL 'https://code.visualstudio.com/sha/download?build=stable&os=linux-x64' |
     tar -C "${DST}" --strip-components 1 -xvz
+  curl -LO https://github.com/microsoft/vscode/raw/refs/heads/main/resources/linux/code.desktop \
+    --output-dir "${DST}/resources/app/resources/linux/"
 
-  ln -sf "${DST}/code" "${PREFIX}/bin/"
+  ln -sf "${DST}/bin/code" "${PREFIX}/bin/"
+  sed "
+    s|@@NAME_LONG@@|Visual Studio Code|g
+    s|@@NAME@@|code|g
+    s|@@NAME_SHORT@@|Code|g
+    s|@@EXEC@@|${DST}/bin/code --no-sandbox|g
+    s|@@ICON@@|${DST}/resources/app/resources/linux/code.png|g
+  " "${DST}/resources/app/resources/linux/code.desktop" >"${PREFIX}/share/applications/code.desktop"
+
+  ln -sf "${DST}/resources/completions/bash/code" "${BASH_COMPLETION_USER_DIR}/code.bash"
 )
 
 #: yq
