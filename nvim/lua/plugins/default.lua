@@ -14,5 +14,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "master",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "cpp",
+        "foam",
+      })
+    end,
   },
 }
