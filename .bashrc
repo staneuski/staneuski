@@ -56,21 +56,12 @@ command -v fd >/dev/null &&
   alias fd='find . -type d -name'
 
 #: ohmyzsh/plugins/eza
-if command -v exa >/dev/null; then
-  alias ls='exa --color=always --group-directories-first'
-  alias la='exa --color=always --group-directories-first -la'
-  alias ldot='exa --color=always --group-directories-first -ld .*'
-  alias lD='exa --color=always --group-directories-first -lD'
-  alias lDD='exa --color=always --group-directories-first -lDa'
-  alias ll='exa --color=always --group-directories-first -l'
-  alias lsd='exa --color=always --group-directories-first -d'
-  alias lsdl='exa --color=always --group-directories-first -dl'
-  alias lS='exa --color=always --group-directories-first -l -ssize'
-  alias lT='exa --color=always --group-directories-first -l -snewest'
-fi
 if command -v eza >/dev/null; then
+  alias l='eza --color=always --group-directories-first -l --classify'
   alias ls='eza --color=always --group-directories-first'
   alias la='eza --color=always --group-directories-first -la'
+  alias lr='eza --color=always --group-directories-first --tree -L 2 --icons'
+  alias lt='eza --color=always --group-directories-first -l -smodified'
   alias ldot='eza --color=always --group-directories-first -ld .*'
   alias lD='eza --color=always --group-directories-first -lD'
   alias lDD='eza --color=always --group-directories-first -lDa'
@@ -79,6 +70,7 @@ if command -v eza >/dev/null; then
   alias lsdl='eza --color=always --group-directories-first -dl'
   alias lS='eza --color=always --group-directories-first -l -ssize'
   alias lT='eza --color=always --group-directories-first -l -snewest'
+  alias lrt='eza --color=always --group-directories-first -l -smodified'
 fi
 
 #: ohmyzsh/plugins/kitty

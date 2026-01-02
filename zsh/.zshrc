@@ -61,6 +61,12 @@ function zshaddhistory() {
 #: Prevent complete path deletions
 autoload -U select-word-style
 select-word-style bash
+
+#: Open buffer line in editor
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^Xe' edit-command-line
+bindkey '^X^E' edit-command-line
 #: }}}
 
 #: prompt, cd, ls {{{
@@ -122,7 +128,9 @@ zinit wait"1" lucid as"none" for \
     lbin'!rip' id-as \
   MilesCranmer/rip2 \
     from"gh-r" extract'!' \
-    lbin'!rg' lman"doc/rg.1" id-as \
+    atload"alias -g RG='| rg'" \
+    lbin'!rg' lman"doc/rg.1" \
+    id-as \
   BurntSushi/ripgrep \
     extract'!' \
     configure make"install PREFIX=${ZPFX}" \
@@ -151,17 +159,18 @@ zinit wait"1" lucid light-mode for \
 #: TUIs, package managers {{{
 zinit wait"2" lucid as"none" from"gh-r" id-as for \
     extract'!' cp"autocomplete/bat.zsh -> _bat" \
+    atload"alias -g B='| bat -p'" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
     extract'!' \
     atload"
       zle -N lf-zoxide-widget
       bindkey '^O' lf-zoxide-widget
-    " lbin"!lf" \
+    " \
+    lbin"!lf" \
   gokcehan/lf \
-    extract'!' \
-    lbin'!lazygit' \
     atload"alias lg='lazygit'" \
+    lbin'!lazygit' \
   jesseduffield/lazygit \
     if"[[ $(uname) == 'Darwin' ]]" \
     extract'!' \
@@ -184,12 +193,6 @@ zinit wait"2" lucid as"none" from"gh-r" id-as for \
 #: }}}
 
 #: aliases, completions, docs, key-bindings {{{
-# slurm
-(( $+commands[squeue] )) &&
-  alias queue='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
-(( $+commands[squeue] )) &&
-  alias qyaml='squeue --format="%i;%j;%T;%M;%S;%P;%D;%R" --me | yq -p=csv --csv-separator=";" -o=yaml'
-
 #: Completions
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # Load completions
@@ -214,7 +217,12 @@ zinit wait"3a" lucid for \
       alias tar='COPYFILE_DISABLE=1 tar'
     " \
   @zdharma-continuum/null \
-    has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" \
+    has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" atload"
+      alias l='eza --color=always --group-directories-first -l --classify'
+      alias lr='eza --color=always --group-directories-first --tree -L 2 --icons'
+      alias lt='eza --color=always --group-directories-first -l -smodified'
+      alias lrt='eza --color=always --group-directories-first --tree -l'
+    " \
   OMZP::eza \
     if"[[ $(uname) == 'Linux' ]]" has"eza" from"gh-r" bpick"completions*" \
     as"completion" extract'!!' \
@@ -224,6 +232,9 @@ zinit wait"3a" lucid for \
     as"null" extract'!!' \
     lman"eza*" id-as"eza/man" \
   eza-community/eza \
+    if'(( $+commands[jq] ))' \
+    atload"alias -g J='| jq'" \
+  @zdharma-continuum/null \
     has"lf" as"completion" id-as"_lf" \
   https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
     has"lf" as"null" lman"lf.1" \
@@ -233,8 +244,14 @@ zinit wait"3a" lucid for \
       alias vi=\"\${EDITOR}\"
     " \
   @zdharma-continuum/null \
+    if'(( $+commands[squeue] ))' atload"
+      alias queue='squeue --format=\"%i;%j;%T;%M;%P;%.3D;%R\" --me | column -s=\";\" -t'
+      alias qyaml='squeue --format=\"%i;%j;%T;%M;%S;%P;%D;%R\" --me | yq -p=csv --csv-separator=\";\" -o=yaml'
+    " \
+  @zdharma-continuum/null \
     has"yq" from"gh-r" bpick"*man_page_only*" \
     as"null" extract'!' \
+    atload"alias -g Y='| yq'" \
     lman"yq.1" id-as"yq/man" \
   mikefarah/yq
 #: }}}
