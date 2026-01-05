@@ -87,14 +87,12 @@ zinit wait"0" lucid as"none" from"gh-r" id-as for \
     if"[[ $(uname) == 'Linux' ]]" \
     lbin'!eza' \
   eza-community/eza \
-    atclone"
-      ./zoxide init --cmd=cd zsh >init.zsh
-      cp -rfv man/man1/zoxide{,-add,-import,-init,-query,-remove}.1 $ZINIT[MAN_DIR]/man1/
-    " atpull"%atclone" \
-    cp"completions/_zoxide -> _zoxide" \
-    src"init.zsh" nocompile'!' \
+    atclone'./zoxide init --cmd=cd zsh >init.zsh' \
+    atpull'%atclone' \
+    src'init.zsh' \
     atload'dq () { command zoxide query --list "$@" | head -1 }' \
-    lbin'!zoxide' \
+    mv'completions/_zoxide -> _zoxide' \
+    lbin'!zoxide' lman'man/man1/*.1' \
   ajeetdsouza/zoxide
 #: }}}
 
