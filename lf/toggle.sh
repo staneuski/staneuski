@@ -22,6 +22,10 @@ parse_args() {
       set -x
       shift
       ;;
+    --tui-only)
+      is_tui_only=true
+      shift
+      ;;
     light | dark)
       MODE=$1
       shift
@@ -41,7 +45,7 @@ parse_args() {
 }
 
 is_gnome() {
-  command -v gsettings &>/dev/null &&
+  [ ! is_tui_only ] && command -v gsettings &>/dev/null &&
     gsettings get org.gnome.desktop.interface color-scheme &>/dev/null
 }
 
