@@ -73,6 +73,27 @@ mkdir -p $BASH_COMPLETION_USER_DIR
     --output $PREFIX/direnv
 )
 
+#: doublecmd
+(
+  set -euo pipefail
+  VER=1.1.32
+  DST="${PREFIX}/opt/doublecmd"
+
+  mkdir -p "${DST}"
+  curl -sL "https://github.com/doublecmd/doublecmd/releases/download/v${VER}/doublecmd-${VER}.gtk2.x86_64.tar.xz" |
+    tar -C "${DST}" --strip-components 1 -xJ
+  curl -LO 'https://github.com/doublecmd/doublecmd/raw/refs/heads/master/install/linux/doublecmd.desktop' \
+    --output-dir "${DST}/"
+
+  ln -sf "${DST}/doublecmd" "${PREFIX}/bin/"
+
+  command -v desktop-file-edit >/dev/null &&
+    desktop-file-install --dir="${PREFIX}/share/applications" \
+      --set-icon="${DST}/pixmaps/mainicon/alt/256px-dcfinal.png" \
+      --set-key=Exec --set-value="${DST}/doublecmd %f" \
+      "${DST}/doublecmd.desktop"
+)
+
 #: entr
 (
   set -euo pipefail
@@ -191,19 +212,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
 (
   curl -sL https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz |
     tar -C $PREFIX/bin -xvz
-)
-
-#: nix
-(
-  set -euo pipefail
-  VER=1.2.2
-  ARCH=$(uname -m)
-
-  curl -sL https://github.com/nix-community/nix-user-chroot/releases/download/${VER}/nix-user-chroot-bin-${VER}-x86_64-unknown-linux-musl \
-    --output $PREFIX/bin/nix-user-chroot
-  chmod +x $PREFIX/bin/nix-user-chroot
-
-  nix-user-chroot $NIX_PREFIX bash -c "curl -L https://nixos.org/nix/install | bash"
 )
 
 #: neovim
@@ -329,15 +337,6 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   mv -f $SRC/doc/rg.1 $PREFIX/share/man/man1/
 
   rm -rf $SRC
-)
-
-#: spack
-(
-  # set -euo pipefail
-  # VER=0.18
-
-  # git clone -c feature.manyFiles=true --depth=2 --branch=releases/latest \
-  #   https://github.com/spack/spack.git $SPACK_ROOT
 )
 
 #: starship
