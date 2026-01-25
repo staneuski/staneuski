@@ -51,6 +51,7 @@ is_gnome() {
 
 toggle() {
   local is_dark="${1}" gnome="${2}" kitty="${3}" lf="${4}" vim="${5}"
+  local bat="${lf}"
   local helix="${kitty}"
 
   #: gnome
@@ -58,6 +59,10 @@ toggle() {
     gsettings set org.gnome.desktop.interface color-scheme "${gnome}"
     gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled "${is_dark}"
   fi
+
+  #: bat
+  sed -i'.old' "s/^--theme\=.*$/--theme=\"${bat}\"/g" \
+    "${HOME}/.config/bat/config"
 
   #: helix
   sed -i'.old' "s/^theme.*=.*$/theme = \"${helix}\"/g" \

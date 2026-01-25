@@ -14,7 +14,7 @@ set previewer ~/.config/lf/preview.sh
 
 #: Toggle theme
 cmd theme-toggle &{{
-  [ "$lf_user_theme" == "light" ] && theme=dark || theme=light
+  [ "${lf_user_theme}" == "light" ] && theme=dark || theme=light
   ~/.config/lf/toggle.sh "${theme}"
   lf -remote "send ${id} :set user_theme ${theme}; reload"
 }}
@@ -170,7 +170,7 @@ map P :link
 
 #: https://github.com/gokcehan/lf/wiki/Tips#executing-commands {{{
 #: Preview
-map i $ bat --paging=always "$f"
+map i $ bat --paging=always "${f}" 
 map I $ less -nR "$f"
 
 #: Edit
