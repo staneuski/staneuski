@@ -38,7 +38,7 @@
 
   programs.nix-ld.enable = true;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   users.defaultUserShell = pkgs.zsh;
 }

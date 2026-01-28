@@ -8,7 +8,7 @@
   boost, cgal, fftw, mpi, scotch, trilinos-mpi, zlib,
 }:
 let
-  version = "13";
+  version = "dev";
 in
 stdenv.mkDerivation {
   pname = "openfoam";
@@ -25,7 +25,7 @@ stdenv.mkDerivation {
     owner = "OpenFOAM";
     repo = "OpenFOAM-${version}";
     rev = "master";
-    sha256 = "sha256-3/QsQaMTqCGxA2I8sCEd/q++2QvRtojnFKl5X9LnVXQ=";
+    sha256 = "sha256-JO0sY/j+uJfNKs0n7CKuaET1eEl2gFwQsrZNH4tNIxw=";
   };
 
   nativeBuildInputs = [ bash bison flex gnumake m4 ];

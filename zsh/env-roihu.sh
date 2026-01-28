@@ -8,6 +8,8 @@ export RIP_GRAVEYARD="/scratch/${SBATCH_ACCOUNT}/${USER}/.graveyard"
 
 export USER_SPACK_ROOT="/projappl/${SBATCH_ACCOUNT}/spack"
 
+export WM_PROJECT_SITE="/projappl/${SBATCH_ACCOUNT}/foamSite"
+
 export PYTHONUSERBASE="/projappl/${SBATCH_ACCOUNT}/${USER}/pyenv"
 export PYTHONPATH=${PYTHONUSERBASE}/lib/python3.*/site-packages
 export PATH="${PYTHONUSERBASE}/bin:${PATH}"
