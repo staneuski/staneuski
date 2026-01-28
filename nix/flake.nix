@@ -66,7 +66,7 @@
         mkConfig "x86_64-linux" "wsl" [
           nixos-wsl.nixosModules.default
           {
-            wsl.defaultUser = "SST055";
+            wsl.defaultUser = userName;
             wsl.enable = true;
           }
         ]

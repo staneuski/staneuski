@@ -5,10 +5,12 @@
   nix-update-script,
 
   bash, bison, flex, gnumake, m4,
-  boost, cgal, fftw, mpi, scotch, trilinos-mpi, zlib,
+  boost, cgal, fftw, mpi, scotch, metis, parmetis, trilinos-mpi, zlib,
 }:
 let
-  version = "13";
+  ptscotch = scotch.override { withPtScotch = true; };
+
+  version = "dev";
 in
 stdenv.mkDerivation {
   pname = "openfoam";
@@ -24,12 +26,12 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "OpenFOAM";
     repo = "OpenFOAM-${version}";
-    rev = "master";
-    sha256 = "sha256-3/QsQaMTqCGxA2I8sCEd/q++2QvRtojnFKl5X9LnVXQ=";
+    rev = "20260130";
+    sha256 = "sha256-h3Smw/EyVD2utZZ3eW6UUl7ECjDIRj9247Bz1xmKNd8=";
   };
 
   nativeBuildInputs = [ bash bison flex gnumake m4 ];
-  buildInputs = [ boost cgal fftw mpi.dev scotch trilinos-mpi zlib ];
+  buildInputs = [ boost cgal fftw mpi.dev ptscotch metis parmetis trilinos-mpi zlib ];
 
   passthru.updateScript = nix-update-script { };
   sourceRoot = ".";
@@ -71,7 +73,8 @@ stdenv.mkDerivation {
     (
       cd $WM_PROJECT_DIR
       ./bin/tools/foamConfigurePaths \
-        --dependency PARMETIS=none \
+        --dependency METIS=system \
+        --dependency PARMETIS=system \
         --dependency ParaView=none \
         --dependency SCOTCH=system \
         --dependency ZOLTAN=none

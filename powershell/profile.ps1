@@ -30,9 +30,14 @@ Function dq { zoxide query --list $args }
 #: }}}
 
 #: Integrations {{{
-#: starship/starship
-Invoke-Expression (& starship init powershell)
+if ([version]$PSVersionTable.PSVersion -gt [version](7.4)) {
+  #: atuinsh/atuinsh
+  atuin init powershell | Out-String | Invoke-Expression
+
+  #: starship/starship
+  starship init powershell | Out-String | Invoke-Expression
+}
 
 #: ajeetdsouza/zoxide
-Invoke-Expression (& { (zoxide init --cmd=cd powershell | Out-String) })
+zoxide init --cmd=cd powershell | Out-String | Invoke-Expression
 #: }}}
