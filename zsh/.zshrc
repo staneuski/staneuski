@@ -187,8 +187,12 @@ zinit wait'2' lucid as'none' from'gh-r' id-as for \
     atinit'export NVM_DIR="${ZINIT[PLUGINS_DIR]}/nvm"' \
     pick'nvm.sh' atload'source bash_completion' nocompile \
   nvm-sh/nvm \
-    if'! (( $+commands[uv] ))' \
+    if'! (( $+commands[yazi] ))' \
     extract'!' \
+    atpull'./ya pkg upgrade' \
+    lbin'!ya' lbin'!yazi' id-as \
+  sxyazi/yazi \
+    if'! (( $+commands[uv] ))' extract'!' \
     atclone'./uv generate-shell-completion zsh >_uv' atpull'%atclone' \
     lbin'!uv*' \
   @astral-sh/uv
