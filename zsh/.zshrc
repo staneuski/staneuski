@@ -75,10 +75,10 @@ bindkey '^X^E' edit-command-line
   export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
 zinit lucid as'none' from'gh-r' id-as for \
-    atclone"
+    atclone'
       ./starship init zsh >init.zsh
       ./starship completions zsh >_starship
-    " atpull'%atclone' \
+    ' atpull'%atclone' \
     src'init.zsh' \
     lbin'!starship' \
   starship/starship
@@ -161,12 +161,15 @@ zinit wait'2' lucid as'none' from'gh-r' id-as for \
     atload"alias -g B='| bat -p'" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
-    extract'!' \
+    atclone'
+      curl -sLo _lf https://github.com/gokcehan/lf/raw/refs/heads/master/etc/lf.zsh
+      curl -sLO https://github.com/gokcehan/lf/raw/refs/heads/master/lf.1
+    ' atpull'%atclone' \
     atload"
       zle -N lf-zoxide-widget
       bindkey '^O' lf-zoxide-widget
     " \
-    lbin'!lf' \
+    lbin'!lf' lman'lf.1' \
   gokcehan/lf \
     atload"alias lg='lazygit'" \
     lbin'!lazygit' \
@@ -234,10 +237,6 @@ zinit wait'3b' lucid for \
     if'(( $+commands[jq] ))' \
     atload"alias -g J='| jq'" \
   @zdharma-continuum/null \
-    has"lf" as"completion" id-as"_lf" \
-  https://github.com/gokcehan/lf/blob/master/etc/lf.zsh \
-    has"lf" as"null" lman"lf.1" \
-  https://github.com/gokcehan/lf/blob/master/lf.1 \
     has"nvim" atload"
       export EDITOR='nvim -u \${HOME}/.vim/init.lua'
       alias vi=\"\${EDITOR}\"
