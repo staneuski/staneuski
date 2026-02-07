@@ -40,9 +40,14 @@ parse_args() {
   fi
 }
 
-is_gnome() {
-  command -v gsettings &>/dev/null &&
-    gsettings get org.gnome.desktop.interface color-scheme &>/dev/null
+has_gnome() {
+  command -v gsettings >/dev/null 2>&1 || return 1
+
+  local schemas
+  schemas=$(gsettings list-schemas 2>/dev/null) || return 1
+
+  grep -qx 'org.gnome.desktop.interface' <<<"$schemas" &&
+    grep -qx 'org.gnome.settings-daemon.plugins.color' <<<"$schemas"
 }
 
 toggle() {
@@ -51,7 +56,7 @@ toggle() {
   local helix="${kitty}"
 
   #: gnome
-  if is_gnome; then
+  if has_gnome; then
     gsettings set org.gnome.desktop.interface color-scheme "${gnome}"
     gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled "${is_dark}"
   fi
