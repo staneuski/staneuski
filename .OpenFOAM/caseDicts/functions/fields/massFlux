@@ -16,6 +16,11 @@ libs            ( "libutilityFunctionObjects.so" );
 executeControl  writeTime;
 writeControl    writeTime;
 
+rhoField        rho;
+UField          U;
+
+result          rhoPhi;
+
 codeInclude
 #{
     #include "fvcFlux.H"
@@ -23,21 +28,23 @@ codeInclude
 
 codeFields
 #{
-    fields.append("rho");
-    fields.append("U");
+    fields.append($<word>rhoField);
+    fields.append($<word>UField);
 #};
 
 codeExecute
 #{
-    const surScalarField& rho = mesh().lookupObject<volScalarField>("rho");
-    const volVectorField& U = mesh().lookupObject<volVectorField>("U");
+    const surScalarField& rho =
+        mesh().lookupObject<volScalarField>($<word>rhoField);
+    const volVectorField& U =
+        mesh().lookupObject<volVectorField>($<word>UField);
 
-    store("rhoPhi", linearInterpolate(rho*U) & mesh().Sf());
+    store($<word>result, linearInterpolate(rho*U) & mesh().Sf());
 #};
 
 codeWrite
 #{
-    return writeObject("rhoPhi");
+    return writeObject($<word>result);
 #};
 
 // ************************************************************************* //
