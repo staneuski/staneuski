@@ -32,7 +32,7 @@ return {
     {
       "-",
       function()
-        require("oil").open_float(nil, preview)
+        require("oil").open()
       end,
       mode = { "n" },
       desc = "Open oil (Directory of the Current File)",
