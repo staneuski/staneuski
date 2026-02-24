@@ -143,7 +143,7 @@ zinit wait'1b' lucid as'none' for \
 
 # Load atuin after fzf to overwrite key bindings
 zinit wait'1c' lucid as'none' for \
-    from'gh-r' bpick"atuin*$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+    from'gh-r' bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone'./atuin init zsh >init.zsh' atpull'%atclone' \
     src'init.zsh' nocompile'!' \
     lbin'!atuin' id-as \
@@ -177,10 +177,9 @@ zinit wait'2' lucid as'none' from'gh-r' id-as for \
     if'! (( $+commands[mise] ))' \
     mv'mise* -> mise' \
     atclone'
-      ./mise activate zsh >init.zsh
+      $PWD/mise activate zsh >init.zsh
       ./mise completion zsh >_mise
       ./mise use --global usage
-      ./mise use --global node@25
     ' atpull'%atclone' \
     src'init.zsh' \
     lbin'!mise' id-as \
