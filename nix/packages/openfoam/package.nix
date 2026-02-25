@@ -32,6 +32,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ bash bison flex gnumake m4 ];
   buildInputs = [ boost cgal fftw mpi.dev ptscotch metis parmetis trilinos-mpi zlib ];
+  propagatedBuildInputs = [ mpi ];
 
   passthru.updateScript = nix-update-script { };
   sourceRoot = ".";
