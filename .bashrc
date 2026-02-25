@@ -1,4 +1,4 @@
-# vim:fileencoding=utf-8:foldmethod=marker
+# vim:fileencoding=utf-8:foldmethod=marker:ts=2:sw=2:sts=2:expandtab
 
 #: Source global definitions {{{
 [ -f /etc/bashrc ] &&
@@ -103,10 +103,12 @@ if command -v lf >/dev/null; then
 fi
 
 #: slurm
-command -v squeue >/dev/null &&
-  alias queue='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
-command -v squeue >/dev/null &&
+if command -v squeue >/dev/null; then
+  alias qstat='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
   alias qyaml='squeue --format="%i;%j;%T;%M;%S;%P;%D;%R" --me | yq -p=csv --csv-separator=";" -o=yaml'
+  alias qdel='scancel'
+  alias qsub='sbatch'
+fi
 
 #: zoxide
 command -v zoxide >/dev/null &&

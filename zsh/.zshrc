@@ -233,7 +233,7 @@ zinit wait'3b' lucid for \
       alias tar='COPYFILE_DISABLE=1 tar'
     " \
   @zdharma-continuum/null \
-    has"eza" atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" atload"
+    has'eza' atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" atload"
       alias l='eza --color=always --group-directories-first -l --classify'
       alias lr='eza --color=always --group-directories-first --tree -L 2 --icons'
       alias lt='eza --color=always --group-directories-first -l -smodified'
@@ -241,29 +241,31 @@ zinit wait'3b' lucid for \
     " \
   OMZP::eza \
     if"[[ $(uname) == 'Linux' ]]" has'eza' from'gh-r' bpick'completions*' \
-    as"completion" extract'!!' \
-    id-as"eza/completions" \
+    as'completion' extract'!!' \
+    id-as'eza/completions' \
   eza-community/eza \
-    if"[[ $(uname) == 'Linux' ]]" has'eza' from'gh-r' bpick"man*" \
-    as"null" extract'!!' \
-    lman"eza*" id-as"eza/man" \
+    if"[[ $(uname) == 'Linux' ]]" has'eza' from'gh-r' bpick'man*' \
+    as'null' extract'!!' \
+    lman'eza*' id-as'eza/man' \
   eza-community/eza \
-    if'(( $+commands[jq] ))' \
+    has'jq' \
     atload"alias -g J='| jq'" \
   @zdharma-continuum/null \
-    has"nvim" atload"
+    has'nvim' atload"
       export EDITOR='nvim -u \${HOME}/.vim/init.lua'
       alias vi=\"\${EDITOR}\"
     " \
   @zdharma-continuum/null \
-    if'(( $+commands[squeue] ))' atload"
-      alias queue='squeue --format=\"%i;%j;%T;%M;%P;%.3D;%R\" --me | column -s=\";\" -t'
+    has'squeue' atload"
+      alias qstat='squeue --format=\"%i;%j;%T;%M;%P;%.3D;%R\" --me | column -s=\";\" -t'
       alias qyaml='squeue --format=\"%i;%j;%T;%M;%S;%P;%D;%R\" --me | yq -p=csv --csv-separator=\";\" -o=yaml'
+      alias qdel='scancel'
+      alias qsub='sbatch'
     " \
   @zdharma-continuum/null \
-    has"yq" from'gh-r' bpick"*man_page_only*" \
-    as"null" extract'!' \
+    has'yq' from'gh-r' bpick'*man_page_only*' \
+    as'null' extract'!' \
     atload"alias -g Y='| yq'" \
-    lman"yq.1" id-as"yq/man" \
+    lman'yq.1' id-as'yq/man' \
   mikefarah/yq
 #: }}}
