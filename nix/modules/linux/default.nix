@@ -36,7 +36,14 @@
     ]
   );
 
+  networking.firewall.allowedTCPPorts = [ 8384 ];
+
   programs.nix-ld.enable = true;
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+  };
 
   system.stateVersion = "26.05";
 

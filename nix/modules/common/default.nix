@@ -11,16 +11,21 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     #: Common, CLI
+    btop
     git
     git-lfs
-    htop
+    gnupg
     nixfmt-tree
     python314
     uutils-coreutils-noprefix
     uutils-diffutils
     uutils-findutils
+    uutils-sed
     uv
     zsh
+
+    #: Common, GUI
+    syncthing
   ];
 
   fonts.packages = with pkgs; [

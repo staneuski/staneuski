@@ -17,7 +17,6 @@
       #: Common, GUI
       kitty
       (pkgs.callPackage ../../packages/paraview/package.nix { })
-      syncthing
       vscode
       zotero
 
