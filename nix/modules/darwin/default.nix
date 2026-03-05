@@ -1,121 +1,146 @@
 {
-  lib,
-  config,
-  pkgs,
   self,
-  info,
+  inputs,
   ...
 }:
+let
+  userName = "stasta";
+in
 {
-  imports = [
-    ../common
-  ];
+  flake = {
+    darwinModules.systemPackages =
+      { pkgs, ... }:
+      {
+        environment.systemPackages = with pkgs; [
+          #: Common, GUI
+          kitty
+          (pkgs.callPackage ../../packages/paraview/package.nix { })
+          syncthing
+          vscode
+          zotero
 
-  environment.systemPackages = lib.mkAfter (
-    with pkgs;
-    [
-      #: Common, GUI
-      kitty
-      (pkgs.callPackage ../../packages/paraview/package.nix { })
-      vscode
-      zotero
+          #: Darwin, CLI
+          eza
 
-      #: Darwin, CLI
-      eza
-
-      #: Darwin, GUI
-      ice-bar
-      maccy
-      monitorcontrol
-    ]
-  );
-
-  homebrew = {
-    enable = true;
-    brews = [
-      "imagemagick"
-      "ffmpeg"
-      "gawk"
-      "wget"
-
-      "mas"
-    ];
-    casks = [
-      "inkscape"
-      "meshlab"
-      "ungoogled-chromium"
-      "vlc"
-
-      "amethyst"
-      "anydesk"
-      "coconutbattery"
-      "hammerspoon"
-      "logi-options+"
-      "xquartz"
-    ];
-    masApps = {
-      "Hush" = 1544743900;
-      "Strongbox" = 897283731;
-    };
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
-    };
-  };
-
-  system = {
-    primaryUser = info.userName;
-
-    # Used for backwards compatibility, please read the changelog before changing.
-    # $ darwin-rebuild changelog
-    stateVersion = 5;
-
-    # https://mynixos.com/nix-darwin/options/system
-    defaults = {
-      NSGlobalDomain = {
-        AppleICUForce24HourTime = true;
-        KeyRepeat = 2;
-      };
-
-      dock = {
-        autohide = true;
-        autohide-delay = 0.1;
-        autohide-time-modifier = 0.4;
-        largesize = 128;
-        magnification = true;
-        persistent-apps = [
-          "/System/Cryptexes/App/System/Applications/Safari.app"
-          "/System/Applications/Mail.app"
-          "${pkgs.kitty}/Applications/Kitty.app"
-          "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          "/Applications/Chromium.app"
+          #: Darwin, GUI
+          ice-bar
+          maccy
+          monitorcontrol
         ];
-        persistent-others = [
-          "/Users/${info.userName}/Downloads"
-        ];
-      };
-      finder = {
-        # FXPreferredViewStyle = "clmv";
-        ShowPathbar = true;
-      };
-      loginwindow.GuestEnabled = false;
-    };
-  };
 
-  # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
-  launchd.user.agents.syncthing = {
-    command = "${pkgs.syncthing}/bin/syncthing";
-    serviceConfig = {
-      EnvironmentVariables = {
-        HOME = "/Users/${info.userName}";
-        STNORESTART = "1";
+        homebrew = {
+          enable = true;
+          brews = [
+            "imagemagick"
+            "ffmpeg"
+            "gawk"
+            "wget"
+
+            "mas"
+          ];
+          casks = [
+            "inkscape"
+            "meshlab"
+            "ungoogled-chromium"
+            "vlc"
+
+            "amethyst"
+            "anydesk"
+            "coconutbattery"
+            "hammerspoon"
+            "logi-options+"
+            "xquartz"
+          ];
+          masApps = {
+            "Hush" = 1544743900;
+            "Strongbox" = 897283731;
+          };
+          onActivation = {
+            autoUpdate = true;
+            cleanup = "zap";
+            upgrade = true;
+          };
+        };
       };
-      KeepAlive = true;
-      LowPriorityIO = true;
-      ProcessType = "Background";
-      StandardOutPath = "/Users/${info.userName}/Library/Logs/Syncthing.log";
-      StandardErrorPath = "/Users/${info.userName}/Library/Logs/Syncthing-Errors.log";
+
+    darwinModules.system =
+      { pkgs, ... }:
+      {
+        system = {
+          primaryUser = userName;
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          stateVersion = 5;
+
+          # https://mynixos.com/nix-darwin/options/system
+          defaults = {
+            NSGlobalDomain = {
+              AppleICUForce24HourTime = true;
+              KeyRepeat = 2;
+            };
+
+            dock = {
+              autohide = true;
+              autohide-delay = 0.1;
+              autohide-time-modifier = 0.4;
+              largesize = 128;
+              magnification = true;
+              persistent-apps = [
+                "/System/Cryptexes/App/System/Applications/Safari.app"
+                "/System/Applications/Mail.app"
+                "${pkgs.kitty}/Applications/Kitty.app"
+                "${pkgs.vscode}/Applications/Visual Studio Code.app"
+                "/Applications/Chromium.app"
+              ];
+              persistent-others = [
+                "/Users/${userName}/Downloads"
+              ];
+            };
+            finder = {
+              # FXPreferredViewStyle = "clmv";
+              ShowPathbar = true;
+            };
+            loginwindow.GuestEnabled = false;
+          };
+        };
+
+        # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
+        launchd.user.agents.syncthing = {
+          command = "${pkgs.syncthing}/bin/syncthing";
+          serviceConfig = {
+            EnvironmentVariables = {
+              HOME = "/Users/${userName}";
+              STNORESTART = "1";
+            };
+            KeepAlive = true;
+            LowPriorityIO = true;
+            ProcessType = "Background";
+            StandardOutPath = "/Users/${userName}/Library/Logs/Syncthing.log";
+            StandardErrorPath = "/Users/${userName}/Library/Logs/Syncthing-Errors.log";
+          };
+        };
+      };
+
+    darwinConfigurations.duke = inputs.nixpkgs.lib.darwinSystem {
+      system = "x86_64-darwin";
+      modules = [
+        self.nixosModules.default
+        self.darwinModules.systemPackages
+        self.darwinModules.system
+        inputs.nix-homebrew.darwinModules.nix-homebrew
+        (
+          { pkgs, ... }:
+          {
+            nix-homebrew = {
+              autoMigrate = true;
+              enable = true;
+              enableRosetta = false;
+              user = userName;
+            };
+          }
+        )
+      ];
     };
   };
 }

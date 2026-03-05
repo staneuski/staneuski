@@ -1,51 +1,52 @@
 {
-  lib,
-  config,
-  pkgs,
+  nixpkgs,
   self,
-  info,
+  inputs,
   ...
 }:
 {
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    #: Common, CLI
-    btop
-    git
-    git-lfs
-    gnupg
-    nixfmt-tree
-    python314
-    uutils-coreutils-noprefix
-    uutils-diffutils
-    uutils-findutils
-    uutils-sed
-    uv
-    zsh
+  perSystem =
+    {
+      pkgs,
+      system,
+      ...
+    }:
+    {
+      _module.args.pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    };
+  flake = {
+    nixosModules.default =
+      { pkgs, ... }:
+      {
+        environment.systemPackages = with pkgs; [
+          #: Common, CLI
+          btop
+          git
+          git-lfs
+          gnupg
+          nixfmt-tree
+          python314
+          uutils-coreutils-noprefix
+          uutils-diffutils
+          uutils-findutils
+          uutils-sed
+          uv
+          zsh
+        ];
 
-    #: Common, GUI
-    syncthing
-  ];
+        nix.settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
+        system.configurationRevision = self.rev or self.dirtyRev or null;
 
-  nix = {
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+        # Create /etc/zshrc that loads the nix-darwin environment.
+        programs.zsh.enable = true;
+        users.defaultUserShell = pkgs.zsh;
+      };
   };
-  nixpkgs = {
-    config.allowUnfree = true;
-    hostPlatform = info.system;
-  };
-
-  # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true; # darwin?
-
-  # Set Git commit hash for darwin-version.
-  system.configurationRevision = self.rev or self.dirtyRev or null;
 }
