@@ -23,7 +23,7 @@
 !/kitty/**
 !/mc/**
 !/Microsoft.WindowsTerminal/**
-!/nix*/
+!/nix*/**
 !/nvim/**
 !/.OpenFOAM/**
 !/ParaView/**
