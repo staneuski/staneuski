@@ -14,7 +14,7 @@
 !*.pvsc
 !*rc
 !.git*
-!config.toml
+!*.toml
 
 #: Project folders
 !/atuin/**

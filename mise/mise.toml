@@ -1,0 +1,71 @@
+[env]
+PREFIX = '{{env.HOME}}/.local'
+
+[tasks.update]
+depends = [
+  # 'update-apt',
+  'update-flatpak',
+  'install-tarball'
+]
+
+[tasks.install]
+depends = [
+  'install-apt',
+  'install-flatpak',
+  'install-tarball'
+]
+
+#: apt {{{
+#: update
+[tasks.update-apt]
+run = 'yes | aptdcon --hide-terminal --refresh --full-upgrade'
+
+#: install
+[tasks.install-apt]
+run = [
+  'ln -sf /usr/share/applications/syncthing-start.desktop {{env.HOME}}/.config/autostart/'
+]
+#: }}}
+
+#: flatpak {{{
+#: update
+[tasks.update-flatpak]
+run = 'flatpak -y update'
+
+#: install
+[tasks.install-flatpak]
+run = [
+  'flatpak install --user flathub io.github.ungoogled_software.ungoogled_chromium com.github.hluk.copyq org.inkscape.Inkscape org.pipewire.Helvum org.keepassxc.KeePassXC com.logseq.Logseq net.meshlab.MeshLab org.paraview.ParaView org.zotero.Zotero',
+  'flatpak override --user --env=QT_QPA_PLATFORM=xcb --socket=x11 com.github.hluk.copyq',
+  'flatpak override --user --filesystem=host:rw org.inkscape.Inkscape',
+  'flatpak override --user --filesystem=host:rw org.paraview.ParaView',
+  'xdg-settings set default-web-browser io.github.ungoogled_software.ungoogled_chromium.desktop',
+  'ln -sf {{env.HOME}}/{share/flatpak/exports/share/applications/{com.github.hluk.copyq,org.keepassxc.KeePassXC}.desktop,.config/autostart/}'
+]
+#: }}}
+
+#: tarball {{{
+#: install
+[tasks.install-tarball]
+depends = [
+  'install-tarball_vscode'
+]
+
+[tasks.install-tarball_vscode]
+hide = true
+env.DST = '{{env.PREFIX}}/opt/vscode'
+run = [
+  'mkdir -p {{env.DST}}',
+  'curl -sL "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64" | tar -C {{env.DST}} --strip-components 1 -xz',
+  '''
+    sed "
+      s|@@NAME_LONG@@|Visual Studio Code|g
+      s|@@NAME@@|code|g
+      s|@@NAME_SHORT@@|Code|g
+      s|@@EXEC@@|{{env.DST}}/bin/code --no-sandbox|g
+      s|@@ICON@@|{{env.DST}}/resources/app/resources/linux/code.png|g
+    " {{env.DST}}/resources/app/resources/linux/code.desktop >{{env.PREFIX}}/share/applications/code.desktop
+    ln -sf {{env.DST}}/bin/code {{env.PREFIX}}/bin/
+  '''
+]
+#: }}}
