@@ -21,15 +21,17 @@
           file
           gcc
           gnumake
+          openfoam
           pigz
           toybox
           unzip
           vim
           zlib
-
-          #TODO:devShell.openfoam
-          # self.packages.${pkgs.stdenv.hostPlatform.system}.openfoam
         ];
+
+        environment.interactiveShellInit = ''
+          source ${pkgs.openfoam}/etc/profile.d/foam${pkgs.openfoam.version}.sh
+        '';
       };
 
     nixosModules.system =

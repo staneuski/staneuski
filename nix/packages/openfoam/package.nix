@@ -6,11 +6,13 @@
 
   bash, bison, flex, gnumake, m4,
   boost, cgal, fftw, mpi, scotch, metis, parmetis, trilinos-mpi, zlib,
+
+  version ? "dev",
+  rev ? "20260502",
+  hash ? "sha256-H6UCJ6DxsgHAhl5OOGutCN4mSAKmhr59rA7Gqme+RqI=",
 }:
 let
   ptscotch = scotch.override { withPtScotch = true; };
-
-  version = "dev";
 in
 stdenv.mkDerivation {
   pname = "openfoam";
@@ -26,13 +28,13 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "OpenFOAM";
     repo = "OpenFOAM-${version}";
-    rev = "20260130";
-    sha256 = "sha256-h3Smw/EyVD2utZZ3eW6UUl7ECjDIRj9247Bz1xmKNd8=";
+    inherit rev hash;
   };
 
   nativeBuildInputs = [ bash bison flex gnumake m4 ];
   buildInputs = [ boost cgal fftw mpi.dev ptscotch metis parmetis trilinos-mpi zlib ];
   propagatedBuildInputs = [ mpi ];
+  propagatedUserEnvPkgs = [ mpi ];
 
   passthru.updateScript = nix-update-script { };
   sourceRoot = ".";
@@ -97,8 +99,8 @@ stdenv.mkDerivation {
     cp -r $WM_PROJECT_DIR/* $out/opt/$(basename $WM_PROJECT_DIR)/
 
     mkdir -p $out/etc/profile.d
-    cat > $out/etc/profile.d/openfoam.sh <<EOF
-    openfoam() {
+    cat > $out/etc/profile.d/foam${version}.sh <<EOF
+    foam${version}() {
       source "$out/opt/OpenFOAM-${version}/etc/bashrc"
     }
     EOF

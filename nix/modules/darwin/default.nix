@@ -2,30 +2,28 @@
   self,
   inputs,
   withSystem,
-  moduleWithSystem,
   ...
 }:
 {
   flake = {
-    darwinModules.systemPackages = moduleWithSystem (
-      perSystem@{ config, ... }:
+    darwinModules.systemPackages =
       { pkgs, ... }:
       {
-        environment.systemPackages = [
+        environment.systemPackages = with pkgs; [
           #: Common, GUI
-          pkgs.kitty
-          perSystem.config.packages.paraview
-          pkgs.syncthing
-          pkgs.vscode
-          pkgs.zotero
+          kitty
+          paraview
+          syncthing
+          vscode
+          zotero
 
           #: Darwin, CLI
-          pkgs.eza
+          eza
 
           #: Darwin, GUI
-          pkgs.ice-bar
-          pkgs.maccy
-          pkgs.monitorcontrol
+          ice-bar
+          maccy
+          monitorcontrol
         ];
 
         homebrew = {
@@ -61,8 +59,7 @@
             upgrade = true;
           };
         };
-      }
-    );
+      };
 
     darwinModules.system =
       {
