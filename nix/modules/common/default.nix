@@ -15,9 +15,12 @@
   flake.nixosModules.default =
     { pkgs, ... }:
     {
+      _module.args.userName = "stasta";
+
       environment.systemPackages = with pkgs; [
         #: Common, CLI
         btop
+        claude-code
         git
         git-lfs
         gnupg

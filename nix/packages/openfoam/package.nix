@@ -96,6 +96,13 @@ stdenv.mkDerivation {
     mkdir -p $out/opt/$(basename $WM_PROJECT_DIR)/
     cp -r $WM_PROJECT_DIR/* $out/opt/$(basename $WM_PROJECT_DIR)/
 
+    mkdir -p $out/etc/profile.d
+    cat > $out/etc/profile.d/openfoam.sh <<EOF
+    openfoam() {
+      source "$out/opt/OpenFOAM-${version}/etc/bashrc"
+    }
+    EOF
+
     runHook postInstall
   '';
 }

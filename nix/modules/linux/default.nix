@@ -4,9 +4,6 @@
   withSystem,
   ...
 }:
-let
-  userName = "stasta";
-in
 {
   flake = {
     nixosModules.systemPackages =
@@ -51,11 +48,14 @@ in
           self.nixosModules.systemPackages
           self.nixosModules.system
           inputs.nixos-wsl.nixosModules.default
-          {
-            system.stateVersion = "26.05";
-            wsl.defaultUser = userName;
-            wsl.enable = true;
-          }
+          (
+            { userName, ... }:
+            {
+              system.stateVersion = "26.05";
+              wsl.defaultUser = userName;
+              wsl.enable = true;
+            }
+          )
         ];
       }
     );

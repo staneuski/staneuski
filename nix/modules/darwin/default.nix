@@ -5,9 +5,6 @@
   moduleWithSystem,
   ...
 }:
-let
-  userName = "stasta";
-in
 {
   flake = {
     darwinModules.systemPackages = moduleWithSystem (
@@ -68,7 +65,11 @@ in
     );
 
     darwinModules.system =
-      { pkgs, ... }:
+      {
+        pkgs,
+        userName,
+        ...
+      }:
       {
         system = {
           primaryUser = userName;
@@ -136,14 +137,17 @@ in
           self.darwinModules.systemPackages
           self.darwinModules.system
           inputs.nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              autoMigrate = true;
-              enable = true;
-              enableRosetta = false;
-              user = userName;
-            };
-          }
+          (
+            { userName, ... }:
+            {
+              nix-homebrew = {
+                autoMigrate = true;
+                enable = true;
+                enableRosetta = false;
+                user = userName;
+              };
+            }
+          )
         ];
       }
     );
