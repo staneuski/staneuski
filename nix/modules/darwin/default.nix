@@ -1,6 +1,8 @@
 {
   self,
   inputs,
+  withSystem,
+  moduleWithSystem,
   ...
 }:
 let
@@ -8,24 +10,25 @@ let
 in
 {
   flake = {
-    darwinModules.systemPackages =
+    darwinModules.systemPackages = moduleWithSystem (
+      perSystem@{ config, ... }:
       { pkgs, ... }:
       {
-        environment.systemPackages = with pkgs; [
+        environment.systemPackages = [
           #: Common, GUI
-          kitty
-          (pkgs.callPackage ../../packages/paraview/package.nix { })
-          syncthing
-          vscode
-          zotero
+          pkgs.kitty
+          perSystem.config.packages.paraview
+          pkgs.syncthing
+          pkgs.vscode
+          pkgs.zotero
 
           #: Darwin, CLI
-          eza
+          pkgs.eza
 
           #: Darwin, GUI
-          ice-bar
-          maccy
-          monitorcontrol
+          pkgs.ice-bar
+          pkgs.maccy
+          pkgs.monitorcontrol
         ];
 
         homebrew = {
@@ -61,7 +64,8 @@ in
             upgrade = true;
           };
         };
-      };
+      }
+    );
 
     darwinModules.system =
       { pkgs, ... }:
@@ -122,15 +126,16 @@ in
         };
       };
 
-    darwinConfigurations.duke = inputs.nixpkgs.lib.darwinSystem {
-      system = "x86_64-darwin";
-      modules = [
-        self.nixosModules.default
-        self.darwinModules.systemPackages
-        self.darwinModules.system
-        inputs.nix-homebrew.darwinModules.nix-homebrew
-        (
-          { pkgs, ... }:
+    darwinConfigurations.duke = withSystem "x86_64-darwin" (
+      { pkgs, ... }:
+      inputs.nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        modules = [
+          { nixpkgs.pkgs = pkgs; }
+          self.nixosModules.default
+          self.darwinModules.systemPackages
+          self.darwinModules.system
+          inputs.nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
               autoMigrate = true;
@@ -139,8 +144,8 @@ in
               user = userName;
             };
           }
-        )
-      ];
-    };
+        ];
+      }
+    );
   };
 }

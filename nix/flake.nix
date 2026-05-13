@@ -12,14 +12,7 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
   outputs =
-    inputs@{
-      nixpkgs,
-      flake-parts,
-      nix-darwin,
-      nix-homebrew,
-      nixos-wsl,
-      ...
-    }:
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-darwin"
@@ -27,6 +20,7 @@
       ];
       imports = [
         ./modules/common
+        ./modules/packages
         ./modules/darwin
         ./modules/linux
       ];

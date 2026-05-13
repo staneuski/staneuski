@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  withSystem,
   ...
 }:
 let
@@ -30,7 +31,7 @@ in
           zlib
 
           #TODO:devShell.openfoam
-          # (pkgs.callPackage ../../packages/openfoam/package.nix { })
+          # self.packages.${pkgs.stdenv.hostPlatform.system}.openfoam
         ];
       };
 
@@ -40,22 +41,23 @@ in
         programs.nix-ld.enable = true;
       };
 
-    nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        self.nixosModules.default
-        self.nixosModules.systemPackages
-        self.nixosModules.system
-        inputs.nixos-wsl.nixosModules.default
-        (
-          { pkgs, ... }:
+    nixosConfigurations.wsl = withSystem "x86_64-linux" (
+      { pkgs, ... }:
+      inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          { nixpkgs.pkgs = pkgs; }
+          self.nixosModules.default
+          self.nixosModules.systemPackages
+          self.nixosModules.system
+          inputs.nixos-wsl.nixosModules.default
           {
             system.stateVersion = "26.05";
             wsl.defaultUser = userName;
             wsl.enable = true;
           }
-        )
-      ];
-    };
+        ];
+      }
+    );
   };
 }
