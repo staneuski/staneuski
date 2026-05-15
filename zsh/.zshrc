@@ -143,6 +143,7 @@ zinit wait'1b' lucid as'none' for \
 
 # Load atuin after fzf to overwrite key bindings
 zinit wait'1c' lucid as'none' for \
+    if'[[ $(uname) == "Linux" ]]' \
     from'gh-r' bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone'./atuin init zsh >init.zsh' atpull'%atclone' \
     src'init.zsh' nocompile'!' \

@@ -27,10 +27,14 @@
         gnupg
         nixfmt-tree
         python314
-        uutils-coreutils-noprefix
-        uutils-diffutils
-        uutils-findutils
-        uutils-sed
+        # uutils-coreutils-noprefix
+        # uutils-diffutils
+        # uutils-findutils
+        # uutils-sed
+        coreutils
+        diffutils
+        findutils
+        gnused
         uv
         zsh
       ];
