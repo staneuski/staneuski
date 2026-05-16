@@ -18,6 +18,7 @@
           zotero
 
           #: Darwin, CLI
+          atuin
           eza
 
           #: Darwin, GUI
@@ -38,23 +39,20 @@
           ];
           casks = [
             "inkscape"
-            "meshlab"
-            "ungoogled-chromium"
             "vlc"
 
             "amethyst"
             "anydesk"
             "coconutbattery"
             "hammerspoon"
-            "logi-options+"
             "xquartz"
           ];
           masApps = {
             "Hush" = 1544743900;
-            "Strongbox" = 897283731;
+            "Strongbox" = 1481853033;
           };
           onActivation = {
-            autoUpdate = true;
+            autoUpdate = false;
             cleanup = "zap";
             upgrade = true;
           };
@@ -93,7 +91,6 @@
                 "/System/Applications/Mail.app"
                 "${pkgs.kitty}/Applications/Kitty.app"
                 "${pkgs.vscode}/Applications/Visual Studio Code.app"
-                "/Applications/Chromium.app"
               ];
               persistent-others = [
                 "/Users/${userName}/Downloads"
@@ -130,7 +127,7 @@
         system = "x86_64-darwin";
         modules = [
           { nixpkgs.pkgs = pkgs; }
-          self.nixosModules.default
+          self.commonModule
           self.darwinModules.systemPackages
           self.darwinModules.system
           inputs.nix-homebrew.darwinModules.nix-homebrew
