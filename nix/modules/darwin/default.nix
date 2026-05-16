@@ -51,7 +51,7 @@
           ];
           masApps = {
             "Hush" = 1544743900;
-            "Strongbox" = 897283731;
+            "Strongbox" = 1481853033;
           };
           onActivation = {
             autoUpdate = true;
@@ -130,7 +130,7 @@
         system = "x86_64-darwin";
         modules = [
           { nixpkgs.pkgs = pkgs; }
-          self.nixosModules.default
+          self.commonModule
           self.darwinModules.systemPackages
           self.darwinModules.system
           inputs.nix-homebrew.darwinModules.nix-homebrew

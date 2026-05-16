@@ -38,6 +38,7 @@
       { pkgs, ... }:
       {
         programs.nix-ld.enable = true;
+        users.defaultUserShell = pkgs.zsh;
       };
 
     nixosConfigurations.wsl = withSystem "x86_64-linux" (
@@ -46,7 +47,7 @@
         system = "x86_64-linux";
         modules = [
           { nixpkgs.pkgs = pkgs; }
-          self.nixosModules.default
+          self.commonModule
           self.nixosModules.systemPackages
           self.nixosModules.system
           inputs.nixos-wsl.nixosModules.default

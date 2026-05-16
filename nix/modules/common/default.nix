@@ -13,7 +13,7 @@
         overlays = [ self.overlays.default ];
       };
     };
-  flake.nixosModules.default =
+  flake.commonModule =
     { pkgs, ... }:
     {
       _module.args.userName = "stasta";
@@ -48,6 +48,5 @@
 
       # Create /etc/zshrc that loads the nix-darwin environment.
       programs.zsh.enable = true;
-      users.defaultUserShell = pkgs.zsh;
     };
 }
