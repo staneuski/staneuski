@@ -108,8 +108,12 @@
         users.knownUsers = [ "lilvee" ];
         users.users.lilvee = {
           uid = 502;
+          gid = 20;
           name = "lilvee";
+          description = "lilvee";
           home = "/Users/lilvee";
+          shell = "/bin/zsh";
+          isHidden = false;
         };
 
         # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
