@@ -105,6 +105,13 @@
           };
         };
 
+        users.knownUsers = [ "lilvee" ];
+        users.users.lilvee = {
+          uid = 502;
+          name = "lilvee";
+          home = "/Users/lilvee";
+        };
+
         # Reproduce https://github.com/syncthing/syncthing/blob/main/etc/macos-launchd/syncthing.plist
         launchd.user.agents.syncthing = {
           command = "${pkgs.syncthing}/bin/syncthing";
