@@ -74,7 +74,7 @@ bindkey '^X^E' edit-command-line
 [[ $(uname) == 'Linux' ]] &&
   export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
-zinit lucid as'none' from'gh-r' id-as for \
+zinit lucid as'null' from'gh-r' id-as for \
     atclone'
       ./starship init zsh >init.zsh
       ./starship completions zsh >_starship
@@ -83,7 +83,7 @@ zinit lucid as'none' from'gh-r' id-as for \
     lbin'!starship' \
   starship/starship
 # https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
-zinit wait'1a' lucid as'none' from'gh-r' id-as for \
+zinit wait'1a' lucid as'null' from'gh-r' id-as for \
     if'[[ $(uname) == "Linux" ]]' \
     lbin'!eza' \
   eza-community/eza \
@@ -97,7 +97,7 @@ zinit wait'1a' lucid as'none' from'gh-r' id-as for \
 #: }}}
 
 #: CLIs, plugins {{{
-zinit wait'1b' lucid as'none' for \
+zinit wait'1b' lucid as'null' for \
     atpull'%atclone' \
     configure make'PREFIX=${ZPFX}' \
     lbin'!entr' lman'entr.1' id-as \
@@ -142,7 +142,7 @@ zinit wait'1b' lucid as'none' for \
   mikefarah/yq
 
 # Load atuin after fzf to overwrite key bindings
-zinit wait'1c' lucid as'none' for \
+zinit wait'1c' lucid as'null' for \
     if'[[ $(uname) == "Linux" ]]' \
     from'gh-r' bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone'./atuin init zsh >init.zsh' atpull'%atclone' \
@@ -157,7 +157,7 @@ zinit wait'1b' lucid light-mode for \
 #: }}}
 
 #: TUIs, package managers {{{
-zinit wait'2' lucid as'none' from'gh-r' id-as for \
+zinit wait'2' lucid as'null' from'gh-r' id-as for \
     extract'!' cp'autocomplete/bat.zsh -> _bat' \
     atload"alias -g B='| bat -p'" \
     lbin'!bat' lman"bat.1" \
