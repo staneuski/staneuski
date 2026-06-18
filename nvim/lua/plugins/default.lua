@@ -9,10 +9,12 @@ return {
     opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
       dashboard = { preset = { header = "" } },
-      explorer = {
-        explorer = {
-          hidden = true,
-          ignored = true,
+      picker = {
+        sources = {
+          explorer = {
+            hidden = true,
+            ignored = true,
+          },
         },
       },
     },
