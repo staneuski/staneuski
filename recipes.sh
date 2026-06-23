@@ -1,76 +1,31 @@
 #!/usr/bin/env bash
 
 export PREFIX=${PREFIX:-$HOME/.local}
+export STOW_PKGS=${STOW_PKGS:-$PREFIX/stow}
 export TMPDIR=${TMPDIR:-/tmp}
 
-export HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-$PREFIX/opt/homebrew}
-export NIX_PREFIX=${NIX_PREFIX:-$PREFIX/nix}
+export BASH_COMPLETION_USER_DIR=${BASH_COMPLETION_USER_DIR:-$PREFIX/share/bash-completion/completions}
 
-mkdir -p $PREFIX/{bin,opt,share/{applications,man/man{1,2,3,4,5,6,7,8,9}}}
-mkdir -p $BASH_COMPLETION_USER_DIR
+mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1,2,3,4,5,6,7,8,9}},state} \
+  "${BASH_COMPLETION_USER_DIR}" "${STOW_PKGS}"
 
-#: atuin
-(
-  # curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-)
-
-#: curl
+#: stow
 (
   set -euo pipefail
-  VER=8.16.0
-  SRC="${TMPDIR}/${USER}/curl"
+  PKG=stow
+  SRC="${TMPDIR}/${USER}/${PKG}"
 
-  mkdir -p $SRC
-  curl -sL https://curl.se/download/curl-${VER}.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
+  # cpan Test::Output
+  mkdir -p "${SRC}"
+  curl -sL 'http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz' |
+    tar -C "${SRC}/" --strip-components=1 -xvz
 
-  cd $SRC
-  ./configure --prefix=$PREFIX --with-openssl
-  make -j$(nproc)
+  cd "${SRC}"
+  "${SRC}/configure" --prefix="${STOW_PKGS}/${PKG}"
   make install
 
-  rm -rf $SRC
-)
-
-#: bat
-(
-  set -euo pipefail
-  VER=0.25.0
-  ARCH=$(uname -m)
-  SRC="${TMPDIR}/${USER}/bat"
-
-  mkdir -p $SRC
-  curl -sL https://github.com/sharkdp/bat/releases/download/v${VER}/bat-v${VER}-${ARCH}-unknown-linux-musl.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
-
-  mv -f $SRC/bat $PREFIX/bin/
-  mv -f $SRC/*.1 $PREFIX/share/man/man1/
-  mv -f $SRC/autocomplete/bat.bash $BASH_COMPLETION_USER_DIR/
-
-  rm -rf $SRC
-)
-
-#: brew
-(
-  set -euo pipefail
-
-  # https://docs.brew.sh/Installation#alternative-installs
-  mkdir -p $HOMEBREW_PREFIX
-  curl -L https://github.com/Homebrew/brew/tarball/master |
-    tar -C $HOMEBREW_PREFIX --strip-components 1 -xvz
-
-  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
-  brew update --force --quiet
-  chmod -R go-w "$($HOMEBREW_PREFIX/bin/brew --prefix)/share/zsh"
-)
-
-#: direnv
-(
-  set -euo pipefail
-  ARCH=$(uname | tr '[:upper:]' '[:lower:]')
-
-  curl -sL https://github.com/direnv/direnv/releases/latest/download/direnv.linux-amd64 \
-    --output $PREFIX/direnv
+  ./bin/stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
 )
 
 #: doublecmd
@@ -78,290 +33,144 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   set -euo pipefail
   VER=1.1.32
   DST="${PREFIX}/opt/doublecmd"
+  ARCH=$(uname -m)
 
   mkdir -p "${DST}"
-  curl -sL "https://github.com/doublecmd/doublecmd/releases/download/v${VER}/doublecmd-${VER}.gtk2.x86_64.tar.xz" |
+  curl -sL "https://github.com/doublecmd/doublecmd/releases/download/v${VER}/doublecmd-${VER}.gtk2.${ARCH}.tar.xz" |
     tar -C "${DST}" --strip-components 1 -xJ
   curl -LO 'https://github.com/doublecmd/doublecmd/raw/refs/heads/master/install/linux/doublecmd.desktop' \
     --output-dir "${DST}/"
-
-  ln -sf "${DST}/doublecmd" "${PREFIX}/bin/"
-
   command -v desktop-file-edit >/dev/null &&
     desktop-file-install --dir="${PREFIX}/share/applications" \
-      --set-icon="${DST}/pixmaps/mainicon/alt/256px-dcfinal.png" \
+      --set-icon="${DST}/doublecmd.png" \
       --set-key=Exec --set-value="${DST}/doublecmd %f" \
       "${DST}/doublecmd.desktop"
+
+  ln -sf "${DST}/doublecmd" "${PREFIX}/bin/"
 )
 
 #: entr
 (
   set -euo pipefail
-  VER=5.7
-  SRC="${TMPDIR}/${USER}/entr"
+  VER=5.8
+  PKG=entr
+  SRC="${TMPDIR}/${USER}/${PKG}"
 
-  mkdir -p $SRC
-  curl -sL https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
+  mkdir -p "${SRC}"
+  curl -sL "https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz" |
+    tar -C "${SRC}/" --strip-components=1 -xvz
 
-  $SRC/./configure
-  cd $SRC
-  PREFIX=$PREFIX make install
+  cd "${SRC}"
+  ./configure
+  PREFIX="${STOW_PKGS}/${PKG}" make install
 
-  rm -rf $SRC
-)
-
-#: eza
-(
-  set -euo pipefail
-  VER=0.23.4
-  ARCH=$(uname -m)
-  SRC="${TMPDIR}/${USER}/eza"
-
-  mkdir -p $SRC
-  curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/eza_${ARCH}-unknown-linux-musl.tar.gz |
-    tar -C $PREFIX/bin -xvz
-  for d in completions man; do
-    mkdir -p $SRC/$d
-    curl -sL https://github.com/eza-community/eza/releases/download/v${VER}/${d}-${VER}.tar.gz |
-      tar -C $SRC/$d --strip-components=3 -xvz
-  done
-
-  mv -f $SRC/completions/eza $BASH_COMPLETION_USER_DIR/eza.bash
-  mv -f $SRC/man/*.1 $PREFIX/share/man/man1/
-  mv -f $SRC/man/*.5 $PREFIX/share/man/man5/
-
-  rm -rf $SRC
-)
-
-#: fzf
-(
-  VER=0.66.0
-
-  curl -sL https://github.com/junegunn/fzf/releases/download/v${VER}/fzf-${VER}-linux_amd64.tar.gz |
-    tar -C $PREFIX/bin -xvz
-
-  fzf --bash >$BASH_COMPLETION_USER_DIR/fzf.bash
-)
-
-#: git
-(
-  set -euo pipefail
-  VER=2.51.1
-  SRC="${TMPDIR}/${USER}/git"
-
-  mkdir -p $SRC
-  curl -L https://mirrors.edge.kernel.org/pub/software/scm/git/git-v${VER}.tar.xz |
-    tar -C $SRC/ --strip-components=1 -xvz
-
-  # Use curl installed in $PREFIX
-  export CFLAGS="-I$PREFIX/include"
-  export LDFLAGS="-L$PREFIX/lib"
-  export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
-
-  cd $SRC
-  $SRC/./configure --prefix=$PREFIX --with-curl=$PREFIX
-  make prefix=$PREFIX install
-
-  rm -rf $SRC
+  stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
 )
 
 #: git-lfs
 (
   set -euo pipefail
   VER=3.7.1
-  ARCH=$(uname -m)
-  SRC="${TMPDIR}/${USER}/git-lfs"
+  PKG=git-lfs
+  SRC="${TMPDIR}/${USER}/${PKG}"
 
-  mkdir -p $SRC
-  curl -sL https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
+  mkdir -p "${SRC}" "${STOW_PKGS}/${PKG}"
+  curl -sL "https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz" |
+    tar -C "${SRC}/" --strip-components=1 -xvz
 
-  PREFIX=$PREFIX $SRC/install.sh
+  PREFIX="${STOW_PKGS}/${PKG}" "${SRC}/install.sh"
 
-  mv -f $SRC/man/man1/* $PREFIX/share/man/man1/
-  mv -f $SRC/man/man5/* $PREFIX/share/man/man5/
-  mv -f $SRC/man/man7/* $PREFIX/share/man/man7/
-
-  rm -rf $SRC
-)
-
-#: jq
-(
-  set -euo pipefail
-  VER=1.8.1
-
-  curl -L https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-linux-amd64 \
-    --output $PREFIX/bin/jq
-  chmod +x $PREFIX/bin/jq
-
-  curl -sL https://github.com/jqlang/jq/releases/download/jq-${VER}/jq-${VER}.tar.gz |
-    tar -C $PREFIX/share/man/man1 --strip-components=1 -xvz jq-${VER}/jq.1
-)
-
-#: lazygit
-(
-  VER=0.51.1
-  ARCH=$(uname -m)
-
-  curl -sL https://github.com/jesseduffield/lazygit/releases/download/v${VER}/lazygit_${VER}_Linux_${ARCH}.tar.gz |
-    tar -C $PREFIX/bin -xvz lazygit
+  stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
 )
 
 #: lf
 (
-  curl -sL https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz |
-    tar -C $PREFIX/bin -xvz
-)
+  PKG=lf
+  DST="${STOW_PKGS}/${PKG}"
 
-#: neovim
-(
-  curl -sL https://github.com/neovim/neovim-releases/releases/download/stable/nvim-linux-x86_64.tar.gz |
-    tar -C $PREFIX --strip-components=1 -xvz
+  mkdir -p "${DST}/bin"
+  curl -sL 'https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz' |
+    tar -C "${DST}/bin" -xvz
+  curl -sLO 'https://github.com/gokcehan/lf/raw/refs/heads/master/lf.1' \
+    --output-dir "${DST}/man/man1" --create-dirs
+
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: NerdFonts
 (
   set -euo pipefail
-  FONT=JetBrainsMono
-  SRC="${TMPDIR}/${USER}/"
-  DST="${PREFIX}/share/fonts/"
+  PKG=NerdFonts
+  SRC="${TMPDIR}/${USER}/${PKG}"
+  DST="${STOW_PKGS}/${PKG}/share/fonts"
 
-  mkdir -p "${SRC}" "${DST}"
-  curl -LO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$FONT.zip \
-    --create-dirs --output-dir "${SRC}"
-  unzip -j -q "${SRC}/${FONT}.zip" -d "${DST}"
+  mkdir -p "${DST}"
+  for font in JetBrainsMono; do
+    curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" \
+      --output-dir "${SRC}" --create-dirs
+    unzip -ojq "${SRC}/${font}.zip" -d "${DST}"
+  done
 
-  # rm -rf "${SRC}/${FONT}.zip"
+  stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}/${PKG}"
 )
 
 #: nvm
 (
   set -euo pipefail
-  VER=0.40.3
+  VER=0.40.5
+  NVM_DIR=${NVM_DIR:-${PREFIX}/opt/nvm}
 
-  mkdir -p $NVM_DIR
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$VER/install.sh | NVM_DIR=$NVM_DIR bash
+  mkdir -p "${NVM_DIR}"
+  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${VER}/install.sh" |
+    PROFILE=/dev/null NVM_DIR="${NVM_DIR}" bash
 )
 
 #: paraview
 (
   set -euo pipefail
-  VER=6.0.1
+  VER=6.1.1
+  PKG="ParaView-${VER%.*}"
+  DST="${STOW_PKGS}/${PKGS}"
   PY=3.12
-  RENDERING="" # "" | "-egl" | "-osmesa"
-  DST="${PREFIX}/opt/ParaView-${VER%.*}"
 
   mkdir -p "${DST}"
-  curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}${RENDERING}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
+  curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
     tar -C "${DST}" --strip-components 1 -xvz
-
-  ln -sf "${DST}/bin/"* "${PREFIX}/bin/"
-
   command -v desktop-file-edit >/dev/null &&
-    desktop-file-install --dir="${PREFIX}/share/applications" \
+    desktop-file-install --dir="${DST}/share/applications" \
       --set-name="ParaView v${VER%.*}" \
       --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
       --set-key=Exec --set-value="${DST}/bin/paraview %f" \
       --set-key=TryExec --set-value="${DST}/bin/paraview" \
       --set-key=StartupWMClass --set-value="${DST}/bin/paraview" \
       "${DST}/share/applications/org.paraview.ParaView.desktop"
+
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: pigz
 (
   set -euo pipefail
   VER=2.8
-  SRC="${TMPDIR}/${USER}/pigz"
+  PKG=pigz
+  SRC="${TMPDIR}/${USER}/${PKG}"
+  DST="${STOW_PKGS}/${PKG}"
 
-  mkdir -p $SRC
-  curl -sL https://github.com/madler/pigz/archive/refs/tags/v${VER}.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
+  mkdir -p "${SRC}"
+  curl -sLk "https://github.com/madler/pigz/archive/refs/tags/v${VER}.tar.gz" |
+    tar -C "${SRC}/" --strip-components=1 -xvz
 
-  cd $SRC
-  make
+  make -C "${SRC}"
 
-  mv -f $SRC/{,un}pigz $PREFIX/bin/
-  mv -f $SRC/*.1 $PREFIX/share/man/man1/
+  mkdir -p "${DST}/"{bin,share/man/man1}
+  find "${SRC}" -maxdepth 1 -executable -type f -exec mv -f {} "${DST}/bin" \;
+  mv -f "${SRC}/pigz.1" "${DST}/share/man/man1/"
 
-  rm -rf $SRC
-)
-
-#: rclone
-(
-  set -euo pipefail
-  VER=1.71.1
-  ARCH=$(uname | tr '[:upper:]' '[:lower:]')
-  SRC="${TMPDIR}/${USER}/rclone"
-  [ "$ARCH" = "darwin" ] && ARCH="osx"
-
-  echo "Installing rclone $VER for $ARCH"
-
-  mkdir -p $SRC
-  curl -sL https://github.com/rclone/rclone/releases/download/v${VER}/rclone-v${VER}-${ARCH}-amd64.zip \
-    --output rclone.zip
-  unzip -j -q rclone.zip -d $SRC
-
-  mv -f $SRC/rclone $PREFIX/bin/
-  mv -f $SRC/*.1 $PREFIX/share/man/man1/
-
-  rm -rf $SRC
-
-  rclone completion bash $BASH_COMPLETION_USER_DIR/rclone.bash
-)
-
-#: rip
-(
-  set -euo pipefail
-  ARCH=$(uname -m)
-
-  curl -sL https://github.com/MilesCranmer/rip2/releases/latest/download/rip-Linux-${ARCH}-musl.tar.gz |
-    tar -C $PREFIX/bin -xvz
-
-  rip completions bash >$BASH_COMPLETION_USER_DIR/rip.bash
-)
-
-#: ripgrep
-(
-  set -euo pipefail
-  VER=15.0.0
-  ARCH=$(uname -m)
-  SRC="${TMPDIR}/${USER}/ripgrep"
-
-  mkdir -p $SRC
-  curl -sL https://github.com/BurntSushi/ripgrep/releases/download/${VER}/ripgrep-${VER}-${ARCH}-unknown-linux-musl.tar.gz |
-    tar -C $SRC --strip-components=1 -xvz
-
-  mv -f $SRC/rg $PREFIX/bin/
-  mv -f $SRC/complete/rg.bash $BASH_COMPLETION_USER_DIR/
-  mv -f $SRC/doc/rg.1 $PREFIX/share/man/man1/
-
-  rm -rf $SRC
-)
-
-#: starship
-(
-  curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir $PREFIX/bin
-
-  starship completions bash >$BASH_COMPLETION_USER_DIR/starship.bash
-)
-
-#: stow
-(
-  set -euo pipefail
-  SRC="${TMPDIR}/${USER}/gstow"
-
-  # cpan Test::Output
-
-  mkdir -p $SRC
-  curl -sL http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz |
-    tar -C $SRC/ --strip-components=1 -xvz
-
-  cd $SRC
-  $SRC/./configure --prefix=$PREFIX
-  make install
-
-  rm -rf $SRC
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
 )
 
 #: vscode
@@ -385,22 +194,4 @@ mkdir -p $BASH_COMPLETION_USER_DIR
   " "${DST}/resources/app/resources/linux/code.desktop" >"${PREFIX}/share/applications/code.desktop"
 
   ln -sf "${DST}/resources/completions/bash/code" "${BASH_COMPLETION_USER_DIR}/code.bash"
-)
-
-#: yq
-(
-  set -euo pipefail
-
-  curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
-    --output $PREFIX/bin/yq
-  chmod +x $PREFIX/bin/yq
-
-  yq completion bash >$BASH_COMPLETION_USER_DIR/yq.bash
-  curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_man_page_only.tar.gz |
-    tar -C $PREFIX/share/man/man1 -xvz yq.1
-)
-
-#: zoxide
-(
-  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 )
