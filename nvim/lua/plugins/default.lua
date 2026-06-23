@@ -9,19 +9,17 @@ return {
     opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
       dashboard = { preset = { header = "" } },
+      -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md#explorer
       picker = {
         sources = {
-          explorer = {
-            hidden = true,
-            ignored = true,
-          },
+          explorer = { hidden = true },
+          files = { hidden = true },
         },
       },
     },
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    -- branch = "master",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         "cpp",
