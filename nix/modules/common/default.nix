@@ -91,7 +91,6 @@
         #: Common, CLI
         age
         btop
-        claude-code
         git
         git-lfs
         gnupg

@@ -97,13 +97,13 @@ zinit wait'1a' lucid as'null' from'gh-r' id-as for \
 #: }}}
 
 #: CLIs, plugins {{{
-zinit wait'1b' lucid as'null' for \
+zinit wait'1b' lucid as'null' id-as for \
     atpull'%atclone' \
     configure make'PREFIX=${ZPFX}' \
-    lbin'!entr' lman'entr.1' id-as \
+    lbin'!entr' lman'entr.1' \
   eradman/entr \
     from'gh-r' extract'!' \
-    lbin'!fd' lman'fd.1' id-as \
+    lbin'!fd' lman'fd.1' \
   @sharkdp/fd \
     from'gh-r' \
     atclone'./fzf --zsh >init.zsh' atpull'%atclone' \
@@ -111,43 +111,43 @@ zinit wait'1b' lucid as'null' for \
       export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
       bindkey '^[r' fzf-history-widget
       bindkey '^Xr' fzf-history-widget
-    " src'init.zsh' id-as \
+    " src'init.zsh' \
     lbin'!fzf' \
   junegunn/fzf \
     if'! (( $+commands[pigz] ))' \
     make \
-    lbin'!pigz' lman'pigz.1' id-as \
+    lbin'!pigz' lman'pigz.1' \
   madler/pigz \
     from'gh-r' extract'!' \
     atclone'./rclone completion zsh _rclone' atpull'%atclone' \
-    lbin'!rclone' lman'rclone.1' id-as \
+    lbin'!rclone' lman'rclone.1' \
   rclone/rclone \
     from'gh-r' extract'!' \
     atclone'./rip completions zsh >_rip' atpull'%atclone' \
-    lbin'!rip' id-as \
+    lbin'!rip' \
   MilesCranmer/rip2 \
     from'gh-r' extract'!' \
     atload"alias -g RG='| rg'" \
     lbin'!rg' lman'doc/rg.1' \
-    id-as \
   BurntSushi/ripgrep \
+    if'! (( $+commands[stow] ))' \
     extract'!' \
     configure make'install PREFIX=${ZPFX}' \
-    id-as'gstow' \
+    id-as'stow' \
   http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
     from'gh-r' extract'!' \
     atclone'./yq completion zsh >_yq' atpull'%atclone' \
     mv'yq* -> yq' \
-    lbin'!yq' id-as \
+    lbin'!yq' \
   mikefarah/yq
 
 # Load atuin after fzf to overwrite key bindings
-zinit wait'1c' lucid as'null' for \
+zinit wait'1c' lucid as'null' from'gh-r' id-as for \
     if'[[ $(uname) == "Linux" ]]' \
-    from'gh-r' bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+    bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
     atclone'./atuin init zsh >init.zsh' atpull'%atclone' \
     src'init.zsh' nocompile'!' \
-    lbin'!atuin' id-as \
+    lbin'!atuin' \
   atuinsh/atuin
 zinit wait'1b' lucid light-mode for \
   zsh-users/zsh-autosuggestions \
@@ -162,6 +162,11 @@ zinit wait'2' lucid as'null' from'gh-r' id-as for \
     atload"alias -g B='| bat -p'" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
+    lbin'!claude' id-as'claude' \
+  anthropics/claude-code \
+  bpick"*$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
+    lbin'!copilot' id-as'copilot' \
+  @github/copilot-cli \
     atclone'
       curl -sLo _lf https://github.com/gokcehan/lf/raw/refs/heads/master/etc/lf.zsh
       curl -sLO https://github.com/gokcehan/lf/raw/refs/heads/master/lf.1
@@ -183,15 +188,15 @@ zinit wait'2' lucid as'null' from'gh-r' id-as for \
       ./mise use --global usage
     ' atpull'%atclone' \
     src'init.zsh' \
-    lbin'!mise' id-as \
+    lbin'!mise' \
   jdx/mise \
     if'[[ $(uname) == "Darwin" ]]' \
     extract'!' \
-    lbin'!nvim' lman"share/man/man1/nvim.1" \
+    lbin'!nvim' lman'share/man/man1/nvim.1' \
   neovim/neovim \
     if'[[ $(uname) == "Linux" ]]' bpick"*.tar.gz" \
     extract'!' \
-    lbin'!nvim' lman"share/man/man1/nvim.1" \
+    lbin'!nvim' lman'share/man/man1/nvim.1' \
     id-as'neovim' \
   neovim/neovim-releases \
     if'! (( $+commands[node] ))' from'gh' \
@@ -201,7 +206,7 @@ zinit wait'2' lucid as'null' from'gh-r' id-as for \
     if'! (( $+commands[yazi] ))' \
     extract'!' \
     atpull'./ya pkg upgrade' \
-    lbin'!ya' lbin'!yazi' id-as \
+    lbin'!ya' lbin'!yazi' \
   sxyazi/yazi \
     if'! (( $+commands[uv] ))' extract'!' \
     atclone'./uv generate-shell-completion zsh >_uv' atpull'%atclone' \

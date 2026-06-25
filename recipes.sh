@@ -133,7 +133,7 @@ mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1
   set -euo pipefail
   VER=6.1.1
   PKG="ParaView-${VER%.*}"
-  DST="${STOW_PKGS}/${PKGS}"
+  DST="${STOW_PKGS}/${PKG}"
   PY=3.12
 
   mkdir -p "${DST}"
