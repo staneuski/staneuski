@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 export PREFIX=${PREFIX:-$HOME/.local}
-export STOW_PKGS=${STOW_PKGS:-$PREFIX/stow}
 export TMPDIR=${TMPDIR:-/tmp}
+
+export STOW_PKGS=${STOW_PKGS:-$PREFIX/stow}
+export SPACK_ROOT=${SPACK_ROOT:-$PREFIX/opt/spack}
 
 export BASH_COMPLETION_USER_DIR=${BASH_COMPLETION_USER_DIR:-$PREFIX/share/bash-completion/completions}
 
@@ -171,6 +173,20 @@ mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1
 
   stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
   rm -rf "${SRC}"
+)
+
+#: spack
+(
+  set -euo pipefail
+  VER=1.2.0
+
+  mkdir -p "${SPACK_ROOT}"
+  curl -sL "https://github.com/spack/spack/releases/download/v${VER}/spack-${VER}.tar.gz" |
+    tar -C "${SPACK_ROOT}" --strip-components 1 -xvz
+
+  source "${SPACK_ROOT}/share/spack/setup-env.sh"
+  # module load triton/2025.1-gcc gcc/13.3.0 openmpi/5.0.3 patch/2.7.6 flex/2.6.4
+  spack compiler find
 )
 
 #: vscode

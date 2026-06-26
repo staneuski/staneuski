@@ -162,9 +162,10 @@ zinit wait'2' lucid as'null' from'gh-r' id-as for \
     atload"alias -g B='| bat -p'" \
     lbin'!bat' lman"bat.1" \
   @sharkdp/bat \
+    bpick"*${$(uname -s):l}-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
     lbin'!claude' id-as'claude' \
   anthropics/claude-code \
-  bpick"*$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
+  bpick"*${$(uname -s):l}-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
     lbin'!copilot' id-as'copilot' \
   @github/copilot-cli \
     atclone'
