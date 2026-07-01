@@ -19,10 +19,24 @@ New-Item -Force -ItemType SymbolicLink -Target $configDir\Microsoft.WindowsTermi
 #: ParaView
 New-Item -Force -ItemType SymbolicLink -Target $configDir\ParaView -Path "${env:APPDATA}\ParaView"
 New-Item -Force -ItemType SymbolicLink -Target "${env:APPDATA}\ParaView\ParaView.ini" `
-  -Path "${env:APPDATA}\ParaView\ParaView6.0.0.ini"
+  -Path "${env:APPDATA}\ParaView\ParaView6.1.1.ini"
 
 #: PowerShell
-New-Item -Force -ItemType SymbolicLink -Target $configDir\powershell\profile.ps1 -Path $profile
+$pwshProfile = if (Get-Command pwsh -ErrorAction SilentlyContinue) {
+  (& pwsh -NoLogo -NoProfile -Command '$PROFILE.CurrentUserCurrentHost').Trim()
+}
+if ($pwshProfile) {
+  New-Item -Force -ItemType SymbolicLink -Target $configDir\powershell\profile.ps1 -Path $pwshProfile
+  Remove-Item -Force -ErrorAction SilentlyContinue `
+    (Join-Path (Split-Path $pwshProfile) 'profile.ps1')
+}
+
+$powershellProfile = if (Get-Command powershell -ErrorAction SilentlyContinue) {
+  (& powershell -NoLogo -NoProfile -Command '$PROFILE.CurrentUserCurrentHost').Trim()
+}
+if ($powershellProfile) {
+  New-Item -Force -ItemType SymbolicLink -Target $configDir\powershell\profile.ps1 -Path $powershellProfile
+}
 
 #: syncthing
 New-Item -Force -ItemType SymbolicLink -Target "${env:USERPROFILE}\Documents\.stignore_default" `

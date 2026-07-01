@@ -23,6 +23,9 @@ function Use-CachedInit {
 
 #: Integrations {{{
 if ($PSVersionTable.PSVersion -ge [version]"7.4") {
+  #: PSReadLine (must be loaded before atuin, which depends on it)
+  Import-Module PSReadLine -ErrorAction SilentlyContinue
+
   #: starship/starship
   Use-CachedInit starship { starship init powershell }
 
