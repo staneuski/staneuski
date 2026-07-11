@@ -1,21 +1,9 @@
 #$ aptdcon --install "$(yq '.[]' ~/.config/apt.yaml | xargs)"
 #$ ln -sf /usr/share/applications/syncthing-start.desktop ~/.config/autostart/
 ---
+- clang
+- llvm
 - ffmpeg
-- git-lfs
-- imagemagick
-- libxcb-cursor0
-# Toilet paper production
-- pngquant
-- texlive-full
-# Ancient C++ coding: $./bin/tools/foamConfigurePaths --dependency ZOLTAN=system --dependency SCOTCH=system --dependency PARMETIS=system
-- openfoam12
-- openfoam13
-- libscotch-dev
-- libptscotch-dev
-- libtrilinos-zoltan-dev
-- libparmetis-dev
-- libfl-dev
 
 - kitty
 - syncthing

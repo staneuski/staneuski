@@ -8,7 +8,7 @@ export SPACK_ROOT=${SPACK_ROOT:-$PREFIX/opt/spack}
 
 export BASH_COMPLETION_USER_DIR=${BASH_COMPLETION_USER_DIR:-$PREFIX/share/bash-completion/completions}
 
-mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1,2,3,4,5,6,7,8,9}},state} \
+mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fonts,man/man{1,2,3,4,5,6,7,8,9}},state} \
   "${BASH_COMPLETION_USER_DIR}" "${STOW_PKGS}"
 
 #: stow
@@ -28,6 +28,27 @@ mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1
 
   ./bin/stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
   rm -rf "${SRC}"
+)
+
+#: CoolProp
+(
+  set -euo pipefail
+  VER=8.0.0
+  PKG=CoolProp
+  DST="${STOW_PKGS}/${PKG}"
+
+  SRC="https://sourceforge.net/projects/coolprop/files/CoolProp/${VER}/shared_library"
+
+  curl -LO "${SRC}/CoolPropLib.h" --output-dir "${DST}/include" --create-dirs
+  curl -LO "${SRC}/$(uname)/64bit/libCoolProp.so" --output-dir "${DST}/lib" --create-dirs
+
+  chmod +x "${DST}/lib/libCoolProp.so"
+  ln -sf libCoolProp.so "${DST}/lib/libCoolProp.so.${VER}"
+  ln -sf libCoolProp.so "${DST}/lib/libCoolProp.so.${VER%%.*}"
+
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
+  # https://coolprop.org/coolprop/wrappers/SharedLibrary/index.html#linux
+  # g++ -std=c++23 -Wall -O0 -o main -DCOOLPROP_LIB -I"${PREFIX}/include" main.cpp "${PREFIX}/lib/libCoolProp.so" -ldl
 )
 
 #: doublecmd
@@ -85,6 +106,26 @@ mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1
 
   stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
   rm -rf "${SRC}"
+)
+
+#: kitty
+(
+  set -euo pipefail
+  PKG=kitty.app
+  DST="${STOW_PKGS}/${PKG}"
+
+  curl -L 'https://sw.kovidgoyal.net/kitty/installer.sh' |
+    sh /dev/stdin dest="${STOW_PKGS}"
+
+  sed -i "s|Icon=kitty|Icon=${STOW_PKGS}/${PKG}/share/icons/hicolor/256x256/apps/kitty.png|g" \
+    "${STOW_PKGS}/${PKG}/share/applications/kitty"*.desktop
+  sed -i "s|Exec=kitty|Exec=${STOW_PKGS}/${PKG}/bin/kitty|g" \
+    "${STOW_PKGS}/${PKG}/share/applications/kitty"*.desktop
+  echo 'kitty.desktop' >~/.config/xdg-terminals.list
+
+  ln -sf "${STOW_PKGS}/${PKG}/bin/kitt"{en,y} "${PREFIX}/bin/"
+  ln -sf "${STOW_PKGS}/${PKG}/share/applications/"*.desktop "${PREFIX}/share/applications/"
+  # stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: lf
@@ -172,6 +213,32 @@ mkdir -p "${PREFIX}/"{bin,lib{,64},opt,share/{applications,icons,fonts,man/man{1
   mv -f "${SRC}/pigz.1" "${DST}/share/man/man1/"
 
   stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
+)
+
+#: REFPROP
+(
+  set -euo pipefail
+  PKG=REFPROP
+  SRC="${TMPDIR}/${USER}/${PKG}"
+  DST="${PREFIX}/opt/${PKG}"
+
+  # There should be REFPROP.tar.xz at the destination with REFPROP/FORTRAN/ inside
+  tar -C $(dirname "${DST}") -xJvf "${DST}.tar.xz"
+  git clone --recurse-submodules https://github.com/usnistgov/REFPROP-cmake.git "${SRC}"
+  stow --dir="${DST}" --target="${SRC}" .
+
+  mkdir -p "${SRC}/build"
+  cd "${SRC}/build"
+
+  uv venv --system-site-packages
+  source .venv/bin/activate
+  uv pip install numpy six
+
+  cmake .. -DCMAKE_BUILD_TYPE=Release
+  cmake --build . --config Release
+
+  mv -f librefprop.* *.h "${DST}/"
   rm -rf "${SRC}"
 )
 

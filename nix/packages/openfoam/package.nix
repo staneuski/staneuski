@@ -8,8 +8,8 @@
   boost, cgal, fftw, mpi, scotch, metis, parmetis, trilinos-mpi, zlib,
 
   version ? "dev",
-  rev ? "20260502",
-  hash ? "sha256-H6UCJ6DxsgHAhl5OOGutCN4mSAKmhr59rA7Gqme+RqI=",
+  rev ? "20260623",
+  hash ? "sha256-sZVKqV/91u2QFejn/3d3fyxbhDxN3l2jlc+iVR2Pm/8=",
 }:
 let
   ptscotch = scotch.override { withPtScotch = true; };
