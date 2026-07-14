@@ -16,6 +16,8 @@ return {
           files = { hidden = true },
         },
       },
+      -- https://github.com/folke/snacks.nvim/issues/982
+      explorer = { trash = false },
     },
   },
   {
