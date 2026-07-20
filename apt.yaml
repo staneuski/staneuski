@@ -2,17 +2,23 @@
 #$ ln -sf /usr/share/applications/syncthing-start.desktop ~/.config/autostart/
 ---
 - clang
-- llvm
+- build-essential
 - ffmpeg
+- g++
+- gcc
+- gfortran
+- libgcc-13-dev
+- llvm
+- llvm-18-dev
+- make
 
-- kitty
 - syncthing
 
-- caffeine
 - ddcutil
-- gnome-browser-connector
-- gnome-tweaks
 - flatpak
+- gnome-browser-connector
+- gnome-software-plugin-flatpak
 - gnome-sushi
+- gnome-tweaks
 - vlc-plugin-bittorrent
 - wl-clipboard

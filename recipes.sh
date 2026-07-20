@@ -65,7 +65,7 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
     --output-dir "${DST}/"
   command -v desktop-file-edit >/dev/null &&
     desktop-file-install --dir="${PREFIX}/share/applications" \
-      --set-icon="${DST}/doublecmd.png" \
+      --set-icon="${DST}/pixmaps/mainicon/alt/256px-doublecmd.png" \
       --set-key=Exec --set-value="${DST}/doublecmd %f" \
       "${DST}/doublecmd.desktop"
 
@@ -86,23 +86,6 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
   cd "${SRC}"
   ./configure
   PREFIX="${STOW_PKGS}/${PKG}" make install
-
-  stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
-  rm -rf "${SRC}"
-)
-
-#: git-lfs
-(
-  set -euo pipefail
-  VER=3.7.1
-  PKG=git-lfs
-  SRC="${TMPDIR}/${USER}/${PKG}"
-
-  mkdir -p "${SRC}" "${STOW_PKGS}/${PKG}"
-  curl -sL "https://github.com/git-lfs/git-lfs/releases/download/v${VER}/git-lfs-linux-amd64-v${VER}.tar.gz" |
-    tar -C "${SRC}/" --strip-components=1 -xvz
-
-  PREFIX="${STOW_PKGS}/${PKG}" "${SRC}/install.sh"
 
   stow --dir="${STOW_PKGS}" --target="${PREFIX}" --restow "${PKG}"
   rm -rf "${SRC}"
@@ -163,7 +146,7 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
 #: nvm
 (
   set -euo pipefail
-  VER=0.40.5
+  VER=0.40.6
   NVM_DIR=${NVM_DIR:-${PREFIX}/opt/nvm}
 
   mkdir -p "${NVM_DIR}"
@@ -183,7 +166,7 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
   curl -sL "https://www.paraview.org/files/v${VER%.*}/ParaView-${VER}-MPI-Linux-Python${PY}-x86_64.tar.gz" |
     tar -C "${DST}" --strip-components 1 -xvz
   command -v desktop-file-edit >/dev/null &&
-    desktop-file-install --dir="${DST}/share/applications" \
+    desktop-file-install --dir="${PREFIX}/share/applications" \
       --set-name="ParaView v${VER%.*}" \
       --set-icon="${DST}/share/icons/hicolor/96x96/apps/paraview.png" \
       --set-key=Exec --set-value="${DST}/bin/paraview %f" \
@@ -191,29 +174,7 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
       --set-key=StartupWMClass --set-value="${DST}/bin/paraview" \
       "${DST}/share/applications/org.paraview.ParaView.desktop"
 
-  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
-)
-
-#: pigz
-(
-  set -euo pipefail
-  VER=2.8
-  PKG=pigz
-  SRC="${TMPDIR}/${USER}/${PKG}"
-  DST="${STOW_PKGS}/${PKG}"
-
-  mkdir -p "${SRC}"
-  curl -sLk "https://github.com/madler/pigz/archive/refs/tags/v${VER}.tar.gz" |
-    tar -C "${SRC}/" --strip-components=1 -xvz
-
-  make -C "${SRC}"
-
-  mkdir -p "${DST}/"{bin,share/man/man1}
-  find "${SRC}" -maxdepth 1 -executable -type f -exec mv -f {} "${DST}/bin" \;
-  mv -f "${SRC}/pigz.1" "${DST}/share/man/man1/"
-
-  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
-  rm -rf "${SRC}"
+  # stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: REFPROP
@@ -231,9 +192,8 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
   mkdir -p "${SRC}/build"
   cd "${SRC}/build"
 
-  uv venv --system-site-packages
-  source .venv/bin/activate
-  uv pip install numpy six
+  source "${SPACK_ROOT}/share/spack/setup-env.sh"
+  spack load cmake python py-numpy py-six
 
   cmake .. -DCMAKE_BUILD_TYPE=Release
   cmake --build . --config Release
@@ -276,5 +236,6 @@ mkdir -p "${PREFIX}/"{bin,include,lib{,64},opt,share/{applications,doc,icons,fon
     s|@@ICON@@|${DST}/resources/app/resources/linux/code.png|g
   " "${DST}/resources/app/resources/linux/code.desktop" >"${PREFIX}/share/applications/code.desktop"
 
-  ln -sf "${DST}/resources/completions/bash/code" "${BASH_COMPLETION_USER_DIR}/code.bash"
+  ln -sfn "${DST}/resources/completions/zsh/_code" "${ZINIT[COMPLETIONS_DIR]}/_code"
+  ln -sfn "${DST}/resources/completions/bash/code" "${BASH_COMPLETION_USER_DIR}/code.bash"
 )

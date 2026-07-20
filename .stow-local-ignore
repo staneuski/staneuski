@@ -2,7 +2,7 @@
 #: Any file/folder starting with anything but '.'
 ^(?!\.).*
 
-#: Git 
+#: Git
 ^\.git
 ^\.gitignore
 ^\.gitmodules

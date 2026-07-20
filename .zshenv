@@ -7,7 +7,7 @@ export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export HISTSIZE=1000000
 export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 export HISTDUP=erase
-export SAVEHIST="$HISTSIZE"
+export SAVEHIST="${HISTSIZE}"
 #: }}}
 
 #: Functions {{{
@@ -22,8 +22,15 @@ function opt-load() {
 
   [[ "${PATH}" =~ .*"${prefix}/bin".* ]] ||
     export PATH="${prefix}/bin:${PATH}"
+
+  [[ "${C_INCLUDE_PATH}" =~ .*"${prefix}/include".* ]] ||
+    export C_INCLUDE_PATH="${prefix}/include:${C_INCLUDE_PATH}"
+  [[ "${CPLUS_INCLUDE_PATH}" =~ .*"${prefix}/include".* ]] ||
+    export CPLUS_INCLUDE_PATH="${prefix}/include:${CPUS_INCLUDE_PATH}"
+
   [[ "${LD_LIBRARY_PATH}" =~ .*"${prefix}/lib".* ]] ||
     export LD_LIBRARY_PATH="${prefix}/lib:${LD_LIBRARY_PATH}"
+
   [[ "${MANPATH}" =~ .*"${prefix}/share/man".* ]] ||
     export MANPATH="${prefix}/share/man:${MANPATH}"
 }
@@ -39,6 +46,11 @@ function opt-unload() {
 
   PATH="${PATH//:$prefix\/bin/}"
   export PATH="${PATH/#$prefix\/bin:/}"
+
+  C_INCLUDE_PATH="${C_INCLUDE_PATH//:$prefix\/include/}"
+  export C_INCLUDE_PATH="${C_INCLUDE_PATH/#$prefix\/include:/}"
+  CPP_INCLUDE_PATH="${CPP_INCLUDE_PATH//:$prefix\/include/}"
+  export CPP_INCLUDE_PATH="${CPP_INCLUDE_PATH/#$prefix\/include:/}"
 
   LD_LIBRARY_PATH="${LD_LIBRARY_PATH//:$prefix\/lib/}"
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH/#$prefix\/lib:/}"

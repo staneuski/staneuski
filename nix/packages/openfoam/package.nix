@@ -7,9 +7,9 @@
   bash, bison, flex, gnumake, m4,
   boost, cgal, fftw, mpi, scotch, metis, parmetis, trilinos-mpi, zlib,
 
-  version ? "dev",
-  rev ? "20260623",
-  hash ? "sha256-sZVKqV/91u2QFejn/3d3fyxbhDxN3l2jlc+iVR2Pm/8=",
+  version ? "14",
+  rev ? "e6a60ffdbde578fc62e62449e04659b7612dca26",
+  hash ? "sha256-gfAK9adIMD9YHdp1VVDh3FuAgIP9dkqUxSEn7tF6nC4=",
 }:
 let
   ptscotch = scotch.override { withPtScotch = true; };
@@ -32,9 +32,9 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [ bash bison flex gnumake m4 ];
-  buildInputs = [ boost cgal fftw mpi.dev ptscotch metis parmetis trilinos-mpi zlib ];
-  propagatedBuildInputs = [ mpi ];
-  propagatedUserEnvPkgs = [ mpi ];
+  buildInputs = [ boost cgal fftw ptscotch metis parmetis trilinos-mpi zlib ];
+  propagatedBuildInputs = [ mpi mpi.dev ];
+  propagatedUserEnvPkgs = [ mpi mpi.dev ];
 
   passthru.updateScript = nix-update-script { };
   sourceRoot = ".";
@@ -95,13 +95,33 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/opt/$(basename $WM_PROJECT_DIR)/
-    cp -r $WM_PROJECT_DIR/* $out/opt/$(basename $WM_PROJECT_DIR)/
+    mkdir -p $out
+    cp -r $WM_PROJECT_DIR/* $out/
+
+    substituteInPlace $out/bin/foamEtcFile \
+      --replace-fail \
+        'OpenFOAM-*)' '*-openfoam-*)' \
+      --replace-fail \
+        '##OpenFOAM-}' '##*-openfoam-}'
+    substituteInPlace $out/etc/bashrc \
+      --replace-fail \
+        'export WM_PROJECT_DIR=$WM_PROJECT_INST_DIR/$WM_PROJECT-$WM_PROJECT_VERSION' \
+        "export WM_PROJECT_DIR=$out" \
+      --replace-fail \
+        'export WM_THIRD_PARTY_DIR=$WM_PROJECT_INST_DIR/$WM_THIRD_PARTY-$WM_PROJECT_VERSION' \
+        'export WM_THIRD_PARTY_DIR=$HOME/.local/share/OpenFOAM/ThirdParty'
+    substituteInPlace $out/wmake/wmake --replace-fail \
+      'export WM_COLLECT_DIR=$WM_PROJECT_DIR/platforms/''${WM_OPTIONS}/''${PWD////_}' \
+      'export WM_COLLECT_DIR=''${TMPDIR:-/tmp}/wmakeCollect/''${WM_OPTIONS}/''${PWD////_}'
 
     mkdir -p $out/etc/profile.d
     cat > $out/etc/profile.d/foam${version}.sh <<EOF
     foam${version}() {
-      source "$out/opt/OpenFOAM-${version}/etc/bashrc"
+      if [ -n "\$ZSH_VERSION" ]; then
+        setopt local_options no_nomatch
+      fi
+      export PATH="${mpi}/bin:\$PATH"
+      source "$out/etc/bashrc"
     }
     EOF
 
