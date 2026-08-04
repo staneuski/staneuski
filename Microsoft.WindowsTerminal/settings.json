@@ -30,6 +30,8 @@
             "type": "remainingProfiles"
         }
     ],
+    "theme": "system",
+    "themes": [],
     "profiles": 
     {
         "defaults": 
@@ -74,11 +76,30 @@
                 "source": "Microsoft.WSL"
             },
             {
-                "commandline": "ssh -Y stashes1@lumi -t \"DISPLAY=localhost:0 zsh\"",
+                "commandline": "ssh -Y stashes1@roihu-cpu",
                 "guid": "{ec0c16f2-a4fa-51f4-bc48-e1f27d61d6ef}",
                 "hidden": false,
-                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\SUSE_Logo-vert_L_Green-pos_sRGB.png",
-                "name": "LUMI"
+                "icon": "%USERPROFILE%\\.config\\Microsoft.WindowsTerminal\\assets\\icons\\Red_Hat_logo.png",
+                "name": "Roihu",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": true,
+                "name": "Command Prompt"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": true,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
+                "hidden": true,
+                "name": "Visual Studio Debug Console",
+                "source": "VSDebugConsole"
             },
             {
                 "commandline": "%SystemRoot%\\System32\\cmd.exe",
@@ -234,6 +255,5 @@
             "white": "#A9B1D6",
             "yellow": "#E0AF68"
         }
-    ],
-    "themes": []
+    ]
 }
