@@ -90,16 +90,20 @@
       environment.systemPackages = with pkgs; [
         #: Common, CLI
         age
+        bat
         coreutils
         diffutils
         findutils
+        fzf
         git
         git-lfs
         gnupg
         gnused
         htop
+        jq
         nixfmt-tree
         python314
+        ripgrep
         sops
         # uutils-coreutils-noprefix
         # uutils-diffutils

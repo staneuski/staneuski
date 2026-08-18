@@ -21,7 +21,7 @@ opt-load "${HOME}/.local/share/zinit/polaris"
 opt-load "${HOME}/.local"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
-  export BASH_COMPLETION_USER_DIR="${HOME}/.local/share/bash-completion"
+  export BASH_COMPLETION_USER_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion"
 #: }}}
 
 #: Aliases {{{
@@ -90,18 +90,6 @@ fi
 command -v lazygit >/dev/null &&
   alias lg='lazygit'
 
-#: lf
-if command -v lf >/dev/null; then
-  lf() { command lf -log "${TMPDIR:-/tmp}/lf.log" $(command zoxide query --list "$@" | head -1); }
-  lf-zoxide-widget() {
-    local d="$(command zoxide query --interactive)" || return
-    [ -n "$d" ] && command lf -log "${TMPDIR:-/tmp}/lf.log" "$d"
-  }
-
-  [[ $- == *i* ]] &&
-    bind -x '"\C-o": "lf-zoxide-widget"'
-fi
-
 #: slurm
 if command -v squeue >/dev/null; then
   alias qstat='squeue --format="%i;%j;%T;%M;%P;%.3D;%R" --me | column -s=";" -t'
@@ -116,20 +104,24 @@ command -v zoxide >/dev/null &&
 #: }}}
 
 #: Integrations {{{
+#: starship
+if [[ ! $(uname -m) =~ ^mips.* ]] && command -v starship >/dev/null; then
+  eval -- "$(starship init bash --print-full-init)"
+else
+  export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]❯ '
+fi
+
 #: fzf
-export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
+export FZF_DEFAULT_OPTS_FILE="${HOME}/.config/fzf/fzfrc"
 if [[ $- == *i* ]] && command -v fzf >/dev/null; then
-  eval "$(fzf --bash)"
+  eval -- "$(fzf --bash)"
   bind -x '"\er":   "__fzf_history__"'
   bind -x '"\C-xr": "__fzf_history__"'
 fi
 
-#: starship / prompt
-if [[ ! $(uname -m) =~ ^mips.* ]]; then
-  command -v starship >/dev/null &&
-    eval "$(starship init bash)"
-else
-  export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]❯ '
+#: atuin
+if command -v atuin >/dev/null; then
+  eval -- "$(atuin init bash)"
 fi
 
 #: zoxide

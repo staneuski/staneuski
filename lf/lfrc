@@ -21,7 +21,7 @@ cmd theme-toggle &{{
 map Bt theme-toggle
 
 #: https://github.com/gokcehan/lf/wiki/Integrations#eza
-cmd on-select & lf -remote "send ${id} set statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
+cmd on-select & lf -remote "send ${id} set user_statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\""
 
 #: https://github.com/gokcehan/lf/wiki/Integrations#starship
 cmd on-cd &{{

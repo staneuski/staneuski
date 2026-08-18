@@ -5,7 +5,6 @@ export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 
 #: History
 export HISTSIZE=1000000
-export HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 export HISTDUP=erase
 export SAVEHIST="${HISTSIZE}"
 #: }}}
@@ -66,22 +65,5 @@ function swap() {
   mv "${lhs}" "${tmp}"
   mv "${rhs}" "${lhs}"
   mv "${tmp}" "${rhs}"
-}
-
-function lf() {
-  if [ "${#}" -eq 1 ] && [ -d "${1}" ]; then
-    local dir="${1}/"
-  elif [ "${#}" -ge 1 ]; then
-    local dir="$(command zoxide query --list "$@" | head -1)"
-  else
-    local dir="${PWD}/"
-  fi
-
-  command lf -log "${TMPDIR:-/tmp}/lf.log" "${dir}"
-}
-
-function lf-zoxide-widget() {
-  local dir="$(command zoxide query --interactive)" || return
-  [ -n "${dir}" ] && command lf -log "${TMPDIR:-/tmp}/lf.log" "${dir}"
 }
 #: }}}

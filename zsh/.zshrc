@@ -71,7 +71,7 @@ bindkey '^X^E' edit-command-line
 
 #: prompt, cd, ls {{{
 #: Terminal tab
-[[ $(uname) == 'Linux' ]] &&
+[[ $(uname -s) == 'Linux' ]] &&
   export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
 zinit lucid as'null' from'gh-r' id-as for \
@@ -84,9 +84,6 @@ zinit lucid as'null' from'gh-r' id-as for \
   starship/starship
 # https://github.com/ajeetdsouza/zoxide/issues/175#issuecomment-841470951
 zinit wait'1a' lucid as'null' from'gh-r' id-as for \
-    if'[[ $(uname) == "Linux" ]]' \
-    lbin'!eza' \
-  eza-community/eza \
     atclone'./zoxide init --cmd=cd zsh >init.zsh' \
     atpull'%atclone' \
     src'init.zsh' \
@@ -98,43 +95,24 @@ zinit wait'1a' lucid as'null' from'gh-r' id-as for \
 
 #: CLIs, plugins {{{
 zinit wait'1b' lucid as'null' id-as for \
-    atpull'%atclone' \
-    configure make'PREFIX=${ZPFX}' \
-    lbin'!entr' lman'entr.1' \
-  eradman/entr \
     from'gh-r' extract'!' \
     lbin'!fd' lman'fd.1' \
   @sharkdp/fd \
-    from'gh-r' \
-    atclone'./fzf --zsh >init.zsh' atpull'%atclone' \
+    if'(( $+commands[fzf] ))' \
+    atclone'fzf --zsh >init.zsh' atpull'%atclone' \
     atload"
       export FZF_DEFAULT_OPTS_FILE=~/.config/fzf/fzfrc
       bindkey '^[r' fzf-history-widget
       bindkey '^Xr' fzf-history-widget
-    " src'init.zsh' \
-    lbin'!fzf' \
-  junegunn/fzf \
-    if'! (( $+commands[pigz] ))' \
-    make \
-    lbin'!pigz' lman'pigz.1' \
-  madler/pigz \
+    " src'init.zsh' id-as'fzf' \
+  @zdharma-continuum/null \
     from'gh-r' extract'!' \
     atclone'./rclone completion zsh _rclone' atpull'%atclone' \
     lbin'!rclone' lman'rclone.1' \
   rclone/rclone \
-    from'gh-r' extract'!' \
-    atclone'./rip completions zsh >_rip' atpull'%atclone' \
-    lbin'!rip' \
-  MilesCranmer/rip2 \
-    from'gh-r' extract'!' \
+    if'(( $+commands[rg] ))' \
     atload"alias -g RG='| rg'" \
-    lbin'!rg' lman'doc/rg.1' \
-  BurntSushi/ripgrep \
-    if'! (( $+commands[stow] ))' \
-    extract'!' \
-    configure make'install PREFIX=${ZPFX}' \
-    id-as'stow' \
-  http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz \
+  @zdharma-continuum/null \
     from'gh-r' extract'!' \
     atclone'./yq completion zsh >_yq' atpull'%atclone' \
     mv'yq* -> yq' \
@@ -143,8 +121,8 @@ zinit wait'1b' lucid as'null' id-as for \
 
 # Load atuin after fzf to overwrite key bindings
 zinit wait'1c' lucid as'null' from'gh-r' id-as for \
-    if'[[ $(uname) == "Linux" ]]' \
-    bpick"atuin-$(uname -m)*${$(uname):l}*.tar.gz" extract'!' \
+    if'[[ $(uname -s) == "Linux" ]]' \
+    bpick"atuin-$(uname -p)*${$(uname -s):l}*.tar.gz" extract'!' \
     atclone'./atuin init zsh >init.zsh' atpull'%atclone' \
     src'init.zsh' nocompile'!' \
     lbin'!atuin' \
@@ -158,48 +136,26 @@ zinit wait'1b' lucid light-mode for \
 
 #: TUIs, package managers {{{
 zinit wait'2' lucid as'null' from'gh-r' id-as for \
-    extract'!' cp'autocomplete/bat.zsh -> _bat' \
-    atload"alias -g B='| bat -p'" \
-    lbin'!bat' lman"bat.1" \
-  @sharkdp/bat \
-    bpick"*${$(uname -s):l}-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
+    bpick"*${$(uname -s):l}-$(uname -p | sed 's|86_||;s|arch|rm|').tar.gz" \
     lbin'!claude' id-as'claude' \
   anthropics/claude-code \
-  bpick"*${$(uname -s):l}-$(uname -m | sed 's|86_||;s|arch|rm|').tar.gz" \
+    bpick"*${$(uname -s):l}-$(uname -p | sed 's|86_||;s|arch|rm|').tar.gz" \
     lbin'!copilot' id-as'copilot' \
   @github/copilot-cli \
     atclone'
       curl -sLo _lf https://github.com/gokcehan/lf/raw/refs/heads/master/etc/lf.zsh
       curl -sLO https://github.com/gokcehan/lf/raw/refs/heads/master/lf.1
     ' atpull'%atclone' \
-    atload"
-      zle -N lf-zoxide-widget
-      bindkey '^O' lf-zoxide-widget
-    " \
     lbin'!lf' lman'lf.1' \
   gokcehan/lf \
     atload"alias lg='lazygit'" \
     lbin'!lazygit' \
   jesseduffield/lazygit \
-    if'! (( $+commands[mise] ))' \
-    mv'mise* -> mise' \
-    atclone'
-      $PWD/mise activate zsh >init.zsh
-      ./mise completion zsh >_mise
-      ./mise use --global usage
-    ' atpull'%atclone' \
-    src'init.zsh' \
-    lbin'!mise' \
-  jdx/mise \
-    if'[[ $(uname) == "Darwin" ]]' \
-    extract'!' \
-    lbin'!nvim' lman'share/man/man1/nvim.1' \
-  neovim/neovim \
-    if'[[ $(uname) == "Linux" ]]' bpick"*.tar.gz" \
+    bpick"*$(uname -s)*$(uname -p)*.tar.gz" \
     extract'!' \
     lbin'!nvim' lman'share/man/man1/nvim.1' \
     id-as'neovim' \
-  neovim/neovim-releases \
+  neovim/neovim \
     if'! (( $+commands[node] ))' from'gh' \
     atinit'export NVM_DIR="${ZINIT[PLUGINS_DIR]}/nvm"' \
     pick'nvm.sh' atload'source bash_completion' nocompile \
@@ -207,7 +163,7 @@ zinit wait'2' lucid as'null' from'gh-r' id-as for \
     if'! (( $+commands[yazi] ))' \
     extract'!' \
     atpull'./ya pkg upgrade' \
-    lbin'!ya' lbin'!yazi' \
+    lbin'!ya{,zi}' \
   sxyazi/yazi \
     if'! (( $+commands[uv] ))' extract'!' \
     atclone'./uv generate-shell-completion zsh >_uv' atpull'%atclone' \
@@ -240,22 +196,15 @@ zinit wait'3b' lucid for \
       alias tar='COPYFILE_DISABLE=1 tar'
     " \
   @zdharma-continuum/null \
-    has'eza' atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" atload"
+    if'(( $+commands[eza] ))' \
+      atinit"zstyle ':omz:plugins:eza' 'dirs-first' yes" atload"
       alias l='eza --color=always --group-directories-first -l --classify'
       alias lr='eza --color=always --group-directories-first --tree -L 2 --icons'
       alias lt='eza --color=always --group-directories-first -l -smodified'
       alias lrt='eza --color=always --group-directories-first --tree -l'
     " \
   OMZP::eza \
-    if"[[ $(uname) == 'Linux' ]]" has'eza' from'gh-r' bpick'completions*' \
-    as'completion' extract'!!' \
-    id-as'eza/completions' \
-  eza-community/eza \
-    if"[[ $(uname) == 'Linux' ]]" has'eza' from'gh-r' bpick'man*' \
-    as'null' extract'!!' \
-    lman'eza*' id-as'eza/man' \
-  eza-community/eza \
-    has'jq' \
+    if'(( $+commands[jq] ))' \
     atload"alias -g J='| jq'" \
   @zdharma-continuum/null \
     has'nvim' atload"
