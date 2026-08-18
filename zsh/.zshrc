@@ -11,7 +11,6 @@
 
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
-opt-load "${HOME}/.local"
 
 #: Plugin manager (zinit)
 ZINIT_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"

@@ -17,8 +17,6 @@
   eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 [[ "${PATH}" == *nix* ]] &&
   export PATH=$(echo $PATH | sed -E 's|/usr/local/bin:/usr/local/sbin:||; s|/usr/bin:|/usr/local/bin:/usr/local/sbin:/usr/bin:|')
-opt-load "${HOME}/.local/share/zinit/polaris"
-opt-load "${HOME}/.local"
 
 [ -z ${BASH_COMPLETION_USER_DIR+x} ] &&
   export BASH_COMPLETION_USER_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion"
