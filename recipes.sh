@@ -20,7 +20,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${SRC}/"
   curl -sL 'http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz' |
-    tar -C "${SRC}/" --strip-components=1 -xvz
+    tar -C "${SRC}/" --strip-components=1 -xz
 
   cd "${SRC}"
   "${SRC}/configure" --prefix="${DST}"
@@ -40,7 +40,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${DST}/"{bin,etc/profile.d,share/{bash-completion/completions,zsh/site-functions}}/
   curl -sL "https://github.com/atuinsh/${PKG}/releases/latest/download/${PKG}-${ARCH}-${PLATFORM}.tar.gz" |
-    tar -C "${DST}/bin/" --strip-components=1 -xvz --wildcards "*${PKG}"
+    tar -C "${DST}/bin/" --strip-components=1 -xz --wildcards "*${PKG}"
 
   "${DST}/bin/${PKG}" gen-completions --shell bash >"${DST}/share/bash-completion/completions/${PKG}.bash"
   "${DST}/bin/${PKG}" gen-completions --shell zsh >"${DST}/share/zsh/site-functions/_${PKG}"
@@ -84,7 +84,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${SRC}/"
   curl -sL "https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz" |
-    tar -C "${SRC}/" --strip-components=1 -xvz
+    tar -C "${SRC}/" --strip-components=1 -xz
 
   cd "${SRC}"
   ./configure
@@ -127,8 +127,8 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   SRC="https://sourceforge.net/projects/coolprop/files/CoolProp/${VER}/shared_library"
 
-  curl -LO "${SRC}/CoolPropLib.h" --output-dir "${DST}/include" --create-dirs
-  curl -LO "${SRC}/${PLATFORM}/64bit/libCoolProp.so" --output-dir "${DST}/lib" --create-dirs
+  curl -sLO "${SRC}/CoolPropLib.h" --output-dir "${DST}/include" --create-dirs
+  curl -sLO "${SRC}/${PLATFORM}/64bit/libCoolProp.so" --output-dir "${DST}/lib" --create-dirs
 
   chmod +x "${DST}/lib/libCoolProp.so"
   ln -sf libCoolProp.so "${DST}/lib/libCoolProp.so.${VER}"
@@ -142,22 +142,26 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 #: doublecmd
 (
   set -euo pipefail
-  VER=1.1.32
-  DST="${PREFIX}/opt/doublecmd"
+  VER=1.2.8
+  PKG=doublecmd
   ARCH=$(uname -p)
+  DST="${STOW_PKGS}/${PKG}"
 
-  mkdir -p "${DST}"
-  curl -sL "https://github.com/doublecmd/doublecmd/releases/download/v${VER}/doublecmd-${VER}.gtk2.${ARCH}.tar.xz" |
+  mkdir -p "${DST}/bin/"
+  curl -sL "https://github.com/${PKG}/${PKG}/releases/download/v${VER}/${PKG}-${VER}.gtk2.${ARCH}.tar.xz" |
     tar -C "${DST}" --strip-components 1 -xJ
-  curl -LO 'https://github.com/doublecmd/doublecmd/raw/refs/heads/master/install/linux/doublecmd.desktop' \
-    --output-dir "${DST}/"
+  curl -sLO "https://github.com/${PKG}/${PKG}/raw/refs/heads/master/install/linux/${PKG}.desktop" \
+    --output-dir "${DST}/share/applications/" --create-dirs
+
+  ln -sf "../${PKG}" "${DST}/bin/${PKG}"
   command -v desktop-file-edit >/dev/null &&
-    desktop-file-install --dir="${PREFIX}/share/applications" \
+    desktop-file-install --dir="${DST}/share/applications" \
       --set-icon="${DST}/pixmaps/mainicon/alt/256px-doublecmd.png" \
       --set-key=Exec --set-value="${DST}/doublecmd %f" \
-      "${DST}/doublecmd.desktop"
+      "${DST}/share/applications/doublecmd.desktop"
 
-  ln -sf "${DST}/doublecmd" "${PREFIX}/bin/"
+  printf '^(?!/(bin|share)($|/)).*\n' >"${DST}/.stow-local-ignore"
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: entr
@@ -169,7 +173,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${SRC}"
   curl -sL "https://github.com/eradman/entr/archive/refs/tags/${VER}.tar.gz" |
-    tar -C "${SRC}/" --strip-components=1 -xvz
+    tar -C "${SRC}/" --strip-components=1 -xz
 
   cd "${SRC}"
   ./configure
@@ -226,7 +230,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
   PKG=kitty.app
   DST="${STOW_PKGS}/${PKG}"
 
-  curl -L 'https://sw.kovidgoyal.net/kitty/installer.sh' |
+  curl -sL 'https://sw.kovidgoyal.net/kitty/installer.sh' |
     sh /dev/stdin dest="${STOW_PKGS}"
 
   sed -i "s|Icon=kitty|Icon=${STOW_PKGS}/${PKG}/share/icons/hicolor/256x256/apps/kitty.png|g" \
@@ -251,7 +255,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${DST}/bin"
   curl -sL "https://github.com/jesseduffield/${PKG}/releases/download/v${VER}/${PKG}_${VER}_${PLATFORM}_${ARCH}.tar.gz" |
-    tar -C "${DST}/bin" -xvz --wildcards "${PKG}"
+    tar -C "${DST}/bin" -xz --wildcards "${PKG}"
 
   stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
@@ -296,7 +300,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${DST}"
   for font in JetBrainsMono; do
-    curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" \
+    curl -sLO "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" \
       --output-dir "${SRC}" --create-dirs
     unzip -ojq "${SRC}/${font}.zip" -d "${DST}"
   done
@@ -312,7 +316,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
   NVM_DIR=${NVM_DIR:-${PREFIX}/opt/nvm}
 
   mkdir -p "${NVM_DIR}"
-  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${VER}/install.sh" |
+  curl -so- "https://raw.githubusercontent.com/nvm-sh/nvm/v${VER}/install.sh" |
     PROFILE=/dev/null NVM_DIR="${NVM_DIR}" bash
 )
 
@@ -395,7 +399,7 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 
   mkdir -p "${SPACK_ROOT}"
   curl -sL "https://github.com/spack/spack/releases/download/v${VER}/spack-${VER}.tar.gz" |
-    tar -C "${SPACK_ROOT}" --strip-components 1 -xvz
+    tar -C "${SPACK_ROOT}" --strip-components 1 -xz
 
   source "${SPACK_ROOT}/share/spack/setup-env.sh"
   # module load triton/2025.1-gcc gcc/13.3.0 openmpi/5.0.3 patch/2.7.6 flex/2.6.4
@@ -424,25 +428,27 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
 #: vscode
 (
   set -euo pipefail
-  DST="${PREFIX}/opt/vscode"
+  PKG=code
+  DST="${STOW_PKGS}/${PKG}"
 
-  mkdir -p "${DST}"
+  mkdir -p "${DST}/share/"{bash-completion/completions,zsh/site-functions}/
   curl -sL 'https://code.visualstudio.com/sha/download?build=stable&os=linux-x64' |
-    tar -C "${DST}" --strip-components 1 -xvz
-  curl -LO https://github.com/microsoft/vscode/raw/refs/heads/main/resources/linux/code.desktop \
-    --output-dir "${DST}/resources/app/resources/linux/"
+    tar -C "${DST}" --strip-components 1 -xz
+  curl -sLO "https://github.com/microsoft/vscode/raw/refs/heads/main/resources/linux/${PKG}.desktop" \
+    --output-dir "${DST}/share/applications/" --create-dirs
 
-  ln -sf "${DST}/bin/code" "${PREFIX}/bin/"
-  sed "
+  mv -f "${DST}/resources/completions/bash/${PKG}" "${DST}/share/bash-completion/completions/${PKG}.bash"
+  mv -f "${DST}/resources/completions/zsh/"* "${DST}/share/zsh/site-functions/"
+  sed -i "
     s|@@NAME_LONG@@|Visual Studio Code|g
     s|@@NAME@@|code|g
     s|@@NAME_SHORT@@|Code|g
     s|@@EXEC@@|${DST}/bin/code --no-sandbox|g
     s|@@ICON@@|${DST}/resources/app/resources/linux/code.png|g
-  " "${DST}/resources/app/resources/linux/code.desktop" >"${PREFIX}/share/applications/code.desktop"
+  " "${DST}/share/applications/${PKG}.desktop"
 
-  ln -sfn "${DST}/resources/completions/zsh/_code" "${ZINIT[COMPLETIONS_DIR]}/_code"
-  ln -sfn "${DST}/resources/completions/bash/code" "${BASH_COMPLETION_USER_DIR}/code.bash"
+  printf '^(?!/(bin|share)($|/)).*\n' >"${DST}/.stow-local-ignore"
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
 #: yq
