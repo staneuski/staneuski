@@ -49,14 +49,19 @@
         devices = hubs ++ spokes;
       };
       folders = {
+        Archive = folder "v64zv-w6bst" "Archive" // {
+          versioning = {
+            type = "staggered";
+            params.maxAge = toString (365 * 24 * 3600);
+          };
+        };
         Developer = folder "tjjrr-xedwq" "Developer";
         Documents = folder "tvhet-4xuvz" "Documents" // {
           versioning = {
             type = "staggered";
-            params.maxAge = toString (365 * 24 * 3600); # keep versions up to 1 year
+            params.maxAge = toString (365 * 24 * 3600);
           };
         };
-        Files = folder "v64zv-w6bst" "Files";
       };
 
       # A spoke shares each folder with the hubs only; a hub shares with every

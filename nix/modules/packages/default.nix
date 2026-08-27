@@ -9,8 +9,8 @@
     // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isLinux {
       openfoam = final.callPackage ../../packages/openfoam/package.nix {
         version = "dev";
-        rev = "51ac9f272962";
-        hash = "sha256-b9QFl7vItOXE3pgYbKPmAXFQAG8rUC+7YHjSOcYK9BM=";
+        rev = "95ec15f8a9df";
+        hash = "sha256-P9Edqv8zGRg9xGf0pp21NQTJb5VK5ENEzBMwGneXrLs=";
       };
     };
 
