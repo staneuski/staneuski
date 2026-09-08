@@ -9,8 +9,13 @@
     // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isLinux {
       openfoam = final.callPackage ../../packages/openfoam/package.nix {
         version = "dev";
-        rev = "95ec15f8a9df";
-        hash = "sha256-P9Edqv8zGRg9xGf0pp21NQTJb5VK5ENEzBMwGneXrLs=";
+        rev = "20260907";
+        hash = "sha256-5iCJNZShUNUDUWWAF+MQ2nWypsaDw0qzNe78VFe0DWU=";
+      };
+      openfoam14 = final.callPackage ../../packages/openfoam/package.nix {
+        version = "14";
+        rev = "29ee7bdbeca9";
+        hash = "sha256-ZXdxY9AgqjhQl3JUm/kcsyLvovUqNshbUjogX2wAIG0=";
       };
     };
 
@@ -21,7 +26,7 @@
         inherit (pkgs) paraview coolprop refprop;
       }
       // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
-        inherit (pkgs) openfoam;
+        inherit (pkgs) openfoam openfoam14;
       };
     };
 }

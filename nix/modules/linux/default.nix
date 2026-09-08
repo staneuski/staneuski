@@ -22,6 +22,7 @@
           gcc
           gnumake
           openfoam
+          openfoam14
           pigz
           toybox
           unzip
@@ -30,7 +31,8 @@
         ];
 
         environment.interactiveShellInit = ''
-          source ${pkgs.openfoam}/etc/profile.d/foam${pkgs.openfoam.version}.sh
+          source ${pkgs.openfoam}/etc/profile.d/foam.sh
+          source ${pkgs.openfoam14}/etc/profile.d/foam.sh
         '';
       };
 

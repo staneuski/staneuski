@@ -115,7 +115,7 @@ stdenv.mkDerivation {
       'export WM_COLLECT_DIR=''${TMPDIR:-/tmp}/wmakeCollect/''${WM_OPTIONS}/''${PWD////_}'
 
     mkdir -p $out/etc/profile.d
-    cat > $out/etc/profile.d/foam${version}.sh <<EOF
+    cat > $out/etc/profile.d/foam.sh <<EOF
     foam${version}() {
       if [ -n "\$ZSH_VERSION" ]; then
         setopt local_options no_nomatch
