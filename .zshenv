@@ -4,6 +4,14 @@
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 
 #: History
+if [ -n "${BASH_VERSION-}" ]; then
+  HISTFILE='bash'
+elif [ -n "${ZSH_VERSION-}" ]; then
+  HISTFILE='zsh'
+else
+  HISTFILE=''
+fi
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/${HISTFILE}/history"
 export HISTSIZE=1000000
 export HISTDUP=erase
 export SAVEHIST="${HISTSIZE}"
@@ -59,6 +67,10 @@ function opt-unload() {
 }
 
 function swap() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: swap FILE1 FILE2"
+    return 1
+  fi
   local lhs="${1}" rhs="${2}"
 
   local tmp=$(mktemp --dry-run ${lhs}.XXXXXX)

@@ -8,7 +8,7 @@ export SPACK_ROOT=${SPACK_ROOT:-$PREFIX/opt/spack}
 
 export BASH_COMPLETION_USER_DIR=${BASH_COMPLETION_USER_DIR:-$PREFIX/share/bash-completion/completions}
 
-mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications,doc,icons,fonts,man/man{1,2,3,4,5,6,7,8,9}},state}/ \
+mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications,doc,icons,fonts,man/man{1,2,3,4,5,6,7,8,9}},state/{ba,z}sh}/ \
   "${BASH_COMPLETION_USER_DIR}" "${STOW_PKGS}"
 
 #: stow
