@@ -7,6 +7,7 @@ export BASH_COMPLETION_USER_DIR="${HOME}/.local/share/$(uname -m)/bash-completio
 export SPACK_USER_CACHE_PATH="${TMPDIR}/spack"
 export SPACK_DISABLE_LOCAL_CONFIG=true
 export SPACK_ROOT='/appl/soft/spack/v2026_03/spack'
+source "${SPACK_ROOT}/share/spack/setup-env.sh"
 
 export SBATCH_ACCOUNT='project_2004997'
 export SBATCH_ALLOC="${SBATCH_ACCOUNT}"

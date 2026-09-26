@@ -5,3 +5,5 @@ eval "$(atuin init zsh)"
 [ $(uname -m) = 'arm64' ] &&
     export HOMEBREW_PREFIX="/opt/homebrew" ||
     export HOMEBREW_PREFIX="/usr/local"
+
+opt-load "${HOME}/.local"

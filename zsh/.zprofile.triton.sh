@@ -3,7 +3,8 @@
 
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
 export SPACK_ROOT="/scratch/eng/t21206-cfd/.local/opt/spack"
+source "${SPACK_ROOT}/share/spack/setup-env.sh"
 
 export WM_PROJECT_SITE="/scratch/eng/t21206-cfd/.local/share/OpenFOAM/site"
 
-export RIP_GRAVEYARD="/scratch/work/${USER}/.graveyard"
+opt-load "${HOME}/.local"
