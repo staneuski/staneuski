@@ -6,7 +6,7 @@ function Use-CachedInit {
     [Parameter(Mandatory)] [scriptblock]$Generate
   )
 
-  $dir = Join-Path $env:LOCALAPPDATA "pwsh-init-cache"
+  $dir = Join-Path $env:LOCALAPPDATA "pwsh.d"
   $cache = Join-Path $dir "$Name.ps1"
 
   if (-not (Test-Path $dir)) {
@@ -19,22 +19,6 @@ function Use-CachedInit {
 
   . $cache
 }
-#: }}}
-
-#: Integrations {{{
-if ($PSVersionTable.PSVersion -ge [version]"7.4") {
-  #: PSReadLine (must be loaded before atuin, which depends on it)
-  Import-Module PSReadLine -ErrorAction SilentlyContinue
-
-  #: starship/starship
-  Use-CachedInit starship { starship init powershell }
-
-  #: atuinsh/atuin
-  Use-CachedInit atuin { atuin init powershell }
-}
-
-#: ajeetdsouza/zoxide
-Use-CachedInit zoxide { zoxide init --cmd=cd powershell }
 #: }}}
 
 #: Environment {{{
@@ -73,7 +57,22 @@ function vi {
   & $env:EDITOR -u "${env:USERPROFILE}\.config\.vim\init.lua" @args
 }
 
-
 #: zoxide helpers
 Function dq { zoxide query --list $args }
+#: }}}
+
+#: Integrations {{{
+#: ajeetdsouza/zoxide
+Use-CachedInit zoxide { zoxide init --cmd=cd powershell }
+
+if ($PSVersionTable.PSVersion -ge [version]"7.4") {
+  #: PSReadLine (must be loaded before atuin, which depends on it)
+  Import-Module PSReadLine -ErrorAction SilentlyContinue
+
+  #: atuinsh/atuin
+  Use-CachedInit atuin { atuin init powershell }
+
+  #: starship/starship
+  Use-CachedInit starship { starship init powershell --print-full-init }
+}
 #: }}}
