@@ -10,7 +10,7 @@
   # inside). It can't be fetched automatically or tracked by git, and a
   # flake only sees git-tracked files anyway -- so it must live outside
   # the repo. Defaults to where `recipes.sh` already expects it.
-  tarball ? /home/stasta/.local/opt/REFPROP.tar.xz,
+  tarball ? /home/stasta/.CoolProp/REFPROP.tar.xz,
 }:
 
 let

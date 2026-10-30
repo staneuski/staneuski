@@ -42,8 +42,8 @@ stdenvNoCC.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p "$out/include" "$out/lib"
-    cp ${header} "$out/include/CoolPropLib.h"
+    mkdir -p "$out/include/CoolProp/" "$out/lib"
+    cp ${header} "$out/include/CoolProp/CoolPropLib.h"
 
     cp ${library} "$out/lib/${libName}"
     chmod +x "$out/lib/${libName}"
