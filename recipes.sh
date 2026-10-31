@@ -276,6 +276,27 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
   stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
 )
 
+#: helix
+(
+  set -euo pipefail
+  VER=25.07.1
+  PKG=helix
+  PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
+  ARCH=$(uname -p)
+  DST="${STOW_PKGS}/${PKG}"
+
+  mkdir -p "${DST}/"{bin,share/{bash-completion/completions,zsh/site-functions}}/
+  curl -sL "https://github.com/${PKG}-editor/${PKG}/releases/latest/download/${PKG}-${VER}-${ARCH}-${PLATFORM}.tar.xz" |
+    tar -C "${DST}" --strip-components 1 -xJ
+
+  ln -sf "../hx" "${DST}/bin/hx"
+  mv -f "${DST}/contrib/completion/hx.bash" "${DST}/share/bash-completion/completions/"
+  mv -f "${DST}/contrib/completion/hx.zsh" "${DST}/share/zsh/site-functions/_hx"
+
+  printf '^(?!/(bin|share)($|/)).*\n' >"${DST}/.stow-local-ignore"
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
+)
+
 #: nvim
 (
   set -euo pipefail
