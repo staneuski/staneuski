@@ -10,12 +10,3 @@ vim.api.nvim_create_autocmd("FileType", {
     end
   end,
 })
-
--- FoamFile
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "foam",
-  callback = function(args)
-    vim.bo[args.buf].syntax = "cpp"
-    vim.bo[args.buf].commentstring = "// %s"
-  end,
-})
