@@ -330,6 +330,25 @@ mkdir -p "${PREFIX}/"{bin,etc/profile.d,include,lib{,64},opt,share/{applications
   rm -rf "${SRC}/${PKG}"
 )
 
+#: nnn
+(
+  set -euo pipefail
+  VER=5.3
+  PKG=nnn
+  SRC="${TMPDIR}/${USER}/${PKG}"
+  DST="${STOW_PKGS}/${PKG}"
+
+  mkdir -p "${SRC}/"
+  curl -sL "https://github.com/jarun/${PKG}/archive/refs/tags/v${VER}.tar.gz" |
+    tar -C "${SRC}/" --strip-components=1 -xz
+
+  cd "${SRC}"
+  PREFIX="${DST}" make O_NERD=1 install
+
+  stow --dir=$(dirname "${DST}") --target="${PREFIX}" --restow "${PKG}"
+  rm -rf "${SRC}"
+)
+
 #: nvm
 (
   set -euo pipefail

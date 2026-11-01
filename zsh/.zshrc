@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker:ts=2:sw=2:sts=2:expandtab
 
 #: Source global definitions {{{
-[ -f "${HOME}/.zshenv" ] && (( $+commands[opt-load] )) ||
+[ -f "${HOME}/.zshenv" ] && (( ! $+functions[opt-load] )) &&
   source "${HOME}/.zshenv"
 #: }}}
 
